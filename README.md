@@ -20,7 +20,9 @@ The project aims to create an advanced system supporting data annotation in the 
 - PyTorch
 
 ## Installation
+It is recommended to use a virtual environment. If you selected the localization and the environment:
 ```
+pip install -r requirements.txt
 ```
 
 ## Usage

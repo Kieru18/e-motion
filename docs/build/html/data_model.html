@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en" data-content_root="./">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Data model &#8212; E-motion 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
-    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Analytical and design specifications" href="specification.html" />
@@ -32,13 +32,22 @@
           <div class="body" role="main">
             
   <section id="data-model">
-<h1>Data model<a class="headerlink" href="#data-model" title="Link to this heading">¶</a></h1>
-<section id="logical-model">
-<h2>Logical model<a class="headerlink" href="#logical-model" title="Link to this heading">¶</a></h2>
+<h1>Data model<a class="headerlink" href="#data-model" title="Permalink to this heading">¶</a></h1>
+<section id="er-diagram">
+<h2>ER diagram<a class="headerlink" href="#er-diagram" title="Permalink to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/er_diagram.png"><img alt="ER diagram" src="_images/er_diagram.png" style="width: 600px;" /></a>
 </section>
-<section id="data-processing-and-storage">
-<h2>Data processing and storage<a class="headerlink" href="#data-processing-and-storage" title="Link to this heading">¶</a></h2>
-<p>[opis planowanego sposobu implementacji: jaka baza danych lub inne oprogramowanie, jak będzie realizowany dostęp do danych (użyte API itp.), czy planowane jest programowanie w b.d. (wyzwalacze, mechanizmy optymalizacji zapytań, itp.)]</p>
+<section id="persistent-data-representation">
+<h2>Persistent data representation<a class="headerlink" href="#persistent-data-representation" title="Permalink to this heading">¶</a></h2>
+<p>Relational database - SQLite</p>
+</section>
+<section id="logical-model">
+<h2>Logical model<a class="headerlink" href="#logical-model" title="Permalink to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/logical_model.png"><img alt="Logical model" src="_images/logical_model.png" style="width: 600px;" /></a>
+</section>
+<section id="communication-with-database">
+<h2>Communication with database<a class="headerlink" href="#communication-with-database" title="Permalink to this heading">¶</a></h2>
+<p>Database is created and managed by Django framework.</p>
 </section>
 </section>
 
@@ -66,8 +75,10 @@
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Data model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#er-diagram">ER diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#persistent-data-representation">Persistent data representation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#logical-model">Logical model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-processing-and-storage">Data processing and storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#communication-with-database">Communication with database</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="specification.html">Analytical and design specifications</a></li>
@@ -116,7 +127,7 @@
       &copy;2023, WL, JK, JF, KZ.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |

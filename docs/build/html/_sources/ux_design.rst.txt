@@ -24,5 +24,22 @@ The user can download annotated data in a standardized format (e.g., JSON).
 The downloaded data includes all relevant annotations and metadata.
 The downloaded data is compatible with common machine learning frameworks.
 
+Use Cases
+---------
+Use case diagram:
 
+.. image:: images/use_case_diagram.png
+  :width: 600
 
+Activity Diagrams
+-----------------
+
+Activity diagram for usage of new ML model:
+
+.. image:: images/activity_diagram1.png
+  :width: 600
+
+Activity diagram for usage of existing pretrained ML model for new data in dataset (existing projects):
+
+.. image:: images/activity_diagram2.png
+  :width: 600

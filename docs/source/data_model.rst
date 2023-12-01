@@ -1,11 +1,22 @@
 Data model
 ==========
 
+ER diagram
+----------
+.. image:: images/er_diagram.png
+    :alt: ER diagram
+    :width: 600
+
+Persistent data representation
+------------------------------
+Relational database - SQLite
+
 Logical model
 -------------
-
-
-Data processing and storage
+.. image:: images/logical_model.png
+    :alt: Logical model
+    :width: 600
+    
+Communication with database
 ---------------------------
-[opis planowanego sposobu implementacji: jaka baza danych lub inne oprogramowanie, jak będzie realizowany dostęp do danych (użyte API itp.), czy planowane jest programowanie w b.d. (wyzwalacze, mechanizmy optymalizacji zapytań, itp.)]
-
+Database is created and managed by Django framework.

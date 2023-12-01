@@ -32,17 +32,17 @@ c. Ładowanie oraz zapisywanie informacji dotyczących adnotacji za pomocą plik
 a. Odpowiada za komunikację z serwisem chmurowym oraz Lokalną bazą danych w celu trenowania odpowiednich modeli ML.
 
 
-4. Baza danych.
+4. Baza danych:
 
 a. Przechowuje dane dotyczące kont użytkowników, zapisane modele ML oraz linki URL do projektów użytkownika przechowywanych w chmurze.
 
 
-5. Chmurowa baza danych.
+5. Chmurowa baza danych:
 
 a. Przechowuje dane do adnotacji użytkowników.
 
 
-6. Modele ML.
+6. Modele ML:
 
 a. Odpowiadają za generowanie nowych adnotacji na podstawie ręcznie za adnotowanych danych.
 

@@ -1,19 +1,16 @@
-
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>User Experience Design &#8212; E-motion 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="User Interface Standard Project" href="ui_standard.html" />
@@ -35,36 +32,681 @@
           <div class="body" role="main">
             
   <section id="user-experience-design">
-<h1>User Experience Design<a class="headerlink" href="#user-experience-design" title="Permalink to this heading">¶</a></h1>
+<h1>User Experience Design<a class="headerlink" href="#user-experience-design" title="Link to this heading">¶</a></h1>
 <section id="actors-user-stories">
-<h2>Actors &amp; User Stories<a class="headerlink" href="#actors-user-stories" title="Permalink to this heading">¶</a></h2>
-<p>Employee of a Data Labeling Company:
-User Story 1:
-As an employee of a data labeling company, I want to create and manage multiple annotation projects simultaneously, so that I can efficiently coordinate the labeling efforts of our team across different clients.
-Acceptance Criteria:
-The user can create a new annotation project.
-The user can easily switch between existing annotation projects.
-Each project allows the definition of unique data categories and attributes.
-User Story 2:
-As an employee of a data labeling company, I need the ability to easily switch between manual annotation and the ML model prediction correction mode, ensuring flexibility in our labeling workflows.
-Acceptance Criteria:
-The user can seamlessly switch between manual annotation and ML model prediction correction modes.
-Changes made in one mode are reflected in the other to ensure consistency.
-The transition between modes is intuitive and requires minimal effort.
-User Story 3:
-As an employee of a data labeling company, I want to be able to download annotated data in a standardized format, allowing seamless integration with our clients’ machine learning pipelines.
-Acceptance Criteria:
-The user can download annotated data in a standardized format (e.g., JSON).
-The downloaded data includes all relevant annotations and metadata.
-The downloaded data is compatible with common machine learning frameworks.</p>
+<h2>Actors &amp; User Stories<a class="headerlink" href="#actors-user-stories" title="Link to this heading">¶</a></h2>
+<section id="employee-of-a-data-labeling-company">
+<h3>Employee of a Data Labeling Company<a class="headerlink" href="#employee-of-a-data-labeling-company" title="Link to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><strong>User Story 1</strong></div>
+<div class="line">As an employee of a data labeling company, I want to create and manage multiple annotation projects simultaneously, so that I can efficiently coordinate the labeling efforts of our team across different clients.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can create a new annotation project.</p></li>
+<li><p>The user can easily switch between existing annotation projects.</p></li>
+<li><p>Each project allows the definition of unique data categories and attributes.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>User Story 2</strong></div>
+<div class="line">As an employee of a data labeling company, I need the ability to easily switch between manual annotation and the ML model prediction correction mode, ensuring flexibility in our labeling workflows.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can seamlessly switch between manual annotation and ML model prediction correction modes.</p></li>
+<li><p>Changes made in one mode are reflected in the other to ensure consistency.</p></li>
+<li><p>The transition between modes is intuitive and requires minimal effort.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>User Story 3</strong></div>
+<div class="line">As an employee of a data labeling company, I want to be able to download annotated data in a standardized format, allowing seamless integration with our clients’ machine learning pipelines.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can download annotated data in a standardized format (e.g., JSON).</p></li>
+<li><p>The downloaded data includes all relevant annotations and metadata.</p></li>
+<li><p>The downloaded data is compatible with common machine learning frameworks.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="academic-researcher-creating-specialized-dataset">
+<h3>Academic Researcher Creating Specialized Dataset<a class="headerlink" href="#academic-researcher-creating-specialized-dataset" title="Link to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><strong>User Story 1</strong></div>
+<div class="line">As an academic researcher, I want to define custom data categories and attributes specific to my research, ensuring that the dataset aligns with the objectives of my academic study.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can define custom data categories and attributes for their dataset.</p></li>
+<li><p>The system validates the uniqueness and appropriateness of the defined categories.</p></li>
+<li><p>Custom categories are accurately reflected in the annotation interface.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>User Story 2</strong></div>
+<div class="line">As an academic researcher, I need the ability to version my datasets, enabling me to track changes and improvements over time as my research progresses.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can create multiple versions of a dataset.</p></li>
+<li><p>Each version retains a snapshot of the dataset, including annotations and metadata.</p></li>
+<li><p>The user can easily switch between different versions for analysis and comparison.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>User Story 3</strong></div>
+<div class="line">As an academic researcher, I want the option to share my labeled dataset with collaborators, making it easy to collaborate and receive feedback.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can export the dataset along with annotations in a portable format.</p></li>
+<li><p>The exported dataset retains all relevant metadata and annotations.</p></li>
+<li><p>Collaborators can receive the exported dataset and integrate it into their own workflows for collaborative research.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="ml-engineer-preparing-data-for-modeling">
+<h3>ML Engineer Preparing Data for Modeling<a class="headerlink" href="#ml-engineer-preparing-data-for-modeling" title="Link to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><strong>User Story 1</strong></div>
+<div class="line">As an ML engineer, I want to choose from a variety of pre-trained model architectures, allowing me to quickly experiment with different approaches for my computer vision tasks.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can select from a variety of pre-trained model architectures.</p></li>
+<li><p>Each model architecture provides relevant details, such as input requirements and supported tasks.</p></li>
+<li><p>The selected model architecture can be seamlessly integrated into the annotation and training workflow.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>User Story 2</strong></div>
+<div class="line">As an ML engineer, I need a clear and intuitive interface to review and analyze the predictions made by the model, enabling me to identify areas for manual correction and improvement.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can review model predictions for annotated data.</p></li>
+<li><p>Predictions include bounding boxes or labels for identified objects.</p></li>
+<li><p>The interface allows the user to easily navigate between annotated samples and associated predictions.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><strong>User Story 3</strong></div>
+<div class="line">As an ML engineer, I want the option to save and download my trained models along with associated hyperparameters, streamlining the deployment process and ensuring reproducibility.</div>
+</div>
+<dl class="simple">
+<dt><em>Acceptance Criteria:</em></dt><dd><ul class="simple">
+<li><p>The user can save trained models along with associated hyperparameters.</p></li>
+<li><p>Downloaded models are compatible with common machine learning frameworks.</p></li>
+<li><p>The saved models can be easily integrated into deployment pipelines for further use.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
 </section>
 <section id="use-cases">
-<h2>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this heading">¶</a></h2>
-<p>Use case diagram:</p>
+<h2>Use Cases<a class="headerlink" href="#use-cases" title="Link to this heading">¶</a></h2>
+<p><strong>Use Case 1: Create Annotation Project</strong></p>
+<div class="line-block">
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user creating a new annotation project, defining data categories, and efficiently managing multiple projects simultaneously for different clients.</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system.</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the dashboard.</p></li>
+<li><p>User clicks “Create new project” button</p></li>
+<li><p>The “Project Creation Pop-up” shows up</p></li>
+<li><p>User has to input: Project Name, Description, Dataset URL</p></li>
+<li><p>User clicks “Create Project”</p></li>
+<li><p>If all the data was inputted correctly project is  created and user receives notification that the “Project was created successfully”</p></li>
+<li><p>Page get’s refreshed, and the project overview pop-up shows up</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>In point 6: If the data was invalid the user gets taken back to the point 4 - he needs to fix invalid data</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>In point 5: User decides not to create the project - he clicks the cancel button</p></li>
+<li><p>In point 5: User decides not to create the project - he closes the whole page</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">A new annotation project is created and user can access it and work on it from now on.</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">A new annotation project is not created</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">Dashboard, Project Creation Pop-Up, Project Overview Pop-up</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 2: Modify Annotation Project</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user modifying the previously created project - including changing its properties.</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, he has at least one created project.</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the dashboard.</p></li>
+<li><p>User clicks on existing project</p></li>
+<li><p>The “Project Overview Pop-up” shows up</p></li>
+<li><p>User can click on any of the properties: name, description, dataset URL and modify them</p></li>
+<li><p>After user made the changes, he clicks the “Modify” button</p></li>
+<li><p>If all the changes were possible project is modify and user receives notification that the “Project was modified successfully”</p></li>
+<li><p>User stays in the Pop-up window</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>In point 5: If the input was invalid changes are not saved, user gets notification and has to fix the issues, then he can return to point 5</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>In point 4: User decides not to modify the project - he clicks the cancel button, or he closes the whole page</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">Existing annotation project is modified, requested changes are saved in the database</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">Existing annotation project is not modified</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">Dashboard, Project Overview Pop-up</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 3: Delete Annotation Project</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user deleting an existing annotation project</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, he has at least one created project.</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the dashboard.</p></li>
+<li><p>User clicks on existing project</p></li>
+<li><p>The “Project Overview Pop-up” shows up</p></li>
+<li><p>User clicks on the “Delete Project” button</p></li>
+<li><p>User needs to confirm it by typing “delete”</p></li>
+<li><p>If the confirmation was successful project is deleted, user receives notification that the “Project was deleted successfully”</p></li>
+<li><p>Page gets refreshed, and user is taken to the dashboard</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>If the confirmation was not successful in the first try, user can try until he succeeds</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>In point 5: User does not confirm the deletion process</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">Existing project is deleted</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">The project is not deleted</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">Dashboard, Project Overview Pop-up</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 4: Train ML Model</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user training ML model of his choice with a given training dataset</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, he has an already created project, he has manually annotated training set</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the ML models list.</p></li>
+<li><p>User chooses the ML model</p></li>
+<li><p>The “ML Model Overview Pop-up” shows up</p></li>
+<li><p>User loads a .JSON file with training set annotations</p></li>
+<li><p>User clicks the “Train Model” button</p></li>
+<li><p>If all the data input was correct the training process will start, once it’s finished user gets a proper notification</p></li>
+<li><p>The “Training results Pop-up” is shown, where user can save the model, and check its quality measures</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>Before point 5: User can adjust the model hyperparameters (check use case 5)</p></li>
+<li><p>In point 6: Input was incorrect - user has to fix the issues first - then he can continue the training</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>In point 6: User decides not to train the model - closes the pop-up</p></li>
+<li><p>In point 6: User can’t provide valid input - the training can’t be started</p></li>
+<li><p>In point 7: Quality measures weren’t satisfying - user doesn’t save the model</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">ML Model is trained and saved by the user</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">ML Model’s training was not done</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">ML Models List, ML Model Overview Pop-up, Training results Pop-up</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 5: Adjust ML Model</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user adjusting hyperparameters of the ML Model</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, he has an already created project, user have chosen the ML model and opened its Overview Pop-up</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User clicks the “Adjust Hiperparameters” button</p></li>
+<li><p>The field for hyperparameters configuration shows up</p></li>
+<li><p>User inputs hyperparameters configuration code</p></li>
+<li><p>User clicks “Save Configuration” button</p></li>
+<li><p>If all the data was inputted correctly, configuration is saved and user receives notification: “Configuration saved”</p></li>
+<li><p>User can start training now</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>In point 5: If the data was invalid the user has to fix the configuration before saving it</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>In point 4: User decides to stop - closes the pop-up</p></li>
+<li><p>In point 4: User couldn’t input valid configuration</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">New ML Model configuration is saved</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">ML Model configuration stays the same as it was before</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">ML Models List, ML Model Overview Pop-up</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 6: Manually annotate dataset</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user manually annotating part of the dataset</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, user has already created project</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the Label Studio Frontend module</p></li>
+<li><p>User manually annotates the dataset in LSF</p></li>
+<li><p>User downloads the .JSON file generated by LSF</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>User could potentially use any other offshore annotating tool that would generate right .JSON file</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>The exceptions handling is covered by LSF, we only provide it as an integrated module</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">User successfully creates .JSON with annotations</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">User couldn’t create the .JSON file</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">Label Studio Frontend</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 7:  Predict labels for the dataset</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user generating the predicted annotations for the dataset, with the usage of the ML Model</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, user has created annotation project, user has trained the ML model</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the ML Models List</p></li>
+<li><p>User chooses the ML Model</p></li>
+<li><p>User clicks “Predict Labels” button</p></li>
+<li><p>If the action was viable the ML model starts predictions and user receives a notification “Predictions has started”</p></li>
+<li><p>When the predictions are completed user receives a notification and the .JSON file gets generated</p></li>
+<li><p>User can download the predictions by clicking “Download” button</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>There isn’t any, user has to follow basic flow</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>ML Model couldn’t generate the predictions due to an error</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">Predictions were generated into a .JSON file, user downloaded it</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">The predictions weren’t generated, or user couldn’t download the file</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">ML Models List</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Use Case 8: Adjust annotations dataset</strong></div>
+<div class="line"><br /></div>
+<div class="line"><em>Brief Description:</em></div>
+<div class="line-block">
+<div class="line">This use case involves the user manually adjusting the annotations generated by the ML model annotation project</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Actors:</em></div>
+<div class="line-block">
+<div class="line">Employee of a Data Labeling Company, Academic Researcher Creating Specialized Dataset, ML Engineer Preparing Data for Modeling</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Preconditions:</em></div>
+<div class="line-block">
+<div class="line">The user is logged into the ML-assisted labeling system, user has created annotation project, user generated the predictions of the label and has the .JSON file</div>
+</div>
+</div>
+<dl class="simple">
+<dt><em>Basic Flow:</em></dt><dd><ol class="arabic simple">
+<li><p>User accesses the Label Studio Frontend</p></li>
+<li><p>User uploads the .JSON file</p></li>
+<li><p>User manually adjusts the labels</p></li>
+<li><p>User downloads the corrected dataset labels as a .JSON file</p></li>
+</ol>
+</dd>
+<dt><em>Alternate Flows:</em></dt><dd><ul class="simple">
+<li><p>User could potentially use any other offshore annotating tool that would generate right .JSON file</p></li>
+</ul>
+</dd>
+<dt><em>Exceptions:</em></dt><dd><ul class="simple">
+<li><p>The exceptions handling is covered by LSF, we only provide it as an integrated module</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><em>Success Conditions:</em></div>
+<div class="line-block">
+<div class="line">User downloads the .JSON file with corrected labels</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Failure Conditions:</em></div>
+<div class="line-block">
+<div class="line">User doesn’t the file with corrected labels</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><em>Views:</em></div>
+<div class="line-block">
+<div class="line">Label Studio Frontend</div>
+<div class="line"><br /></div>
+</div>
+</div>
+<p><strong>Objects coverage by the use cases</strong></p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Object / Use Case</p></td>
+<td><p>log in</p></td>
+<td><p>create project</p></td>
+<td><p>modify project</p></td>
+<td><p>delete project</p></td>
+<td><p>save project</p></td>
+<td><p>annotate manually</p></td>
+<td><p>conf. ML model</p></td>
+<td><p>train ML model</p></td>
+<td><p>predict labels</p></td>
+<td><p>correct annotations</p></td>
+</tr>
+<tr class="row-even"><td><p>backend</p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td></td>
+<td></td>
+<td><p>x</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Label Studio</p></td>
+<td><p>x</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>x</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>x</p></td>
+</tr>
+<tr class="row-even"><td><p>ML module</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Database</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>x</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Use case diagram:</strong></p>
 <a class="reference internal image-reference" href="_images/use_case_diagram.png"><img alt="_images/use_case_diagram.png" src="_images/use_case_diagram.png" style="width: 600px;" /></a>
 </section>
 <section id="activity-diagrams">
-<h2>Activity Diagrams<a class="headerlink" href="#activity-diagrams" title="Permalink to this heading">¶</a></h2>
+<h2>Activity Diagrams<a class="headerlink" href="#activity-diagrams" title="Link to this heading">¶</a></h2>
 <p>Activity diagram for usage of new ML model:</p>
 <a class="reference internal image-reference" href="_images/activity_diagram1.png"><img alt="_images/activity_diagram1.png" src="_images/activity_diagram1.png" style="width: 600px;" /></a>
 <p>Activity diagram for usage of existing pretrained ML model for new data in dataset (existing projects):</p>
@@ -147,8 +789,8 @@ The downloaded data is compatible with common machine learning frameworks.</p>
       &copy;2023, WL, JK, JF, KZ.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="_sources/ux_design.rst.txt"

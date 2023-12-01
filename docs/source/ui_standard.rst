@@ -48,7 +48,7 @@ UI Wireframes
 
 |
 
-**ML Model Overview Pop-upd**
+**ML Model Overview Pop-up**
 
 .. image:: images/Train_model.png
   :width: 600

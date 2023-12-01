@@ -3,7 +3,7 @@ Data model
 
 ER diagram
 ----------
-.. image:: images/er_diagram.png
+.. image:: images/ER_diagram.png
     :alt: ER diagram
     :width: 600
 

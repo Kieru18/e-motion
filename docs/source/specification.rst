@@ -1,6 +1,5 @@
 Analytical and design specifications
 ====================================
-(obowiazkowo diagram ER albo diagram klas)
 
 Implementation methods
 ----------------------
@@ -12,7 +11,7 @@ Implementation methods
 
 Statistics
 ----------
-|**Number of**
-|files:
-|lines of code:
-|unit tests:
+| **Number of**
+| files:
+| lines of code:
+| unit tests:

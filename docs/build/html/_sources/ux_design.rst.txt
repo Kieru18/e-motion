@@ -394,12 +394,47 @@ Use Cases
 
 |
 
-
 **Use case diagram:**
 
 .. image:: images/use_case_diagram.png
   :width: 600
 
+
+Screens / Views
+---------------
+
+1. Login 
+2. Dashboard, contains:
+ - Header Navigation Bar 
+ - Overview of all projects. (Project List View)
+ - Quick access to create a new project or continue existing ones.
+ - Basic indicators for each listed project.
+3. Create New Project Pop-up:
+ - Form to define project details (name, description, etc.).
+ - Field to input link to dataset
+ - Project creation and cancel buttons
+4. Project Overview Pop-up:
+ - Change name/description
+ - Go to Model List View
+ - Go to Label Studio 
+5. Annotation Interface (Label Studio)
+6.  ML Models List 
+ - Display Current Project Name 
+ - List of available pre-trained model architectures.
+ - Select From Models List
+7. ML Model Overview Pop-up
+ - Model details
+ - Field for configuration code 
+ - Configure hyperparameters button
+ - Upload training dataset
+ - “Train Model” button
+8. Training Results Pop-up:
+ - Quality measurements 
+ - “Save model” button
+ - “Close” button
+ - ‘Adjust Model” button
+ 
+ 
 Activity Diagrams
 -----------------
 

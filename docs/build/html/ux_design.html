@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Virtualization/Contenerization &#8212; E-motion 0.1 documentation</title>
+    <title>User Experience Design &#8212; E-motion 0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
     <script src="_static/documentation_options.js?v=2709fde1"></script>
@@ -13,8 +13,8 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Security" href="security.html" />
-    <link rel="prev" title="Tests specification" href="tests.html" />
+    <link rel="next" title="User Interface Standard Project" href="ui_standard.html" />
+    <link rel="prev" title="Analytical and design specifications" href="specification.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -31,8 +31,30 @@
 
           <div class="body" role="main">
             
-  <section id="virtualization-contenerization">
-<h1>Virtualization/Contenerization<a class="headerlink" href="#virtualization-contenerization" title="Link to this heading">¶</a></h1>
+  <section id="user-experience-design">
+<h1>User Experience Design<a class="headerlink" href="#user-experience-design" title="Link to this heading">¶</a></h1>
+<section id="actors-user-stories">
+<h2>Actors &amp; User Stories<a class="headerlink" href="#actors-user-stories" title="Link to this heading">¶</a></h2>
+<p>Employee of a Data Labeling Company:
+User Story 1:
+As an employee of a data labeling company, I want to create and manage multiple annotation projects simultaneously, so that I can efficiently coordinate the labeling efforts of our team across different clients.
+Acceptance Criteria:
+The user can create a new annotation project.
+The user can easily switch between existing annotation projects.
+Each project allows the definition of unique data categories and attributes.
+User Story 2:
+As an employee of a data labeling company, I need the ability to easily switch between manual annotation and the ML model prediction correction mode, ensuring flexibility in our labeling workflows.
+Acceptance Criteria:
+The user can seamlessly switch between manual annotation and ML model prediction correction modes.
+Changes made in one mode are reflected in the other to ensure consistency.
+The transition between modes is intuitive and requires minimal effort.
+User Story 3:
+As an employee of a data labeling company, I want to be able to download annotated data in a standardized format, allowing seamless integration with our clients’ machine learning pipelines.
+Acceptance Criteria:
+The user can download annotated data in a standardized format (e.g., JSON).
+The downloaded data includes all relevant annotations and metadata.
+The downloaded data is compatible with common machine learning frameworks.</p>
+</section>
 </section>
 
 
@@ -60,10 +82,13 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_model.html">Data model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="specification.html">Analytical and design specifications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ux_design.html">User Experience Design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Experience Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#actors-user-stories">Actors &amp; User Stories</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ui_standard.html">User Interface Standard Project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">Tests specification</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Virtualization/Contenerization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="virtualization.html">Virtualization/Contenerization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">User manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin_manual.html">Admin manual</a></li>
@@ -74,8 +99,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="tests.html" title="previous chapter">Tests specification</a></li>
-      <li>Next: <a href="security.html" title="next chapter">Security</a></li>
+      <li>Previous: <a href="specification.html" title="previous chapter">Analytical and design specifications</a></li>
+      <li>Next: <a href="ui_standard.html" title="next chapter">User Interface Standard Project</a></li>
   </ul></li>
 </ul>
 </div>
@@ -109,7 +134,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
-      <a href="_sources/virtualization.rst.txt"
+      <a href="_sources/ux_design.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

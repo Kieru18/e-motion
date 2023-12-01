@@ -16,6 +16,7 @@ Welcome to E-motion's documentation!
    architecture
    data_model
    specification
+   ux_design
    ui_standard
    tests
    virtualization

@@ -12,7 +12,7 @@ Implementation methods
 
 Statistics
 ----------
-|**Number of**
-|files:
-|lines of code:
-|unit tests:
+| **Number of**
+| files:
+| lines of code:
+| unit tests:

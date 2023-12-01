@@ -21,8 +21,3 @@ System requirements
 - Determining the effectiveness of models.
 - Applying results (predictions).
 - Saving annotations in JSON format.
-
-Use cases
----------
-(diagramy)
-

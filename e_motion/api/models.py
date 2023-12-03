@@ -12,6 +12,9 @@ class User(models.Model):
     password = models.CharField(null=False, max_length=40)
     icon = models.ImageField(null=True, upload_to='icons')
 
+    class Meta:
+        db_table = 'users'
+
 
 class LearningModel(models.Model):
     @property
@@ -21,6 +24,9 @@ class LearningModel(models.Model):
     name = models.CharField(null=False, max_length=60)
     hiperparams = models.CharField(null=True, max_length=600)
     checkpoint = models.BinaryField(null=True) 
+
+    class Meta:
+        db_table = 'learning_models'
 
 
 class Project(models.Model):
@@ -33,3 +39,6 @@ class Project(models.Model):
     dataset_url = models.CharField(null=False, max_length=150)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     model = models.ForeignKey(LearningModel, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'projects'

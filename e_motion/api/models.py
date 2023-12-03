@@ -1,10 +1,35 @@
 from django.db import models
 
+
 class User(models.Model):
-    name = models.CharField(max_length=50)
-    gender = models.CharField(max_length=1, default='X')
-    knows_ml = models.BooleanField(null=False, default=False)
-    email = models.EmailField(null=False, max_length=254, unique=True)
-    password = models.CharField(null=False, max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    @property
+    def user_id(self):
+        return self.id
+    
+    name = models.CharField(null=False, max_length=30)
+    surname = models.CharField(null=False, max_length=40)
+    email = models.EmailField(null=False, max_length=40, unique=True)
+    password = models.CharField(null=False, max_length=40)
+    icon = models.ImageField(null=True, upload_to='icons')
+
+
+class LearningModel(models.Model):
+    @property
+    def model_id(self):
+        return self.id
+    
+    name = models.CharField(null=False, max_length=60)
+    hiperparams = models.CharField(null=True, max_length=600)
+    checkpoint = models.BinaryField(null=True) 
+
+
+class Project(models.Model):
+    @property
+    def project_id(self):
+        return self.id
+    
+    title = models.CharField(null=False, max_length=100)
+    description = models.CharField(null=True, max_length=250)
+    dataset_url = models.CharField(null=False, max_length=150)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    model = models.ForeignKey(LearningModel, on_delete=models.CASCADE)

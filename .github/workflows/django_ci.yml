@@ -31,5 +31,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Tests
       run: |
-        echo ${GITHUB_WORKSPACE}
-        python3 manage.py test
+        echo ${{ github.workspace }}
+        python 'D:\a\e-motion\e_motion\manage.py' test

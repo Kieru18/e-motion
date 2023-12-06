@@ -1,14 +1,22 @@
 import React, {Component} from "react";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link,
+} from "react-router-dom";
+import SignInSide from "./LoginPage"; 
+import SignUpSide from "./Register";
 
-export default class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-                <div>This is Dashboard </div>
-        );
-    }
+export default function Dashboard() {
+   return (
+        <Router>
+            <Routes>
+                <Route exact path="/" element={<SignInSide />}/>
+                <Route path="/signup" element={<SignUpSide />} />
+                <Route path="/login" element={<SignInSide />} />
+            </Routes>
+        </Router>
+   );
 }
 

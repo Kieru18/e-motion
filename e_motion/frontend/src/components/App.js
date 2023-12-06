@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { render } from "react-dom";
+import Dasboard from "./Dashboard";
 import SignInSide from "./LoginPage";
 
 
 export default function App(props) {
     return (
         <div className="center">
-            <SignInSide />
+            <Dasboard />
         </div>
     );
 }

@@ -5,4 +5,3 @@ urlpatterns = [
     path('users/', UserView.as_view()),
     path('', home)
 ]
-        

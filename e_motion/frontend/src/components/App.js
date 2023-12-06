@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import Dashboard from './Dashboard';
+
+
 
 export default class App extends Component {
     constructor(props) {
@@ -8,10 +11,12 @@ export default class App extends Component {
 
     render() {
         return (
-                <h1>React App</h1>
+            <Dashboard/>
         );
     }
 }
 
+
 const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+const root = createRoot(appDiv);
+root.render(<App />);

@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import Dashboard from './Dashboard';
+import React, { useState, useEffect } from "react";
+import { render } from "react-dom";
+import SignInSide from "./LoginPage";
 
 
-
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <Dashboard/>
-        );
-    }
+export default function App(props) {
+    return (
+        <div className="center">
+            <SignInSide />
+        </div>
+    );
 }
 
-
 const appDiv = document.getElementById("app");
-const root = createRoot(appDiv);
-root.render(<App />);
+render(<App />, appDiv);

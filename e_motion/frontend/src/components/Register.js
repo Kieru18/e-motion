@@ -12,23 +12,26 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Image from '../images/loadingScreen.png';
+import { useNavigate } from "react-router-dom";
+// import Image from '../images/loadingScreen.png';
 
 const defaultTheme = createTheme();
 
 const handleRedirectToLogin = () => {
     navigate('/login');
-  }  
+  }
 
 export default function SignUpSide() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const email = 'email@mail.com';
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/signup/', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,6 +39,7 @@ export default function SignUpSide() {
         body: JSON.stringify({
           username,
           password,
+          email,
         }),
       });
 
@@ -48,6 +52,7 @@ export default function SignUpSide() {
       const data = await response.json();
       // Handle successful registration, e.g., redirect, show success message, etc.
       console.log('Registration successful', data);
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error during registration', error);
     }
@@ -63,7 +68,7 @@ export default function SignUpSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${Image})`,
+            // backgroundImage: `url(${Image})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

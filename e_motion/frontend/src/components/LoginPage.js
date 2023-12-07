@@ -12,11 +12,12 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Image from '../images/loadingScreen.png'
+// import Image from '../images/loadingScreen.png'
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const handleRedirectToRegister = () => {
-  navigate('/sign-up');
+  navigate('/signup');
 }
 
 function Copyright(props) {
@@ -35,22 +36,21 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/login/', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username,
-          email,
           password,
         }),
       });
@@ -64,6 +64,7 @@ export default function SignInSide() {
       const data = await response.json();
       // Handle successful login, e.g., save token to local storage, redirect, etc.
       console.log('Login successful', data);
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error during login', error);
     }
@@ -80,7 +81,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${Image})`,
+            // backgroundImage: `url(${Image})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -88,7 +89,7 @@ export default function SignInSide() {
             backgroundPosition: 'center',
           }}
         />
-        
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
               sx={{
@@ -117,18 +118,6 @@ export default function SignInSide() {
             autoFocus
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             margin="normal"

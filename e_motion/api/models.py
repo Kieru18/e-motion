@@ -1,19 +1,5 @@
 from django.db import models
-
-
-class User(models.Model):
-    @property
-    def user_id(self):
-        return self.id
-    
-    name = models.CharField(null=False, max_length=30)
-    surname = models.CharField(null=False, max_length=40)
-    email = models.EmailField(null=False, max_length=40, unique=True)
-    password = models.CharField(null=False, max_length=40)
-    icon = models.ImageField(null=True, upload_to='icons')
-
-    class Meta:
-        db_table = 'users'
+from django.contrib.auth.models import User
 
 
 class LearningModel(models.Model):

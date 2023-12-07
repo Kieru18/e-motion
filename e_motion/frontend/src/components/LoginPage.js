@@ -39,6 +39,7 @@ export default function SignInSide() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -57,7 +58,8 @@ export default function SignInSide() {
 
       if (!response.ok) {
         // Handle error cases
-        console.error('Login failed');
+        const error = await response.json();
+        setError(error.detail || 'Login failed');
         return;
       }
 
@@ -143,6 +145,11 @@ export default function SignInSide() {
           >
             Sign In
           </Button>
+          {error && (
+                <Typography color="error" variant="body2">
+                {error}
+                </Typography>
+          )}
               <Grid container>
                 <Grid item>
                   <Link href="/signup" variant="body2" onClick={handleRedirectToRegister}>

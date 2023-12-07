@@ -17,6 +17,19 @@ import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
+function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit">
+          E-motion
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
+
 const handleRedirectToLogin = () => {
     navigate('/login');
   }
@@ -25,7 +38,8 @@ export default function SignUpSide() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const email = 'email@mail.com';
+  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,7 +59,8 @@ export default function SignUpSide() {
 
       if (!response.ok) {
         // Handle error cases
-        console.error('Registration failed');
+        const error = await response.json();
+        setError(error.detail || 'Registration failed failed');
         return;
       }
 
@@ -109,6 +124,18 @@ export default function SignUpSide() {
                 margin="normal"
                 required
                 fullWidth
+                id="email"
+                label="email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
                 name="password"
                 label="Password"
                 type="password"
@@ -125,6 +152,12 @@ export default function SignUpSide() {
               >
                 Sign Up
               </Button>
+              
+              {error && (
+                <Typography variant="body2" color="error" align="center">
+                {error}
+                </Typography>
+              )}
               <Grid container>
                 <Grid item>
                   <Link href="/login" variant="body2" onClick={handleRedirectToLogin}>
@@ -132,6 +165,7 @@ export default function SignUpSide() {
                   </Link>
                 </Grid>
               </Grid>
+              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>

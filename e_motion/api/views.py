@@ -12,9 +12,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
 
-def home(request):
-    return HttpResponse('<h1>Hello World!</h1>')
-
 
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()

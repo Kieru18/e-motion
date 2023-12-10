@@ -5,7 +5,7 @@ ER diagram
 ----------
 .. image:: images/er_diagram.png
     :alt: ER diagram
-    :width: 600
+    :width: 400
 
 Persistent data representation
 ------------------------------
@@ -15,7 +15,7 @@ Logical model
 -------------
 .. image:: images/logical_model.png
     :alt: Logical model
-    :width: 600
+    :width: 400
     
 Communication with database
 ---------------------------

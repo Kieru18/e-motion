@@ -84,19 +84,19 @@ Diagram C4:
 Context
 ------------------------------------------
 .. image:: images/Context.png
-    :width: 600
+    :width: 400
 
 Container
 ------------------------------------------
 .. image:: images/Container.png
-    :width: 600
+    :width: 400
 
 Component: WebApp
 -------------------------------------
 .. image:: images/Component_WepApp.png
-    :width: 600
+    :width: 400
 
 Code: Segmentaion Facade
 ------------------------------------------
 .. image:: images/SegmentationFacade.png
-    :width: 600
+    :width: 400

@@ -397,7 +397,7 @@ Use Cases
 **Use case diagram:**
 
 .. image:: images/use_case_diagram.png
-  :width: 600
+  :width: 400
 
 
 Screens / Views
@@ -441,9 +441,9 @@ Activity Diagrams
 Activity diagram for usage of new ML model:
 
 .. image:: images/activity_diagram1.png
-  :width: 600
+  :width: 400
 
 Activity diagram for usage of existing pretrained ML model for new data in dataset (existing projects):
 
 .. image:: images/activity_diagram2.png
-  :width: 600
+  :width: 400

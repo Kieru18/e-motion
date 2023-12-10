@@ -26,3 +26,10 @@ exclude_patterns = []
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
+
+
+# -- Options for LaTeX output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+latex_elements = {
+  'extraclassoptions': 'openany,oneside'
+}

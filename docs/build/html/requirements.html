@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Requirements &#8212; E-motion 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Architecture" href="architecture.html" />
@@ -32,36 +32,37 @@
           <div class="body" role="main">
             
   <section id="requirements">
-<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h1>
+<h1>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h1>
 <section id="business-requirements">
-<h2>Business requirements<a class="headerlink" href="#business-requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Business requirements<a class="headerlink" href="#business-requirements" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Intuitive User Interface</strong>: Designing a simple and intuitive user interface for managing projects, annotating data, and analyzing results is crucial.</p></li>
-<li><p><strong>Annotation Efficiency</strong>: The system must enable precise and rapid annotation of visual data to reduce the time required for preparing training data for CV models.</p></li>
-<li><p><strong>Data Handling Versatility</strong>: It should support various media types like images and video files, along with diverse object categories such as people, vehicles, etc.</p></li>
-<li><p><strong>Model Configuration Flexibility</strong>: The system should allow configuring model training parameters and selecting architectures to provide flexibility for different project needs.</p></li>
+<li><p>The tool generates annotations, based on already marked elements, for the remaining elements of the set.</p></li>
+<li><p>The tool has the ability to mark data and generate predictions if there are no base annotations, only a clean set.</p></li>
+<li><p>The system should allow configuring model training parameters and selecting architectures to provide flexibility for different project needs.</p></li>
 </ul>
 </section>
 <section id="usage-requirements">
-<h2>Usage requirements<a class="headerlink" href="#usage-requirements" title="Permalink to this heading">¶</a></h2>
+<h2>Usage requirements<a class="headerlink" href="#usage-requirements" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p>Facilitating work with large data sets.</p></li>
-<li><p>Speeding up data annotation.</p></li>
-<li><p>Ease of use of the system.</p></li>
 <li><p>Possibility of continuing work with existing data sets.</p></li>
+<li><p>Speeding up data annotation 10 times compared to humans.</p></li>
 </ul>
 </section>
 <section id="system-requirements">
-<h2>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">¶</a></h2>
-<ul class="simple">
-<li><p>Visual selection of data in the form of bounding boxes.</p></li>
-<li><p>Assigning a class to the selection.</p></li>
-<li><p>Model versioning.</p></li>
-<li><p>Selecting the architecture and hyperparameters of the model.</p></li>
-<li><p>Determining the effectiveness of models.</p></li>
-<li><p>Applying results (predictions).</p></li>
-<li><p>Saving annotations in JSON format.</p></li>
-</ul>
+<h2>System requirements<a class="headerlink" href="#system-requirements" title="Link to this heading">¶</a></h2>
+<p><strong>Functional:</strong>
+- The user can add projects by clicking a button, after clicking it, the project is entered into the database and the log is sent.
+- The user can add link to cloud storage where the data is stored.
+- The user can visually select data in the form of bounding boxes.
+- The user can assign a class to the selection.
+- The user can choose from pretrained/basic ML models.
+- The user can specify model hyperparameters by filling the form.
+- The user can see the results of the model in the form of numerical values and charts in the dashboard.
+- The user can download the generated annotations by pressing the appropriate button.</p>
+<p><strong>Non-functional:</strong>
+- It is possible to serve at least 2 clients.
+- It is possible to work with large datasets (more than 10000 images).
+- It is possible to store annotations in JSON format.</p>
 </section>
 </section>
 
@@ -140,7 +141,7 @@
       &copy;2023, WL, JK, JF, KZ.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |

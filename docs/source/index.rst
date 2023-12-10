@@ -26,10 +26,11 @@ Welcome to E-motion's documentation!
    conclusions
 
 
-
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+

@@ -66,6 +66,7 @@ export default function SignUpSide() {
 
       const data = await response.json();
       // Handle successful registration, e.g., redirect, show success message, etc.
+      localStorage.setItem('token', data.token);  // LOCALSTORAGE
       console.log('Registration successful', data);
       navigate('/dashboard');
     } catch (error) {
@@ -152,7 +153,7 @@ export default function SignUpSide() {
               >
                 Sign Up
               </Button>
-              
+
               {error && (
                 <Typography variant="body2" color="error" align="center">
                 {error}

@@ -18,4 +18,4 @@ class RequestSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'dataset_url', 'user', 'model_id']
+        fields = ['title', 'description', 'dataset_url', 'user']

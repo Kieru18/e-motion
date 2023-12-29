@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework import generics, status
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer
 from .models import User, Project
@@ -40,6 +40,7 @@ class LoginView(generics.ListCreateAPIView):
 
     def post(self, request, format=None):
         username = request.data['username']
+
         user = get_object_or_404(AuthenticationUser, username=username)
         if not user.check_password(request.data['password']):
             return Response("missing user", status=status.HTTP_404_NOT_FOUND)
@@ -63,7 +64,9 @@ class ListProjectsView(generics.ListCreateAPIView):
     def get(self, request, format=None):
         if request.user.is_authenticated:
             content = Project.objects.filter(user=request.user)  # SELECT all User's projects
-            return Response(content)
+            serializer = ProjectSerializer(content, many=True)
+            return JsonResponse(serializer.data, safe=False)
+
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 

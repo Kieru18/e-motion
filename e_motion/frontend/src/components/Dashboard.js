@@ -19,6 +19,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from './listItems';
 import ProjectsTable from './ProjectsTable';
+import CreateProjectDialog from './CreateProjectDialog';
 
 function Copyright(props) {
   return (
@@ -84,7 +85,7 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
-  const [projects, setProjects] = React.useState(null);
+  const [projects, setProjects] = React.useState([]);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -94,7 +95,7 @@ export default function Dashboard() {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`,
+            'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
         },
     })
     .then((response) => {
@@ -104,7 +105,6 @@ export default function Dashboard() {
         return response.json();
     })
     .then((data) => setProjects(data))
-    .then(() => console.log(projects))
     .catch((error) => console.log(error));
   }, []);
 
@@ -182,8 +182,9 @@ export default function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <ProjectsTable />
+                  <ProjectsTable data={projects}/>
                 </Paper>
+                <CreateProjectDialog />
               </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />

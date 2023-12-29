@@ -66,6 +66,7 @@ export default function SignInSide() {
       const data = await response.json();
       // Handle successful login, e.g., save token to local storage, redirect, etc.
       console.log('Login successful', data);
+      localStorage.setItem('token', data.token);
       navigate('/dashboard');
     } catch (error) {
       console.error('Error during login', error);

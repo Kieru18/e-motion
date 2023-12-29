@@ -84,9 +84,29 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
+  const [projects, setProjects] = React.useState(null);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  React.useEffect(() => {
+    fetch("/api/list_projects", {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${localStorage.getItem('token')}`,
+        },
+    })
+    .then((response) => {
+        if (!response.ok) {
+          console.log("PROBLEM");
+        }
+        return response.json();
+    })
+    .then((data) => setProjects(data))
+    .then(() => console.log(projects))
+    .catch((error) => console.log(error));
+  }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>

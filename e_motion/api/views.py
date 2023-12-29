@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import generics, status
-from .serializers import UserSerializer, RequestSerializer
-from .models import User
+from .serializers import UserSerializer, RequestSerializer, ProjectSerializer
+from .models import User, Project
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
@@ -54,3 +54,29 @@ class TestTokenView(generics.ListCreateAPIView):
 
     def get(self, request, format=None):
         return Response("passed!")
+
+
+class ListProjectsView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.is_authenticated:
+            content = Project.objects.filter(user=request.user)  # SELECT all User's projects
+            return Response(content)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class ProjectCreateView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            serializer = ProjectSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

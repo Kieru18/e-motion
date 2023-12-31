@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import SignInSide from "./LoginPage";
 import Dashboard from "./Dashboard";
 import SignUpSide from "./Register";
+import LabelStudioFrontend from "./LabelStudioFrontend";
 
 import {
     BrowserRouter as Router,
@@ -10,6 +11,7 @@ import {
     Route,
     Link,
 } from "react-router-dom";
+
 
 export default function App(props) {
     return (
@@ -23,6 +25,7 @@ export default function App(props) {
                     <Route path="/login" element={<SignInSide />} />
                     <Route path="/signup" element={<SignUpSide />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    {/* <Route path="/label_studio" element={<LabelStudioFrontend />} /> */}
                 </Routes>
             </Router>
         </div>

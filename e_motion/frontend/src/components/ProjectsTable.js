@@ -12,9 +12,14 @@ function preventDefault(event) {
 }
 
 export default function ProjectsTable(props) {
+
+  const handleClick = (row) => {
+    props.onChange(row);
+  };
+
   return (
     <React.Fragment>
-      <Title>Your projects</Title>
+      <Title>Your Projects</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -25,7 +30,7 @@ export default function ProjectsTable(props) {
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
-            <TableRow key={row.title}>
+            <TableRow key={row.title} onClick={() => handleClick(row)} hover>
               <TableCell>{row.title}</TableCell>
               <TableCell>{row.description}</TableCell>
               <TableCell>{row.dataset_url}</TableCell>

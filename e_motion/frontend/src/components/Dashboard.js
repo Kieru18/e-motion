@@ -20,6 +20,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from './listItems';
 import ProjectsTable from './ProjectsTable';
 import CreateProjectDialog from './CreateProjectDialog';
+import EditProjectDialog from './EditProjectDialog';
+
 
 function Copyright(props) {
   return (
@@ -86,27 +88,56 @@ const defaultTheme = createTheme();
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const [projects, setProjects] = React.useState([]);
+  const [shouldListProjects, setShouldListProjects] = React.useState(false);
+  const [selectedProject, setSelectedProject] = React.useState({});
+  const [openEditDialog, setOpenEditDialog] = React.useState(false);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  React.useEffect(() => {
+  // Function to fetch projects
+  const fetchProjects = () => {
     fetch("/api/list_projects", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
-        },
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${localStorage.getItem('token')}`,
+      },
     })
     .then((response) => {
-        if (!response.ok) {
-          console.log("PROBLEM");
-        }
-        return response.json();
+      if (!response.ok) {
+        console.log("PROBLEM");
+      }
+      return response.json();
     })
     .then((data) => setProjects(data))
     .catch((error) => console.log(error));
+  };
+
+  // fetch projects when Dashboard is mounted
+  React.useEffect(() => {
+    fetchProjects();
   }, []);
+
+  // fetch projects after dialog is closed
+  React.useEffect(() => {
+    if (shouldListProjects) {
+      fetchProjects();
+      setShouldListProjects(false);
+    }
+  }, [shouldListProjects]);
+
+  const handleRowClick = (row) => {
+    setSelectedProject(row);
+    setOpenEditDialog(true);
+  };
+
+  const handleCloseEditDialog = () => {
+    setSelectedProject(null);
+    setShouldListProjects(true);
+    setOpenEditDialog(false);
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -182,9 +213,16 @@ export default function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <ProjectsTable data={projects}/>
+                  <ProjectsTable data={projects} onChange={handleRowClick}/>
                 </Paper>
-                <CreateProjectDialog />
+                <CreateProjectDialog onClose={setShouldListProjects}/>
+                {openEditDialog && (
+                  <EditProjectDialog
+                    open={openEditDialog}
+                    row={selectedProject}
+                    onClose={handleCloseEditDialog}
+                  />
+                )}
               </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />

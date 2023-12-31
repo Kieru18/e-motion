@@ -76,10 +76,26 @@ class ProjectCreateView(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            serializer = ProjectSerializer(data=request.data)
+            data = request.data
+            data['user'] = request.user.id
+            serializer = ProjectSerializer(data=data)
 
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class ProjectDeleteView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            title = request.data["title"]
+            user = request.user.id
+
+            Project.objects.filter(user=user).filter(title=title).delete()
+            return Response({'error': 'No record in DB'}, status=status.HTTP_202_ACCEPTED)
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

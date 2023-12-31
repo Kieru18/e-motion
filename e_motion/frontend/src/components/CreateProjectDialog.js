@@ -17,8 +17,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CreateProjectDialog() {
+export default function CreateProjectDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [dataset_url, setUrl] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,9 +32,33 @@ export default function CreateProjectDialog() {
     setOpen(false);
   };
 
-  const handleSave = () => {
-    setOpen(false);
-    // TODO send request with new project
+  const handleSave = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch('/api/create_project', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          dataset_url,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        setError(error.detail);
+        return;
+      }
+      setOpen(false);
+      props.onClose(true);
+    } catch (error) {
+      console.error('Error', error);
+    }
   };
 
   return (
@@ -69,6 +97,7 @@ export default function CreateProjectDialog() {
               fullWidth
               label="Title"
               id="fullWidth"
+              onChange={(event) => setTitle(event.target.value)}
             />
           </ListItem>
           <Divider />
@@ -80,6 +109,7 @@ export default function CreateProjectDialog() {
               label="Description"
               multiline
               rows={4}
+              onChange={(event) => setDescription(event.target.value)}
             />
           </ListItem>
           <Divider />
@@ -89,8 +119,14 @@ export default function CreateProjectDialog() {
               fullWidth
               label="Dataset URL"
               id="fullWidth"
+              onChange={(event) => setUrl(event.target.value)}
             />
           </ListItem>
+          {error && (
+            <Typography variant="body2" color="error" align="center">
+              {error}
+            </Typography>
+          )}
         </List>
       </Dialog>
     </React.Fragment>

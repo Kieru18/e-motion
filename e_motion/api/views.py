@@ -49,6 +49,17 @@ class LoginView(generics.ListCreateAPIView):
         return Response({'token': token.key, 'user': serializer.data})
 
 
+class LogoutView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        if request.user.is_authenticated:
+            request.user.auth_token.delete()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
 class TestTokenView(generics.ListCreateAPIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -93,9 +104,29 @@ class ProjectDeleteView(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            title = request.data["title"]
-            user = request.user.id
-
-            Project.objects.filter(user=user).filter(title=title).delete()
-            return Response({'error': 'No record in DB'}, status=status.HTTP_202_ACCEPTED)
+            project_id = request.data["id"]
+            Project.objects.filter(id=project_id).delete()
+            return Response({'info': 'Record deleted'}, status=status.HTTP_202_ACCEPTED)
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class ProjectEditView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            project_id = request.data["id"]
+            data = request.data
+            data["user"] = request.user.id
+            project_instance = Project.objects.get(id=project_id)
+
+            serializer = ProjectSerializer(project_instance, data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'info': 'Record updated'}, status=status.HTTP_202_ACCEPTED)
+            return Response({'error': 'Data validation failed'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+

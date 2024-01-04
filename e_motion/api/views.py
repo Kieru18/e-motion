@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework import generics, status
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer
-from .models import User, Project
+from .models import Project
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
@@ -11,6 +11,12 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
+from .serializers import MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 class UserView(generics.ListAPIView):

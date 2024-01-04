@@ -3,6 +3,8 @@ import { render } from "react-dom";
 import SignInSide from "./LoginPage";
 import Dashboard from "./Dashboard";
 import SignUpSide from "./Register";
+import PrivateRoute from "./utils/PrivateRoute"
+import AuthProvider from "../context/AuthContext";
 
 import {
     BrowserRouter as Router,
@@ -15,15 +17,14 @@ export default function App(props) {
     return (
         <div className="center">
             <Router>
+                <AuthProvider>
                 <Routes>
-                    <Route
-                        exact path="/"
-                        element={<SignInSide />}
-                    />
+                    <PrivateRoute exact path="/"  component={Dashboard} />   
                     <Route path="/login" element={<SignInSide />} />
                     <Route path="/signup" element={<SignUpSide />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                 </Routes>
+                </AuthProvider>
             </Router>
         </div>
     );

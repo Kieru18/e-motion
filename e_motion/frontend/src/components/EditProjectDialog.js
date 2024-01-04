@@ -20,12 +20,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditProjectDialog(props) {
   const [open, setOpen] = React.useState(true);
   const [error, setError] = React.useState(false);
+  const [id, setId] = React.useState(null);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [dataset_url, setUrl] = React.useState("");
 
   React.useEffect(() => {
     if (open && props.row) {
+      setId(props.row.id);
       setTitle(props.row.title);
       setDescription(props.row.description);
       setUrl(props.row.dataset_url);
@@ -38,34 +40,33 @@ export default function EditProjectDialog(props) {
   };
 
   const handleSave = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
 
-    // try {
-    //   const response = await fetch('/api/create_project', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
-    //     },
-    //     body: JSON.stringify({
-    //       title,
-    //       description,
-    //       dataset_url,
-    //     }),
-    //   });
+    try {
+      const response = await fetch('/api/edit_project', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+        },
+        body: JSON.stringify({
+          id,
+          title,
+          description,
+          dataset_url,
+        }),
+      });
 
-    //   if (!response.ok) {
-    //     const error = await response.json();
-    //     setError(error.detail);
-    //     return;
-    //   }
-    //   setOpen(false);
-    //   props.onClose(true);
-    // } catch (error) {
-    //   console.error('Error', error);
-    // }
-    setOpen(false);
-    props.onClose();
+      if (!response.ok) {
+        const error = await response.json();
+        setError(error.detail);
+        return;
+      }
+      handleClose();
+    } catch (error) {
+      console.error('Error', error);
+    }
+    handleClose();
   };
 
   const handleDeleteProject = async () => {
@@ -77,7 +78,7 @@ export default function EditProjectDialog(props) {
             'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
           },
           body: JSON.stringify({
-            title,
+            id,
           }),
         });
 

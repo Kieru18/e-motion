@@ -30,7 +30,7 @@ export default function ProjectsTable(props) {
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
-            <TableRow key={row.title} onClick={() => handleClick(row)} hover>
+            <TableRow key={row.id} onClick={() => handleClick(row)} hover>
               <TableCell>{row.title}</TableCell>
               <TableCell>{row.description}</TableCell>
               <TableCell>{row.dataset_url}</TableCell>

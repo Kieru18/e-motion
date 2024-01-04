@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -16,7 +18,6 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from './listItems';
 import ProjectsTable from './ProjectsTable';
 import CreateProjectDialog from './CreateProjectDialog';
@@ -82,10 +83,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [projects, setProjects] = React.useState([]);
   const [shouldListProjects, setShouldListProjects] = React.useState(false);
@@ -139,6 +140,19 @@ export default function Dashboard() {
     setOpenEditDialog(false);
   };
 
+  const handleLogout = () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+      },
+    };
+    fetch("/api/logout", requestOptions).then(() => {
+      navigate("/");
+      localStorage.removeItem('token');  // LOCALSTORAGE
+    });
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -170,11 +184,13 @@ export default function Dashboard() {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Button
+              variant="contained"
+              sx={{ my: 1, mx: 1.5 }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

@@ -62,8 +62,10 @@ export default function MakePredictionsPage(props) {
     })
     .then((data) => {
       if (data.length === 0) {
+        console.log("No models found", data.length);
         navigate('/dashboard'); // Redirect to '/dashboard' if models array is empty
       } else {
+        console.log("Models found", data.length);
         setModels(data);
       }
     })

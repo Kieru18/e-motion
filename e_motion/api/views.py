@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework import generics, status
-from .serializers import UserSerializer, RequestSerializer, ProjectSerializer
+from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, LearningModelSerializer
 from .models import User, Project
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
@@ -11,6 +13,9 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.core.files.storage import default_storage
+
 
 
 class UserView(generics.ListAPIView):
@@ -96,6 +101,49 @@ class ProjectCreateView(generics.ListCreateAPIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UploadAnnotationView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    @method_decorator(csrf_exempt) # Only for development, change CSRF protection for production
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+
+            file_upload = request.FILES.get('file')
+
+            if file_upload is None:
+                return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
+
+            try:
+                storage_path = f'annotations/{file_upload.name}'
+                saved_path = default_storage.save(storage_path, file_upload)
+                return Response({'success': True}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+# class ModelCreateView(generics.ListCreateAPIView):
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, *args, **kwargs):
+#         if request.user.is_authenticated:
+#             data = request.data
+#             data['user'] = request.user.id
+#             serializer = ProjectSerializer(data=data)
+
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ProjectDeleteView(generics.ListCreateAPIView):

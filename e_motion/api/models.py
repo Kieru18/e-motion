@@ -22,10 +22,17 @@ class LearningModel(models.Model):
         return self.id
 
     name = models.CharField(null=False, max_length=60)
-    lr = models.FloatField(null=True)
+    # ARCHITECTURE_CHOICES = [
+    #     ('option1', 'Option 1'),
+    #     ('option2', 'Option 2'),
+    #     ('option3', 'Option 3'),
+    #     ('option4', 'Option 4'),
+    # ]
+    architecture = models.CharField(null=False, max_length=60) #, choices=ARCHITECTURE_CHOICES)
+    learning_rate = models.FloatField(null=True)
     weight_decay = models.FloatField(null=True)
     epochs = models.PositiveIntegerField(null=True)
-    val_set_size = models.FloatField(null=True)
+    validation_set_size = models.FloatField(null=True)
     miou_score = models.FloatField(null=True)
     top1_score = models.FloatField(null=True)
     top5_score = models.FloatField(null=True)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Project
+from .models import User, Project, LearningModel
 from django.contrib.auth.models import User as AuthenticationUser
 
 
@@ -18,4 +18,9 @@ class RequestSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
+        fields = '__all__'
+
+class LearningModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LearningModel
         fields = '__all__'

@@ -24,9 +24,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function CreateModelDialog(props) {
     const [open, setOpen] = React.useState(false);
     const [error, setError] = React.useState(false);
-    const [title, setTitle] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [dataset_url, setUrl] = React.useState("");
+    const [name, setName] = React.useState("");
+    const [architecture, setArchitecture] = React.useState("");
+    const [learning_rate, setLearningRate] = React.useState("");
+    const [weight_decay, setWeightDecay] = React.useState("");
+    const [epochs, setEpochs] = React.useState("");
+    const [validation_set_size, setValidationSetSize] = React.useState("");
+    const [project_id, setProjectId] = React.useState("");  // [TODO] get project id from props
+    const [annotations, setAnnotations] = React.useState(null);
+ 
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,30 +42,83 @@ export default function CreateModelDialog(props) {
         setOpen(false);
     }
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setAnnotations(file);
+    };
+
+
     const handleSave = async (event) => {
         event.preventDefault();
+        const formData = new FormData();
+
+        const dataJson = {
+            name,
+            architecture,
+            learning_rate,
+            weight_decay,
+            epochs,
+            validation_set_size,
+          };
+        
+
+        formData.append('file', annotations);
+        formData.append('data', JSON.stringify(dataJson));
+        
+
+        // try {
+        //     const response = await fetch('/api/create_model', {
+        //       method: 'POST',
+        //       headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+        //       },
+        //       body: JSON.stringify({
+        //         name,
+        //         architecture,
+        //         learning_rate,
+        //         weight_decay,
+        //         epochs,
+        //         validation_set_size,
+        //       }),
+        //     });
+      
+        //     if (!response.ok) {
+        //       const error = await response.json();
+        //       setError(error.detail);
+        //       return;
+        //     }
+        //     setOpen(false);
+        //     props.onClose(true);
+        //   } catch (error) {
+        //     console.error('Error', error);
+        //   }
 
         try {
-            const response = await fetch('/api/create_model', {
+            const response = await fetch('/api/upload_annotation', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+                    // 'Content-Type': 'multipart/form-data',
                 },
-                body: JSON.stringify({
-                    name,
-                    lr,
-                    weight_decay,
-                    epochs,
-                    val_set_size,
-                }),
+                body: formData,
             });
 
             if (!response.ok) {
-                const error = await response.json();
-                setError(error.detail);
-                return;
+                // Check if the response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const error = await response.json();
+                    setError(error.detail);
+                    console.log("json-error", error.detail)
+                } else {
+                    // If not JSON, handle the error as plain text
+                    const errorText = await response.text();
+                    setError(errorText);
+                    console.log("text-error", errorText)
+                }
             }
+            console.log("success?", response.status)
             setOpen(false);
             props.onClose(true);
         } catch (error) {
@@ -99,16 +158,26 @@ export default function CreateModelDialog(props) {
                 </AppBar>
                 <List>
                     <ListItem>
+                        <TextField
+                            required
+                            fullWidth
+                            label="name"
+                            id="fullWidth"
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
                         <Select
                             required
                             fullWidth
                             id="fullWidth"
-                            onChange={(event) => setTitle(event.target.value)}
-                            value={title}
+                            onChange={(event) => setArchitecture(event.target.value)}
+                            value={architecture}
                             displayEmpty
                         >
                             <MenuItem value="" disabled >
-                                <em>name</em>
+                                <em>architecture</em>
                             </MenuItem>
                             <MenuItem value={10}>model 1</MenuItem>
                             <MenuItem value={20}>model 2</MenuItem>
@@ -122,7 +191,7 @@ export default function CreateModelDialog(props) {
                             fullWidth
                             label="learning rate"
                             id="fullWidth"
-                            onChange={(event) => setTitle(event.target.value)}
+                            onChange={(event) => setLearningRate(event.target.value)}
                         />
                     </ListItem>
                     <Divider />
@@ -132,7 +201,7 @@ export default function CreateModelDialog(props) {
                             fullWidth
                             label="weight decay"
                             id="fullWidth"
-                            onChange={(event) => setTitle(event.target.value)}
+                            onChange={(event) => setWeightDecay(event.target.value)}
                         />
                     </ListItem>
                     <Divider />
@@ -142,7 +211,7 @@ export default function CreateModelDialog(props) {
                             fullWidth
                             label="number of epochs"
                             id="fullWidth"
-                            onChange={(event) => setTitle(event.target.value)}
+                            onChange={(event) => setEpochs(event.target.value)}
                         />
                     </ListItem>
                     <Divider />
@@ -152,9 +221,23 @@ export default function CreateModelDialog(props) {
                             fullWidth
                             label="validation set size"
                             id="fullWidth"
-                            onChange={(event) => setTitle(event.target.value)}
+                            onChange={(event) => setValidationSetSize(event.target.value)}
                         />
                     </ListItem>
+                    <Divider />
+                    <ListItem>
+                        <input
+                            required
+                            type="file"
+                            accept=".json"
+                            onChange={handleFileChange}
+                        />
+                    </ListItem>
+                    {error && (
+                        <Typography variant="body2" color="error" align="center">
+                            {error}
+                        </Typography>
+                    )}
                 </List>
             </Dialog>
         </React.Fragment>   

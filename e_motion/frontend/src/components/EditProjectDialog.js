@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
+import CreateModelDialog from './CreateModelDialog';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -24,6 +25,7 @@ export default function EditProjectDialog(props) {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [dataset_url, setUrl] = React.useState("");
+  // const [shouldEditProject, setShouldEditProject] = React.useState(false);
 
   React.useEffect(() => {
     if (open && props.row) {
@@ -169,6 +171,7 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined">
             Go to Manual Annotation
           </Button>
+          <CreateModelDialog />
         </List>
       </Dialog>
     </React.Fragment>

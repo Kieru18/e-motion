@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from rest_framework import generics, status
-from .serializers import UserSerializer, RequestSerializer, ProjectSerializer
-from .models import User, Project
+from django.http import HttpResponse, JsonResponse, FileResponse
+from rest_framework import generics, status, views
+from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, ListModelSerializer
+from .models import User, Project, LearningModel
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
@@ -81,6 +81,19 @@ class ListProjectsView(generics.ListCreateAPIView):
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class ListModelsView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        if request.user.is_authenticated:
+            content = LearningModel.objects.filter(project=request.data["project_id"])  # SELECT all models for the Project
+            serializer = ListModelSerializer(content, many=True)
+            return JsonResponse(serializer.data, safe=False)
+
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 class ProjectCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -129,4 +142,15 @@ class ProjectEditView(generics.ListCreateAPIView):
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class MakePredictionsView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            project_id = request.data["project_id"]
+            model_id = request.data["selected_id"]
+            # TODO call make_prediction method
+            # TODO wynikowy plik z anotacjami w responsie
+            return Response({'info': 'JSON ready to download'}, status=status.HTTP_200_OK)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

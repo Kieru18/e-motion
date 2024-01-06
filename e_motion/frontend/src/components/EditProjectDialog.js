@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
+import CreateModelDialog from './CreateModelDialog';
 import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -195,6 +196,7 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
           </Button>
+          <CreateModelDialog />
           <Button variant="outlined" onClick={handleMakePredictions}>
             Go to Make Predictions
           </Button>

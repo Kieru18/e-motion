@@ -3,14 +3,17 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import generics, status
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer
 from .models import User, Project
+from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
+from django.core.files.storage import default_storage
 
 
 class UserView(generics.ListAPIView):
@@ -129,4 +132,33 @@ class ProjectEditView(generics.ListCreateAPIView):
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class UploadFilesView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    @method_decorator(csrf_exempt)  # Only for development, change CSRF protection for production
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            project_id = self.kwargs.get('project_id')
+
+            # Ensure the request has files
+            if 'files[]' not in request.FILES:
+                return Response({'error': 'No files uploaded'}, status=400)
+
+            files = request.FILES.getlist('files[]')
+
+            uploaded_paths = []
+            try:
+                for file_upload in files:
+                    storage_path = f'dataset_project_{project_id}/{file_upload.name}'
+                    saved_path = default_storage.save(storage_path, file_upload)
+                    uploaded_paths.append(saved_path)
+            except Exception as e:
+                return Response({'error': str(e)}, status=500)
+
+            return Response({'success': True, 'paths': uploaded_paths})
+
+        return Response({'error': 'Authentication error'}, status=401)

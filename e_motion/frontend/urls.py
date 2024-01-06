@@ -6,5 +6,6 @@ urlpatterns = [
     path('login', index),
     path('signup', index),
     path('dashboard', index),
+    path('upload-dataset', index)
     # path('label_studio', index)
 ]

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
@@ -18,6 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function EditProjectDialog(props) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [id, setId] = React.useState(null);
@@ -69,6 +71,11 @@ export default function EditProjectDialog(props) {
     handleClose();
   };
 
+  const handleOpenLS = () => {
+    // TODO: set Label Studio Docker link: (http://localhost:8089/user/login/)
+    window.open('https://www.google.com/', '_blank', 'noreferrer');
+  };
+
   const handleDeleteProject = async () => {
     try {
         const response = await fetch('/api/delete_project', {
@@ -94,6 +101,10 @@ export default function EditProjectDialog(props) {
     }
     setOpen(false);
     props.onClose();
+  };
+
+  const handleMakePredictions = () => {
+    navigate('/predict', { state: { project_id: id } })
   };
 
   return (
@@ -166,8 +177,11 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined" color="error" onClick={handleDeleteProject}>
             Delete Project
           </Button>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
+          </Button>
+          <Button variant="outlined" onClick={handleMakePredictions}>
+            Go to Make Predictions
           </Button>
         </List>
       </Dialog>

@@ -16,18 +16,14 @@ def load_coco_from_json(path):
         coco.createIndex()
     return coco
 
-def load_coco_from_prediction(prediction):
+def load_coco_from_prediction(prediction, categories, image_data):
     coco = COCO()
+
     coco.dataset = prediction
     coco.createIndex()
     return coco
 
-def load_json(path):
-    a = None
-    with open(path) as json_file:
-        json_data = json.load(json_file)
-        a = parse_image_json(json_data)
-    return a
+
 
 def parse_image_json(label_data):
     # label_data = json.loads(label_task_json)

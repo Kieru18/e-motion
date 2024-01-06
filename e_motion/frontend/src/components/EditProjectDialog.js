@@ -12,12 +12,14 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function EditProjectDialog(props) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [id, setId] = React.useState(null);
@@ -96,6 +98,18 @@ export default function EditProjectDialog(props) {
     props.onClose();
   };
 
+  const handleNavigateToUpload = (event) => {
+    event.preventDefault();
+
+    navigate("/upload-dataset", {
+      state: {
+        project_id: id,
+        project_title: title,
+      }
+    });
+  };
+
+
   return (
     <React.Fragment>
       <Dialog
@@ -168,6 +182,9 @@ export default function EditProjectDialog(props) {
           </Button>
           <Button variant="outlined">
             Go to Manual Annotation
+          </Button>
+          <Button variant="outlined"  onClick={handleNavigateToUpload}>
+            Upload the Dataset
           </Button>
         </List>
       </Dialog>

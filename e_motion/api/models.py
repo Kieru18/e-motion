@@ -32,7 +32,7 @@ class LearningModel(models.Model):
     learning_rate = models.FloatField(null=True)
     weight_decay = models.FloatField(null=True)
     epochs = models.PositiveIntegerField(null=True)
-    val_set_size = models.FloatField(null=True)
+    validation_set_size = models.FloatField(null=True)
     miou_score = models.FloatField(null=True)
     top1_score = models.FloatField(null=True)
     top5_score = models.FloatField(null=True)

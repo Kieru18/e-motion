@@ -179,9 +179,9 @@ export default function CreateModelDialog(props) {
                             <MenuItem value="" disabled >
                                 <em>architecture</em>
                             </MenuItem>
-                            <MenuItem value={10}>model 1</MenuItem>
-                            <MenuItem value={20}>model 2</MenuItem>
-                            <MenuItem value={30}>model 3</MenuItem>
+                            <MenuItem value={10}>Faster RCNN</MenuItem>
+                            {/* <MenuItem value={20}>model 2</MenuItem> */}
+                            {/* <MenuItem value={30}>model 3</MenuItem> */}
                         </Select>
                     </ListItem>
                     <Divider />

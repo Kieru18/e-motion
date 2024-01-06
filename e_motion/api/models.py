@@ -22,13 +22,13 @@ class LearningModel(models.Model):
         return self.id
 
     name = models.CharField(null=False, max_length=60)
-    # ARCHITECTURE_CHOICES = [
-    #     ('option1', 'Option 1'),
-    #     ('option2', 'Option 2'),
-    #     ('option3', 'Option 3'),
-    #     ('option4', 'Option 4'),
-    # ]
-    architecture = models.CharField(null=False, max_length=60) #, choices=ARCHITECTURE_CHOICES)
+    ARCHITECTURE_CHOICES = [
+        ('option1', 'Faster RCNN'),
+        # ('option2', 'Option 2'),
+        # ('option3', 'Option 3'),
+        # ('option4', 'Option 4'),
+    ]
+    architecture = models.CharField(null=False, max_length=60, choices=ARCHITECTURE_CHOICES)
     learning_rate = models.FloatField(null=True)
     weight_decay = models.FloatField(null=True)
     epochs = models.PositiveIntegerField(null=True)

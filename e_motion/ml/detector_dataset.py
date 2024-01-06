@@ -4,7 +4,7 @@ import torch
 from torchvision.io import read_image
 from torchvision.transforms.v2 import functional as F
 from torch.utils.data import Dataset
-
+from pycocotools.coco import COCO
 from data_utils import parse_image_json
 import json
 
@@ -14,8 +14,14 @@ class DetectorDataset(Dataset):
         self.transforms = transforms
         
         with open(os.path.join(root, "result.json")) as f:
-            json_ = json.load(f)
-        self.img_paths, self.targets = parse_image_json(json_)
+            json_data = json.load(f)
+        self.img_paths, self.targets = parse_image_json(json_data)
+
+        coco = COCO()
+        coco.dataset = json_data
+        coco.createIndex()
+        
+        self.coco = coco
 
     def __getitem__(self, idx):
         # load images and masks

@@ -20,7 +20,7 @@ export default function ProjectsTable(props) {
   return (
     <React.Fragment>
       <Title>Your Projects</Title>
-      <Table size="small">
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>

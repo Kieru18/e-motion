@@ -3,14 +3,17 @@ from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, views
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, ListModelSerializer
 from .models import User, Project, LearningModel
+from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
+from django.core.files.storage import default_storage
 
 
 class UserView(generics.ListAPIView):
@@ -139,6 +142,33 @@ class ProjectEditView(generics.ListCreateAPIView):
                 serializer.save()
                 return Response({'info': 'Record updated'}, status=status.HTTP_202_ACCEPTED)
             return Response({'error': 'Data validation failed'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UploadFilesView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            project_id = self.kwargs.get('project_id')
+
+            if 'files[]' not in request.FILES:
+                return Response({'error': 'No files uploaded'}, status=status.HTTP_400_BAD_REQUEST)
+
+            files = request.FILES.getlist('files[]')
+
+            uploaded_paths = []
+            try:
+                for file_upload in files:
+                    storage_path = f'dataset_project_{project_id}/{file_upload.name}'
+                    saved_path = default_storage.save(storage_path, file_upload)
+                    uploaded_paths.append(saved_path)
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            return Response({'success': True, 'paths': uploaded_paths}, status=status.HTTP_201_CREATED)
+
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 

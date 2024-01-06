@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import UserView, SignUpView, LoginView, LogoutView, TestTokenView, ListProjectsView, ListModelsView, ProjectCreateView, ProjectDeleteView, ProjectEditView, MakePredictionsView
+from .views import UserView, SignUpView, LoginView, LogoutView, TestTokenView, ListProjectsView, ListModelsView, ProjectCreateView, ProjectDeleteView, ProjectEditView, MakePredictionsView, UploadFilesView
+
 
 urlpatterns = [
     # path('users/', UserView.as_view()),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('delete_project', ProjectDeleteView.as_view()),
     path('edit_project', ProjectEditView.as_view()),
     path('make_predictions', MakePredictionsView.as_view()),
+    path('upload/<int:project_id>/', UploadFilesView.as_view()),
 ]

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
@@ -13,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -107,6 +107,18 @@ export default function EditProjectDialog(props) {
     navigate('/predict', { state: { project_id: id } })
   };
 
+  const handleNavigateToUpload = (event) => {
+    event.preventDefault();
+
+    navigate("/upload-dataset", {
+      state: {
+        project_id: id,
+        project_title: title,
+      }
+    });
+  };
+
+
   return (
     <React.Fragment>
       <Dialog
@@ -176,6 +188,9 @@ export default function EditProjectDialog(props) {
           <Divider />
           <Button variant="outlined" color="error" onClick={handleDeleteProject}>
             Delete Project
+          </Button>
+          <Button variant="outlined"  onClick={handleNavigateToUpload}>
+            Upload the Dataset
           </Button>
           <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation

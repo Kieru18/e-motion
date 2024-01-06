@@ -108,7 +108,7 @@ export default function Dashboard() {
     })
     .then((response) => {
       if (!response.ok) {
-        console.log("PROBLEM");
+        console.log("Error");
       }
       return response.json();
     })

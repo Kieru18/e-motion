@@ -71,6 +71,11 @@ export default function EditProjectDialog(props) {
     handleClose();
   };
 
+  const handleOpenLS = () => {
+    // TODO: set Label Studio Docker link: (http://localhost:8089/user/login/)
+    window.open('https://www.google.com/', '_blank', 'noreferrer');
+  };
+
   const handleDeleteProject = async () => {
     try {
         const response = await fetch('/api/delete_project', {
@@ -96,6 +101,10 @@ export default function EditProjectDialog(props) {
     }
     setOpen(false);
     props.onClose();
+  };
+
+  const handleMakePredictions = () => {
+    navigate('/predict', { state: { project_id: id } })
   };
 
   const handleNavigateToUpload = (event) => {
@@ -180,11 +189,14 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined" color="error" onClick={handleDeleteProject}>
             Delete Project
           </Button>
-          <Button variant="outlined">
-            Go to Manual Annotation
-          </Button>
           <Button variant="outlined"  onClick={handleNavigateToUpload}>
             Upload the Dataset
+          </Button>
+          <Button variant="outlined" onClick={handleOpenLS}>
+            Go to Manual Annotation
+          </Button>
+          <Button variant="outlined" onClick={handleMakePredictions}>
+            Go to Make Predictions
           </Button>
         </List>
       </Dialog>

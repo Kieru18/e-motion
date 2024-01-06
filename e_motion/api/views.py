@@ -136,17 +136,12 @@ class UploadFilesView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(csrf_exempt)  # Only for development, change CSRF protection for production
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             project_id = self.kwargs.get('project_id')
 
-            # Ensure the request has files
             if 'files[]' not in request.FILES:
-                return Response({'error': 'No files uploaded'}, status=400)
+                return Response({'error': 'No files uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             files = request.FILES.getlist('files[]')
 
@@ -157,8 +152,8 @@ class UploadFilesView(generics.ListCreateAPIView):
                     saved_path = default_storage.save(storage_path, file_upload)
                     uploaded_paths.append(saved_path)
             except Exception as e:
-                return Response({'error': str(e)}, status=500)
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            return Response({'success': True, 'paths': uploaded_paths})
+            return Response({'success': True, 'paths': uploaded_paths}, status=status.HTTP_201_CREATED)
 
-        return Response({'error': 'Authentication error'}, status=401)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

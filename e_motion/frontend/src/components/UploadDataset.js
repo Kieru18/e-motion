@@ -100,27 +100,22 @@ export default function UploadDataset() {
     setOpen(!open);
   };
 
-  // function to handle changes of files
   const handleFileChange = (event) => {
     const files = event.target.files;
     setSelectedFiles([...selectedFiles, ...files]);
   };
 
-  // function to handle removal of files
   const handleRemoveFile = (index) => {
     const newFiles = [...selectedFiles];
     newFiles.splice(index, 1);
     setSelectedFiles(newFiles);
   };
 
-  // function to handle upload of the files
   const handleUpload = async () => {
     const formData = new FormData();
-    // Append project ID to the URL
     const projectId = location.state.project_id;
     const apiUrl = `/api/upload/${projectId}/`;
 
-    // Append files to the FormData
     selectedFiles.forEach((file) => {
       formData.append('files[]', file);
     });
@@ -149,7 +144,6 @@ export default function UploadDataset() {
   };
 
 
-  // function to handle logout
   const handleLogout = () => {
     const requestOptions = {
       method: "GET",

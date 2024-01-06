@@ -11,5 +11,5 @@ urlpatterns = [
     path('create_project', ProjectCreateView.as_view()),
     path('delete_project', ProjectDeleteView.as_view()),
     path('edit_project', ProjectEditView.as_view()),
-    path('upload/<int:project_id>/', UploadFilesView.as_view(), name='upload_files'),
+    path('upload/<int:project_id>/', UploadFilesView.as_view()),
 ]

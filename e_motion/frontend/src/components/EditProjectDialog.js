@@ -13,19 +13,20 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 import CreateModelDialog from './CreateModelDialog';
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function EditProjectDialog(props) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [id, setId] = React.useState(null);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [dataset_url, setUrl] = React.useState("");
-  // const [shouldEditProject, setShouldEditProject] = React.useState(false);
 
   React.useEffect(() => {
     if (open && props.row) {
@@ -71,6 +72,11 @@ export default function EditProjectDialog(props) {
     handleClose();
   };
 
+  const handleOpenLS = () => {
+    // TODO: set Label Studio Docker link: (http://localhost:8089/user/login/)
+    window.open('https://www.google.com/', '_blank', 'noreferrer');
+  };
+
   const handleDeleteProject = async () => {
     try {
         const response = await fetch('/api/delete_project', {
@@ -97,6 +103,22 @@ export default function EditProjectDialog(props) {
     setOpen(false);
     props.onClose();
   };
+
+  const handleMakePredictions = () => {
+    navigate('/predict', { state: { project_id: id } })
+  };
+
+  const handleNavigateToUpload = (event) => {
+    event.preventDefault();
+
+    navigate("/upload-dataset", {
+      state: {
+        project_id: id,
+        project_title: title,
+      }
+    });
+  };
+
 
   return (
     <React.Fragment>
@@ -168,10 +190,16 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined" color="error" onClick={handleDeleteProject}>
             Delete Project
           </Button>
-          <Button variant="outlined">
+          <Button variant="outlined"  onClick={handleNavigateToUpload}>
+            Upload the Dataset
+          </Button>
+          <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
           </Button>
           <CreateModelDialog />
+          <Button variant="outlined" onClick={handleMakePredictions}>
+            Go to Make Predictions
+          </Button>
         </List>
       </Dialog>
     </React.Fragment>

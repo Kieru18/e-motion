@@ -20,7 +20,14 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = '__all__'
 
+
 class LearningModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearningModel
         fields = '__all__'
+
+
+class ListModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LearningModel
+        fields = ('id', 'name')

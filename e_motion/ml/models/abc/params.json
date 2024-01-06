@@ -1,0 +1,9 @@
+{
+    "epochs": 2,
+    "lr": 1e-4,
+    "weight_decay": 1e-5,
+    "val_size": 0.2,
+    "num_classes": 2,
+    "iou_thresh": 0.1,
+    "batch_size": 2
+}

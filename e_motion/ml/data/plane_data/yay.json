@@ -1,0 +1,906 @@
+{
+    "data": {
+        "image": "https://app.heartex.ai/static/samples/sample.jpg"
+    },
+    "predictions": [
+        {
+            "model_version": "abc",
+            "result": [
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "0",
+                    "value": {
+                        "x": 19.766990661621094,
+                        "y": 0.05796695169680763,
+                        "width": 3.0121688842773438,
+                        "height": 1.3464365644431293,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "1",
+                    "value": {
+                        "x": 67.24923197428384,
+                        "y": 80.13785766904466,
+                        "width": 1.141626993815104,
+                        "height": 2.448259453028071,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "2",
+                    "value": {
+                        "x": 43.608256022135414,
+                        "y": 39.23453811380467,
+                        "width": 1.558049519856771,
+                        "height": 2.2767779253256824,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "3",
+                    "value": {
+                        "x": 21.774749755859375,
+                        "y": 20.363382192758415,
+                        "width": 1.5434315999348958,
+                        "height": 2.333786351509189,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "4",
+                    "value": {
+                        "x": 76.21633911132812,
+                        "y": 1.3069921924221901,
+                        "width": 2.449544270833333,
+                        "height": 3.5589263101961124,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "5",
+                    "value": {
+                        "x": 35.9753672281901,
+                        "y": 8.830963589121627,
+                        "width": 5.050778706868489,
+                        "height": 24.79956274292901,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "6",
+                    "value": {
+                        "x": 53.68605041503906,
+                        "y": 11.470704753109008,
+                        "width": 1.9769439697265623,
+                        "height": 5.146729916556006,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "7",
+                    "value": {
+                        "x": 80.00524393717447,
+                        "y": 18.560423744523497,
+                        "width": 3.2042134602864585,
+                        "height": 4.928486637087081,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "8",
+                    "value": {
+                        "x": 22.604657491048176,
+                        "y": 6.059884196771286,
+                        "width": 1.1841583251953125,
+                        "height": 3.6840434109898417,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "9",
+                    "value": {
+                        "x": 37.03000895182292,
+                        "y": 1.1743775076665002,
+                        "width": 3.559888203938802,
+                        "height": 11.739626001779257,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "10",
+                    "value": {
+                        "x": 19.589850107828777,
+                        "y": 8.692491024954444,
+                        "width": 1.1381136576334634,
+                        "height": 2.6686325262557187,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "11",
+                    "value": {
+                        "x": 17.12493642171224,
+                        "y": 6.541463695743835,
+                        "width": 2.3554649353027344,
+                        "height": 3.652314216859879,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "12",
+                    "value": {
+                        "x": 31.88962554931641,
+                        "y": 75.1476581280048,
+                        "width": 10.36505126953125,
+                        "height": 6.65499779485887,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "13",
+                    "value": {
+                        "x": 26.318509419759113,
+                        "y": 2.9478884808183015,
+                        "width": 1.1659164428710938,
+                        "height": 2.043519836501507,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "14",
+                    "value": {
+                        "x": 25.41319783528646,
+                        "y": 3.1533882576537784,
+                        "width": 0.8765335083007814,
+                        "height": 2.2456791501483018,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "15",
+                    "value": {
+                        "x": 66.31287129720053,
+                        "y": 78.78497481050326,
+                        "width": 0.9493408203125,
+                        "height": 3.1754183710065136,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "16",
+                    "value": {
+                        "x": 88.59649658203125,
+                        "y": 75.25940698666254,
+                        "width": 1.0739542643229167,
+                        "height": 1.4489564351349256,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "17",
+                    "value": {
+                        "x": 62.70539347330729,
+                        "y": 5.126516280635711,
+                        "width": 3.3165181477864585,
+                        "height": 5.243813015391159,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "18",
+                    "value": {
+                        "x": 50.83647155761719,
+                        "y": 7.843970305866402,
+                        "width": 2.878595987955729,
+                        "height": 10.76832006941954,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "19",
+                    "value": {
+                        "x": 66.69264221191406,
+                        "y": 24.056933003087195,
+                        "width": 12.197102864583332,
+                        "height": 52.57007797657703,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "20",
+                    "value": {
+                        "x": 42.98692830403646,
+                        "y": 32.4748036879168,
+                        "width": 3.742701212565104,
+                        "height": 4.8949968134499064,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "21",
+                    "value": {
+                        "x": 23.09514872233073,
+                        "y": 15.557855648674975,
+                        "width": 3.9016494750976562,
+                        "height": 4.695295991731933,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "22",
+                    "value": {
+                        "x": 15.100903828938803,
+                        "y": 8.744298021491645,
+                        "width": 1.2673810323079426,
+                        "height": 3.3052657437383686,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "23",
+                    "value": {
+                        "x": 68.6313985188802,
+                        "y": 39.201275468168426,
+                        "width": 4.1398468017578125,
+                        "height": 15.262317894114455,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "24",
+                    "value": {
+                        "x": 33.629414876302086,
+                        "y": 58.77674566604954,
+                        "width": 4.959882100423177,
+                        "height": 2.8078670833010237,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "25",
+                    "value": {
+                        "x": 20.543240865071617,
+                        "y": 8.980797893060348,
+                        "width": 1.4177780151367188,
+                        "height": 3.1384148609549474,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "26",
+                    "value": {
+                        "x": 34.32728068033854,
+                        "y": 45.816888170265976,
+                        "width": 1.9593429565429688,
+                        "height": 6.273493991596231,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "27",
+                    "value": {
+                        "x": 24.47174580891927,
+                        "y": 4.1057047122169665,
+                        "width": 0.9981689453125,
+                        "height": 1.88361326459028,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "28",
+                    "value": {
+                        "x": 24.79345957438151,
+                        "y": 42.76909840018222,
+                        "width": 1.613337198893229,
+                        "height": 1.790802532035127,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "29",
+                    "value": {
+                        "x": 8.704428354899088,
+                        "y": 0.9948883103969375,
+                        "width": 20.680416107177734,
+                        "height": 10.135034296116226,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "30",
+                    "value": {
+                        "x": 68.22943623860677,
+                        "y": 79.89136196543501,
+                        "width": 1.149932861328125,
+                        "height": 2.549028041640819,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "31",
+                    "value": {
+                        "x": 24.12957509358724,
+                        "y": 55.003546248594525,
+                        "width": 1.6392313639322915,
+                        "height": 1.8026195743835298,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "32",
+                    "value": {
+                        "x": 27.29463958740234,
+                        "y": 2.8725392173596704,
+                        "width": 1.178034464518229,
+                        "height": 1.8520106748670857,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "33",
+                    "value": {
+                        "x": 5.4110565185546875,
+                        "y": 9.293388196315718,
+                        "width": 11.924250284830729,
+                        "height": 3.741351901449577,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "34",
+                    "value": {
+                        "x": 48.73753865559896,
+                        "y": 6.9967037986584995,
+                        "width": 2.474802652994792,
+                        "height": 11.13743178601892,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "35",
+                    "value": {
+                        "x": 16.410391489664715,
+                        "y": 8.532364610998565,
+                        "width": 1.4310544331868489,
+                        "height": 4.779764558777916,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "36",
+                    "value": {
+                        "x": 26.434415181477867,
+                        "y": 60.33208955902024,
+                        "width": 5.284230550130208,
+                        "height": 3.1447569134809243,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "37",
+                    "value": {
+                        "x": 54.71986389160156,
+                        "y": 56.2834708921371,
+                        "width": 4.1577911376953125,
+                        "height": 4.755361855177962,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "38",
+                    "value": {
+                        "x": 71.2631123860677,
+                        "y": 26.701112657267757,
+                        "width": 3.382237752278646,
+                        "height": 17.246399683041254,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "39",
+                    "value": {
+                        "x": 84.08695983886719,
+                        "y": 83.76386088709677,
+                        "width": 3.0978546142578125,
+                        "height": 5.4141061181761785,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "40",
+                    "value": {
+                        "x": 63.65840657552083,
+                        "y": 78.45864875736662,
+                        "width": 8.436670939127604,
+                        "height": 5.01977054416098,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "41",
+                    "value": {
+                        "x": 21.656466166178383,
+                        "y": 45.514688420828165,
+                        "width": 3.6532363891601562,
+                        "height": 5.036059206827699,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "42",
+                    "value": {
+                        "x": 25.995463053385414,
+                        "y": 55.696825354034196,
+                        "width": 1.525494893391927,
+                        "height": 3.161363625348945,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "43",
+                    "value": {
+                        "x": 23.367029825846355,
+                        "y": 53.97088214126473,
+                        "width": 4.4026947021484375,
+                        "height": 11.92299059543657,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "44",
+                    "value": {
+                        "x": 45.65766398111979,
+                        "y": 91.36840971764501,
+                        "width": 6.4897003173828125,
+                        "height": 1.9609096328318858,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "45",
+                    "value": {
+                        "x": 31.142120361328125,
+                        "y": 25.993154066667962,
+                        "width": 4.788055419921875,
+                        "height": 7.50877437165594,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                },
+                {
+                    "original_width": 600,
+                    "original_height": 403,
+                    "image_rotation": 0,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "rectanglelabels",
+                    "id": "46",
+                    "value": {
+                        "x": 27.763247172037758,
+                        "y": 70.05528906734646,
+                        "width": 5.251719156901042,
+                        "height": 8.038375513725187,
+                        "rotation": 0,
+                        "rectanglelabels": [
+                            "Car"
+                        ]
+                    }
+                }
+            ],
+            "score": 0.4740847051143646
+        }
+    ]
+}

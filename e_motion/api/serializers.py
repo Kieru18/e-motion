@@ -21,10 +21,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class LearningModelSerializer(serializers.ModelSerializer):
+class CreateModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearningModel
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('id', 'miou_score', 'top1_score', 'top5_score', 'checkpoint')
 
 
 class ListModelSerializer(serializers.ModelSerializer):

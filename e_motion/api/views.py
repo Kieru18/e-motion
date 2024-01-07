@@ -15,6 +15,7 @@ from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
 
+import json
 
 
 class UserView(generics.ListAPIView):
@@ -89,9 +90,10 @@ class ListModelsView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, format=None):
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            content = LearningModel.objects.filter(project=request.data["project_id"])  # SELECT all models for the Project
+            project_id = self.kwargs.get('project_id')
+            content = LearningModel.objects.filter(project=project_id)  # SELECT all models for the Project
             serializer = ListModelSerializer(content, many=True)
             return JsonResponse(serializer.data, safe=False)
 
@@ -220,11 +222,24 @@ class MakePredictionsView(views.APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            project_id = request.data["project_id"]
-            model_id = request.data["selected_id"]
+            project_id = kwargs.get('project_id')
+            model_id = kwargs.get('model_id')
+
             # TODO call make_prediction method
             # TODO wynikowy plik z anotacjami w responsie
-            return Response({'info': 'JSON ready to download'}, status=status.HTTP_200_OK)
+            generated_annotations = {
+                'project': project_id,
+                'model': model_id,
+            }
+            json_data = json.dumps(generated_annotations, indent=4)
+
+            response = FileResponse(
+                json_data,
+                as_attachment=True,
+                filename='annotations.json',
+                status=status.HTTP_200_OK,
+            )
+            return response
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

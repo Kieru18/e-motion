@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
-from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, LearningModelSerializer, ListModelSerializer
+from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
+                         CreateModelSerializer, ListModelSerializer
 from .models import User, Project, LearningModel
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -120,20 +121,19 @@ class UploadAnnotationView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
-    @method_decorator(csrf_exempt) # Only for development, change CSRF protection for production
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-
+            project_id = self.kwargs.get('project_id')
             file_upload = request.FILES.get('file')
 
             if file_upload is None:
                 return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
-                storage_path = f'annotations/{file_upload.name}'
+                storage_path = f'annotations/{project_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
                 return Response({'success': True}, status=status.HTTP_201_CREATED)
             except Exception as e:
@@ -141,21 +141,21 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# class ModelCreateView(generics.ListCreateAPIView):
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
+class ModelCreateView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-#     def post(self, request, *args, **kwargs):
-#         if request.user.is_authenticated:
-#             data = request.data
-#             data['user'] = request.user.id
-#             serializer = ProjectSerializer(data=data)
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = request.data
+                        
+            serializer = CreateModelSerializer(data=data)
 
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ProjectDeleteView(generics.ListCreateAPIView):

@@ -120,20 +120,19 @@ class UploadAnnotationView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
-    @method_decorator(csrf_exempt) # Only for development, change CSRF protection for production
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-
+            project_id = self.kwargs.get('project_id')
             file_upload = request.FILES.get('file')
 
             if file_upload is None:
                 return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
-                storage_path = f'annotations/{file_upload.name}'
+                storage_path = f'annotations/{project_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
                 return Response({'success': True}, status=status.HTTP_201_CREATED)
             except Exception as e:

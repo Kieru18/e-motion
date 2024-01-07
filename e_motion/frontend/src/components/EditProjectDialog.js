@@ -196,7 +196,7 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
           </Button>
-          <CreateModelDialog />
+          <CreateModelDialog projectId={id} projectTitle={title} />
           <Button variant="outlined" onClick={handleMakePredictions}>
             Go to Make Predictions
           </Button>

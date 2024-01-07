@@ -30,9 +30,10 @@ export default function CreateModelDialog(props) {
     const [weight_decay, setWeightDecay] = React.useState("");
     const [epochs, setEpochs] = React.useState("");
     const [validation_set_size, setValidationSetSize] = React.useState("");
-    const [project_id, setProjectId] = React.useState("");  // [TODO] get project id from props
     const [annotations, setAnnotations] = React.useState(null);
  
+    const projectId = props.projectId;
+    const projectTitle = props.projectTitle;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -51,7 +52,7 @@ export default function CreateModelDialog(props) {
     const handleSave = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-
+        const apiUrl = `/api/upload_annotation/${projectId}/`;
         const dataJson = {
             name,
             architecture,
@@ -59,12 +60,12 @@ export default function CreateModelDialog(props) {
             weight_decay,
             epochs,
             validation_set_size,
-          };
-        
+        };
+
 
         formData.append('file', annotations);
         formData.append('data', JSON.stringify(dataJson));
-        
+
 
         // try {
         //     const response = await fetch('/api/create_model', {
@@ -82,7 +83,7 @@ export default function CreateModelDialog(props) {
         //         validation_set_size,
         //       }),
         //     });
-      
+
         //     if (!response.ok) {
         //       const error = await response.json();
         //       setError(error.detail);
@@ -95,7 +96,7 @@ export default function CreateModelDialog(props) {
         //   }
 
         try {
-            const response = await fetch('/api/upload_annotation', {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
@@ -149,7 +150,7 @@ export default function CreateModelDialog(props) {
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Create Model
+                            Create Model for Project {projectTitle} (id: {projectId})
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSave}>
                             save

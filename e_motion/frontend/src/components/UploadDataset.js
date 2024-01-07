@@ -7,10 +7,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import { TextField } from '@mui/material';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -18,10 +18,14 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
 import { mainListItems } from './listItems';
-import ProjectsTable from './ProjectsTable';
-import CreateProjectDialog from './CreateProjectDialog';
-import EditProjectDialog from './EditProjectDialog';
+import { useLocation } from "react-router-dom";
+import { useState } from 'react';
+import Input from '@mui/material/Input';
+import Stack from '@mui/material/Stack';
+
 
 
 function Copyright(props) {
@@ -85,60 +89,60 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+export default function UploadDataset() {
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(true);
-  const [projects, setProjects] = React.useState([]);
-  const [shouldListProjects, setShouldListProjects] = React.useState(false);
-  const [selectedProject, setSelectedProject] = React.useState({});
-  const [openEditDialog, setOpenEditDialog] = React.useState(false);
+  const location = useLocation();
+  const [error, setError] = React.useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  
 
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  // Function to fetch projects
-  const fetchProjects = () => {
-    fetch("/api/list_projects", {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${localStorage.getItem('token')}`,
-      },
-    })
-    .then((response) => {
-      if (!response.ok) {
-        console.log("Error");
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    setSelectedFiles([...selectedFiles, ...files]);
+  };
+
+  const handleRemoveFile = (index) => {
+    const newFiles = [...selectedFiles];
+    newFiles.splice(index, 1);
+    setSelectedFiles(newFiles);
+  };
+
+  const handleUpload = async () => {
+    const formData = new FormData();
+    const projectId = location.state.project_id;
+    const apiUrl = `/api/upload/${projectId}/`;
+
+    selectedFiles.forEach((file) => {
+      formData.append('files[]', file);
+    });
+    
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+          },
+        body: formData,
+      });
+  
+      if (response.ok) {
+        console.log('Files uploaded successfully');
+      } else {
+        console.error('File upload failed');
+        const errorText = await response.text(); 
+        setError(errorText);
+
       }
-      return response.json();
-    })
-    .then((data) => setProjects(data))
-    .catch((error) => console.log(error));
-  };
-
-  // fetch projects when Dashboard is mounted
-  React.useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  // fetch projects after dialog is closed
-  React.useEffect(() => {
-    if (shouldListProjects) {
-      fetchProjects();
-      setShouldListProjects(false);
+    } catch (error) {
+        console.error('Error during file upload:', error);
+        setError('An unexpected error occurred during file upload.');
     }
-  }, [shouldListProjects]);
-
-  const handleRowClick = (row) => {
-    setSelectedProject(row);
-    setOpenEditDialog(true);
   };
 
-  const handleCloseEditDialog = () => {
-    setSelectedProject(null);
-    setShouldListProjects(true);
-    setOpenEditDialog(false);
-  };
 
   const handleLogout = () => {
     const requestOptions = {
@@ -182,7 +186,7 @@ export default function Dashboard() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              Upload Dataset for the project {location.state.project_title}, id: {location.state.project_id}
             </Typography>
             <Button
               variant="contained"
@@ -225,22 +229,35 @@ export default function Dashboard() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <ProjectsTable data={projects} onChange={handleRowClick}/>
-                </Paper>
-                <CreateProjectDialog onClose={setShouldListProjects}/>
-                {openEditDialog && (
-                  <EditProjectDialog
-                    open={openEditDialog}
-                    row={selectedProject}
-                    onClose={handleCloseEditDialog}
-                  />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>  
+            <List>
+                <Input
+                type="file"
+                inputProps={{ multiple: true }}
+                onChange={handleFileChange}
+                />
+                <Stack spacing={1}>
+                    {selectedFiles.map((file, index) => (
+                    <div key={index}>
+                        {file.name}
+                        <Button size="small" onClick={() => handleRemoveFile(index)}>
+                        Remove
+                        </Button>
+                    </div>
+                    ))}
+                </Stack>
+                {error && (
+                    <Typography variant="body2" color="error" align="center">
+                    {error}
+                    </Typography>
                 )}
-              </Grid>
-            </Grid>
+            <ListItem>
+                <Button variant="contained" onClick={handleUpload}>
+                    Upload
+                </Button>
+            </ListItem>
+            
+            </List>
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>

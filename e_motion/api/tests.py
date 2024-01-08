@@ -9,5 +9,5 @@ class BasicTest(TestCase):
 
     def test_not_equal(self):
         """Basic test description"""
-        x = 0
+        x = 1
         self.assertNotEqual(x, 0)

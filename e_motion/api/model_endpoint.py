@@ -1,14 +1,14 @@
-from detector_dataset import DetectorDataset
-from detector_module import CocoDetectorModule, CocoDetectorResnet
+from .detector_dataset import DetectorDataset
+from .detector_module import CocoDetectorModule, CocoDetectorResnet
 from torch.utils.data import DataLoader, Subset
 import json
 import lightning as L
 import os
 from pycocotools.cocoeval import COCOeval
-from data_utils import load_coco_from_prediction, serialize_predictions
+from .data_utils import load_coco_from_prediction, serialize_predictions
 from torchvision.io import read_image
 from torchvision.transforms import v2 as T
-from e_motion.api.models import LearningModel, Project
+from .models import LearningModel, Project
 import torch
 import torch.optim as optim
 import numpy as np
@@ -87,6 +87,8 @@ def evaluate_detector(model_id, model: CocoDetectorModule, dataset):
     model_django.top1_score = max(cocoEval.stats[:5])
     model_django.top5_score = min(cocoEval.stats[:5])
 
+    model_django.save(update_fields=["miou_score", "top1_score", "top5_score"])
+
     return cocoEval.stats
 
 
@@ -157,7 +159,7 @@ def project_labels_path_from_id(project_id):
 
 def project_root_from_id(project_id):
     project = Project.objects.get(pk=project_id)
-    return f"data\\{project.dataset_url}"
+    return f"uploads/{project.dataset_url}"
 
 
 # def model_checkpoint_from_id(model_id):

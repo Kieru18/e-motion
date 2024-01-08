@@ -31,6 +31,7 @@ export default function CreateModelDialog(props) {
     const [epochs, setEpochs] = React.useState("");
     const [validation_set_size, setValidationSetSize] = React.useState("");
     const [annotations, setAnnotations] = React.useState(null);
+    // const [modelId, setModelId] = React.useState("");
  
     const projectId = props.projectId;
     const projectTitle = props.projectTitle;
@@ -75,6 +76,8 @@ export default function CreateModelDialog(props) {
         const epochsInt = parseInt(epochs);
         const validationSetSizeFloat = parseFloat(validation_set_size);
 
+        var modelId = null;
+
         try {
             const response = await fetch('/api/create_model', {
               method: 'POST',
@@ -99,6 +102,11 @@ export default function CreateModelDialog(props) {
               console.log("error", error.detail)
               return;
             }
+            const data = await response.json();
+            modelId = data["modelId"]
+            console.log(data)
+            console.log(data["modelId"])
+            console.log(data.modelId)
             setOpen(false);
             props.onClose(true);
           } catch (error) {
@@ -135,6 +143,29 @@ export default function CreateModelDialog(props) {
         } catch (error) {
             console.error('Error', error);
         }
+
+        try {
+            const trainUrl = `/api/train/${modelId}/`;
+            const response = await fetch(trainUrl, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+            },
+            
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              setError(error.detail);
+              console.log("error", error.detail)
+              return;
+            }
+            setOpen(false);
+            props.onClose(true);
+          } catch (error) {
+            console.error('Error', error);
+          }
+
     };
 
     return (
@@ -163,7 +194,7 @@ export default function CreateModelDialog(props) {
                             Create Model for Project {projectTitle} (id: {projectId})
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSave}>
-                            save
+                            save & train
                         </Button>
                     </Toolbar>
                 </AppBar>

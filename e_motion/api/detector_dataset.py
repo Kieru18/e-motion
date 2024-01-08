@@ -5,7 +5,7 @@ from torchvision.io import read_image
 from torchvision.transforms.v2 import functional as F
 from torch.utils.data import Dataset
 from pycocotools.coco import COCO
-from data_utils import parse_image_json
+from .data_utils import parse_image_json
 import json
 
 class DetectorDataset(Dataset):

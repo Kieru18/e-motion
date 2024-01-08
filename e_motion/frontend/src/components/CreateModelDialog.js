@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -31,6 +31,7 @@ export default function CreateModelDialog(props) {
     const [epochs, setEpochs] = React.useState("");
     const [validation_set_size, setValidationSetSize] = React.useState("");
     const [annotations, setAnnotations] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
     // const [modelId, setModelId] = React.useState("");
  
     const projectId = props.projectId;
@@ -145,6 +146,7 @@ export default function CreateModelDialog(props) {
         }
 
         try {
+            setLoading(true);
             const trainUrl = `/api/train/${modelId}/`;
             const response = await fetch(trainUrl, {
               method: 'POST',
@@ -153,13 +155,14 @@ export default function CreateModelDialog(props) {
             },
             
             });
-
             if (!response.ok) {
+              setLoading(false)
               const error = await response.json();
               setError(error.detail);
               console.log("error", error.detail)
               return;
             }
+            setLoading(false)
             setOpen(false);
             props.onClose(true);
           } catch (error) {
@@ -173,7 +176,6 @@ export default function CreateModelDialog(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Create Model
             </Button>
-
             <Dialog
                 fullScreen
                 open={open}
@@ -282,6 +284,15 @@ export default function CreateModelDialog(props) {
                         <Typography variant="body2" color="error" align="center">
                             {error}
                         </Typography>
+                    )}
+                    {loading && (
+                    <div style={{ textAlign: 'center', marginTop: 10 }}>
+                        
+                        <div style={{ textAlign: 'center', marginTop: 10 }}>
+                        <span style={{ marginLeft: 10, marginBottom: 20}}>Training in progress...</span>
+                        </div>
+                        <CircularProgress size={20} />
+                    </div>
                     )}
                 </List>
             </Dialog>

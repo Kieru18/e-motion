@@ -8,7 +8,7 @@ from pycocotools.cocoeval import COCOeval
 from .data_utils import load_coco_from_prediction, serialize_predictions
 from torchvision.io import read_image
 from torchvision.transforms import v2 as T
-from .models import LearningModel, Project
+from api.models import LearningModel, Project
 import torch
 import torch.optim as optim
 import numpy as np

@@ -30,4 +30,4 @@ class LearningModelSerializer(serializers.ModelSerializer):
 class ListModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearningModel
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'architecture', 'miou_score', 'top1_score', 'top5_score')

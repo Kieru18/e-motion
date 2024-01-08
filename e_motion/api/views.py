@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
-from .model_endpoint import train
+from ml.model_endpoint import train
 
 
 

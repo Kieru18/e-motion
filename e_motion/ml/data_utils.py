@@ -31,14 +31,13 @@ def parse_image_json(label_data):
     coco.dataset = label_data
     coco.createIndex()
     ids = list(sorted(coco.imgs.keys()))
-    images, annotations = [], []
+    annotations = []
 
     for id in ids:
-        img, ann = coco_image_data(coco, id)
-        images.append(img)
+        ann = coco_image_data(coco, id)
         annotations.append(ann)
 
-    return images, annotations
+    return annotations
 
 
 def coco_image_data(coco, img_id):
@@ -46,9 +45,6 @@ def coco_image_data(coco, img_id):
     ann_ids = coco.getAnnIds(imgIds=img_id)
     # Dictionary: target coco_annotation file for an image
     coco_annotation = coco.loadAnns(ann_ids)
-
-    # path for input image
-    image_path = coco.loadImgs(img_id)[0]['file_name']
 
     # number of objects in the image
     num_objs = len(coco_annotation)
@@ -79,7 +75,7 @@ def coco_image_data(coco, img_id):
     my_annotation["area"] = areas
     my_annotation["iscrowd"] = iscrowd
 
-    return image_path, my_annotation
+    return my_annotation
 
 
 def serialize_predictions(image_shapes, predictions, image_paths, model_version, classes):

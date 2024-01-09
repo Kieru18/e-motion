@@ -9,25 +9,21 @@ from .data_utils import parse_image_json
 import json
 
 class DetectorDataset(Dataset):
-    def __init__(self, root, transforms):
-        self.root = root
+    def __init__(self, images, label_data, transforms):
         self.transforms = transforms
         
-        with open(os.path.join(root, "result.json")) as f:
-            json_data = json.load(f)
-        self.img_paths, self.targets = parse_image_json(json_data)
+        self.targets = parse_image_json(label_data)
+        self.images = images
 
         coco = COCO()
-        coco.dataset = json_data
+        coco.dataset = label_data
         coco.createIndex()
         
         self.coco = coco
 
     def __getitem__(self, idx):
         # load images and masks
-        img_path = os.path.join(self.root, self.img_paths[idx])
-
-        img = read_image(img_path)
+        img = self.images[idx]
         target = self.targets[idx]
 
         if self.transforms is not None:
@@ -36,4 +32,4 @@ class DetectorDataset(Dataset):
         return img, target
 
     def __len__(self):
-        return len(self.img_paths)
+        return len(self.images)

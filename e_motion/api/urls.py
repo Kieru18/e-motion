@@ -3,6 +3,7 @@ from .views import UserView, SignUpView, LoginView, LogoutView, TestTokenView, L
                    ListModelsView, ProjectCreateView, ProjectDeleteView, ProjectEditView, \
                    MakePredictionsView, UploadFilesView, UploadAnnotationView#, ModelCreateView
 
+
 urlpatterns = [
     # path('users/', UserView.as_view()),
     path('signup', SignUpView.as_view()),

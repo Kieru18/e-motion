@@ -178,10 +178,13 @@ class ProjectEditView(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            project_id = request.data["id"]
-            data = request.data
-            data["user"] = request.user.id
-            project_instance = Project.objects.get(id=project_id)
+            try:
+                project_id = request.data["id"]
+                data = request.data
+                data["user"] = request.user.id
+                project_instance = Project.objects.get(id=project_id)
+            except Exception:
+                return Response({'error': 'Invalid request data.'}, status=status.HTTP_400_BAD_REQUEST)
 
             serializer = ProjectSerializer(project_instance, data=data)
             if serializer.is_valid():

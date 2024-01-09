@@ -24,6 +24,7 @@ class ProjectModelTest(TestCase):
     def test_fields_values(self):
         project = Project.objects.get(id=1)
         self.assertEqual(project.id, 1)
+        self.assertEqual(project.project_id, 1)
         self.assertEqual(project.title, 'title')
         self.assertEqual(project.description, 'desc')
         self.assertEqual(project.dataset_url, 'url')
@@ -71,6 +72,7 @@ class LearningModelTest(TestCase):
     def test_fields_values(self):
         model = LearningModel.objects.get(id=1)
         self.assertEqual(model.id, 1)
+        self.assertEqual(model.model_id, 1)
         self.assertEqual(model.name, 'model')
         self.assertEqual(model.architecture, 'Faster RCNN')
         self.assertEqual(model.learning_rate, 0.0001)

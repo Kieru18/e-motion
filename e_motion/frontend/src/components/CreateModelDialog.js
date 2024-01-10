@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
@@ -22,6 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function CreateModelDialog(props) {
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [name, setName] = React.useState("");
@@ -32,7 +34,7 @@ export default function CreateModelDialog(props) {
     const [validation_set_size, setValidationSetSize] = React.useState("");
     const [annotations, setAnnotations] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
- 
+
     const projectId = props.projectId;
     const projectTitle = props.projectTitle;
 
@@ -144,7 +146,7 @@ export default function CreateModelDialog(props) {
               headers: {
                 'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
             },
-            
+
             });
             if (!response.ok) {
               setLoading(false)
@@ -153,8 +155,8 @@ export default function CreateModelDialog(props) {
               console.log("error", error.detail)
               return;
             }
-            setLoading(false)
-            // NAVIGATE TO TRAINING RESUTLS HERE @TODO
+            setLoading(false);
+            navigate("/results", { state: { project_id: projectId, model_id: modelId }});
             // setOpen(false);
             // props.onClose(true);
           } catch (error) {
@@ -279,7 +281,7 @@ export default function CreateModelDialog(props) {
                     )}
                     {loading && (
                     <div style={{ textAlign: 'center', marginTop: 10 }}>
-                        
+
                         <div style={{ textAlign: 'center', marginTop: 10 }}>
                         <span style={{ marginLeft: 10, marginBottom: 20}}>Training in progress...</span>
                         </div>
@@ -288,6 +290,6 @@ export default function CreateModelDialog(props) {
                     )}
                 </List>
             </Dialog>
-        </React.Fragment>   
+        </React.Fragment>
     );
 }

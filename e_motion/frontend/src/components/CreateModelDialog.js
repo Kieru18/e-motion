@@ -103,8 +103,6 @@ export default function CreateModelDialog(props) {
             }
             const data = await response.json();
             modelId = data["modelId"]
-            setOpen(false);
-            props.onClose(true);
           } catch (error) {
             console.error('Error', error);
           }
@@ -134,8 +132,6 @@ export default function CreateModelDialog(props) {
                     console.log("text-error", errorText)
                 }
             }
-            setOpen(false);
-            props.onClose(true);
         } catch (error) {
             console.error('Error', error);
         }
@@ -158,8 +154,9 @@ export default function CreateModelDialog(props) {
               return;
             }
             setLoading(false)
-            setOpen(false);
-            props.onClose(true);
+            // NAVIGATE TO TRAINING RESUTLS HERE @TODO
+            // setOpen(false);
+            // props.onClose(true);
           } catch (error) {
             console.error('Error', error);
           }

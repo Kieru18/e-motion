@@ -67,9 +67,13 @@ def train(project_id, model_id):
     print("Coco loaders initialized.")
 
     print("Training the model...")
-    trainer = L.Trainer(limit_train_batches=100, max_epochs=model_django.epochs, 
-                        accelerator="gpu")
-    trainer.fit(model=module, train_dataloaders=loader_train)
+    try:
+        trainer = L.Trainer(limit_train_batches=100, max_epochs=model_django.epochs, 
+                            accelerator="gpu")
+        trainer.fit(model=module, train_dataloaders=loader_train)
+    except Exception as e:
+        print(e)
+        raise e
     print("Model training completed.")
 
     # trainer.save_checkpoint(model_checkpoint_from_id(model_id))

@@ -9,11 +9,12 @@ from .data_utils import parse_image_json
 import json
 
 class DetectorDataset(Dataset):
-    def __init__(self, root, transforms):
-        self.root = root
+    def __init__(self, dataset_path, annotation_path, transforms):
+        self.dataset_path = dataset_path
+        self.annotation_path = annotation_path
         self.transforms = transforms
         
-        with open(os.path.join(root, "result.json")) as f:
+        with open(os.path.join(annotation_path, "result.json")) as f:
             json_data = json.load(f)
         self.img_paths, self.targets = parse_image_json(json_data)
 
@@ -25,7 +26,7 @@ class DetectorDataset(Dataset):
 
     def __getitem__(self, idx):
         # load images and masks
-        img_path = os.path.join(self.root, self.img_paths[idx])
+        img_path = os.path.join(self.dataset_path, self.img_paths[idx])
 
         img = read_image(img_path)
         target = self.targets[idx]

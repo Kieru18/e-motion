@@ -4,8 +4,6 @@ from rest_framework import generics, status, viewsets, views
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
                          CreateModelSerializer, ListModelSerializer
 from .models import User, Project, LearningModel
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
@@ -128,14 +126,14 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            project_id = self.kwargs.get('project_id')
+            model_id = self.kwargs.get('model_id')
             file_upload = request.FILES.get('file')
 
             if file_upload is None:
                 return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
-                storage_path = f'annotations/{project_id}/{file_upload.name}'
+                storage_path = f'annotations/{model_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
                 return Response({'success': True}, status=status.HTTP_201_CREATED)
             except Exception as e:
@@ -241,6 +239,7 @@ class TrainView(views.APIView):
         if request.user.is_authenticated:
             model_id = self.kwargs.get('model_id')
             project_id = LearningModel.objects.get(id=model_id).project.id
+            print(f"TrainView project_id: {project_id}, model_id: {model_id}")
 
             try:
                 print("Training started")

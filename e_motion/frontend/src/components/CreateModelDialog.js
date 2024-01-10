@@ -32,7 +32,6 @@ export default function CreateModelDialog(props) {
     const [validation_set_size, setValidationSetSize] = React.useState("");
     const [annotations, setAnnotations] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
-    // const [modelId, setModelId] = React.useState("");
  
     const projectId = props.projectId;
     const projectTitle = props.projectTitle;
@@ -54,7 +53,6 @@ export default function CreateModelDialog(props) {
     const handleSave = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-        const apiUrl = `/api/upload_annotation/${projectId}/`;
         const dataJson = {
             name,
             architecture,
@@ -105,9 +103,6 @@ export default function CreateModelDialog(props) {
             }
             const data = await response.json();
             modelId = data["modelId"]
-            console.log(data)
-            console.log(data["modelId"])
-            console.log(data.modelId)
             setOpen(false);
             props.onClose(true);
           } catch (error) {
@@ -115,7 +110,8 @@ export default function CreateModelDialog(props) {
           }
 
         try {
-            const response = await fetch(apiUrl, {
+            const url = `/api/upload_annotation/${modelId}/`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
@@ -138,7 +134,6 @@ export default function CreateModelDialog(props) {
                     console.log("text-error", errorText)
                 }
             }
-            console.log("success?", response.status)
             setOpen(false);
             props.onClose(true);
         } catch (error) {

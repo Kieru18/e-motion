@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
-                         CreateModelSerializer, ListModelSerializer
+                         CreateModelSerializer, ListModelSerializer, ListScoresSerializer
 from .models import User, Project, LearningModel
 
 from rest_framework.authtoken.models import Token
@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
-from ml.model_endpoint import train
+from ml.model_endpoint import train, predict
 from django.core.exceptions import ValidationError
 import imghdr
 
@@ -196,6 +196,20 @@ class ProjectEditView(generics.ListCreateAPIView):
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class ListScoresView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            model_id = self.kwargs.get('model_id')
+            content = LearningModel.objects.get(id=model_id)
+            serializer = ListScoresSerializer(content)
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 class UploadFilesView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -237,26 +251,28 @@ class MakePredictionsView(views.APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def validate(self, project_id, model_id):
+        record = LearningModel.objects.get(id=model_id, project_id=project_id)
+        if not record:
+            return False
+        return True
+
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             project_id = kwargs.get('project_id')
             model_id = kwargs.get('model_id')
+            if self.validate(project_id, model_id):
+                generated_annotations = predict(project_id, model_id)
+                json_data = json.dumps(generated_annotations, indent=4)
 
-            # TODO call make_prediction method
-            # TODO wynikowy plik z anotacjami w responsie
-            generated_annotations = {
-                'project': project_id,
-                'model': model_id,
-            }
-            json_data = json.dumps(generated_annotations, indent=4)
-
-            response = FileResponse(
-                json_data,
-                as_attachment=True,
-                filename='annotations.json',
-                status=status.HTTP_200_OK,
-            )
-            return response
+                response = FileResponse(
+                    json_data,
+                    as_attachment=True,
+                    filename='annotations.json',
+                    status=status.HTTP_200_OK,
+                )
+                return response
+            return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 

@@ -193,7 +193,7 @@ export default function UploadDataset() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Upload Dataset for the project {location.state.project_title}, id: {location.state.project_id}
+              Upload Dataset for the project {location.state.project_title} (id: {location.state.project_id})
             </Typography>
             <Button
               variant="contained"

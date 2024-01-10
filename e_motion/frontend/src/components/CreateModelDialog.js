@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -31,6 +31,7 @@ export default function CreateModelDialog(props) {
     const [epochs, setEpochs] = React.useState("");
     const [validation_set_size, setValidationSetSize] = React.useState("");
     const [annotations, setAnnotations] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
  
     const projectId = props.projectId;
     const projectTitle = props.projectTitle;
@@ -52,7 +53,6 @@ export default function CreateModelDialog(props) {
     const handleSave = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-        const apiUrl = `/api/upload_annotation/${projectId}/`;
         const dataJson = {
             name,
             architecture,
@@ -74,6 +74,8 @@ export default function CreateModelDialog(props) {
         const weightDecayFloat = parseFloat(weight_decay);
         const epochsInt = parseInt(epochs);
         const validationSetSizeFloat = parseFloat(validation_set_size);
+
+        var modelId = null;
 
         try {
             const response = await fetch('/api/create_model', {
@@ -99,6 +101,8 @@ export default function CreateModelDialog(props) {
               console.log("error", error.detail)
               return;
             }
+            const data = await response.json();
+            modelId = data["modelId"]
             setOpen(false);
             props.onClose(true);
           } catch (error) {
@@ -106,7 +110,8 @@ export default function CreateModelDialog(props) {
           }
 
         try {
-            const response = await fetch(apiUrl, {
+            const url = `/api/upload_annotation/${modelId}/`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
@@ -129,12 +134,36 @@ export default function CreateModelDialog(props) {
                     console.log("text-error", errorText)
                 }
             }
-            console.log("success?", response.status)
             setOpen(false);
             props.onClose(true);
         } catch (error) {
             console.error('Error', error);
         }
+
+        try {
+            setLoading(true);
+            const trainUrl = `/api/train/${modelId}/`;
+            const response = await fetch(trainUrl, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+            },
+            
+            });
+            if (!response.ok) {
+              setLoading(false)
+              const error = await response.json();
+              setError(error.detail);
+              console.log("error", error.detail)
+              return;
+            }
+            setLoading(false)
+            setOpen(false);
+            props.onClose(true);
+          } catch (error) {
+            console.error('Error', error);
+          }
+
     };
 
     return (
@@ -142,7 +171,6 @@ export default function CreateModelDialog(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Create Model
             </Button>
-
             <Dialog
                 fullScreen
                 open={open}
@@ -163,7 +191,7 @@ export default function CreateModelDialog(props) {
                             Create Model for Project {projectTitle} (id: {projectId})
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSave}>
-                            save
+                            save & train
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -251,6 +279,15 @@ export default function CreateModelDialog(props) {
                         <Typography variant="body2" color="error" align="center">
                             {error}
                         </Typography>
+                    )}
+                    {loading && (
+                    <div style={{ textAlign: 'center', marginTop: 10 }}>
+                        
+                        <div style={{ textAlign: 'center', marginTop: 10 }}>
+                        <span style={{ marginLeft: 10, marginBottom: 20}}>Training in progress...</span>
+                        </div>
+                        <CircularProgress size={20} />
+                    </div>
                     )}
                 </List>
             </Dialog>

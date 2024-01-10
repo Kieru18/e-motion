@@ -89,7 +89,10 @@ def train(project_id, model_id):
 
     print("Evaluating the model...")
     try:
-        result = evaluate_detector(model_id, module, loader_valid.dataset)
+        # result = evaluate_detector(model_id, module, loader_valid.dataset)
+        dataset_eval = DetectorDataset(dataset_path, annotation_path, get_transform(), 
+                                       indices_valid)
+        result = evaluate_detector(model_id, module, dataset_eval)
     except Exception as e:
         print(e)
         raise e
@@ -142,7 +145,10 @@ def evaluate_detector(model_id, model: CocoDetectorModule, dataset):
     model_django.top1_score = max(cocoEval.stats[:5])
     model_django.top5_score = min(cocoEval.stats[:5])
 
+    print("Evaluation results:")
+    print(f"miou_score: {model_django.miou_score}, top1_score: {model_django.top1_score}, top5_score: {model_django.top5_score}")
     model_django.save(update_fields=["miou_score", "top1_score", "top5_score"])
+    print("Evaluation results saved.")
 
     return cocoEval.stats
 

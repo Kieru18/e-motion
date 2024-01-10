@@ -14,7 +14,8 @@ from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
 from ml.model_endpoint import train
-
+from django.core.exceptions import ValidationError
+import imghdr
 
 
 
@@ -198,21 +199,31 @@ class UploadFilesView(generics.ListCreateAPIView):
         if request.user.is_authenticated:
             project_id = self.kwargs.get('project_id')
 
+            print(request.headers)
             if 'files[]' not in request.FILES:
                 return Response({'error': 'No files uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             files = request.FILES.getlist('files[]')
 
             uploaded_paths = []
+            files_uploaded = 0
             try:
                 for file_upload in files:
                     storage_path = f'datasets/{project_id}/{file_upload.name}'
+                    file_type = imghdr.what(file_upload)
+                    if file_type not in ['jpeg', 'jpg', 'png']:
+                        return Response({'error': 'Invalid file format. Only .jpg and .png files are allowed.'},
+                                        status=status.HTTP_400_BAD_REQUEST)
+                    
                     saved_path = default_storage.save(storage_path, file_upload)
+                    files_uploaded += 1
                     uploaded_paths.append(saved_path)
+            except ValidationError as e:
+                return Response({'error': str(e)}, status=status.HTTP_406_NOT_ACCEPTABLE)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            return Response({'success': True, 'paths': uploaded_paths}, status=status.HTTP_201_CREATED)
+            return Response({'success': True, 'files_count': files_uploaded, 'paths': uploaded_paths}, status=status.HTTP_201_CREATED)
 
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 

@@ -94,6 +94,7 @@ export default function UploadDataset() {
   const location = useLocation();
   const [error, setError] = React.useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [success, setSuccess] = React.useState(false)
   
 
   const toggleDrawer = () => {
@@ -112,6 +113,9 @@ export default function UploadDataset() {
   };
 
   const handleUpload = async () => {
+    setError(false)
+    setSuccess(false)
+    
     const formData = new FormData();
     const projectId = location.state.project_id;
     const apiUrl = `/api/upload/${projectId}/`;
@@ -119,7 +123,7 @@ export default function UploadDataset() {
     selectedFiles.forEach((file) => {
       formData.append('files[]', file);
     });
-    
+
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -131,11 +135,14 @@ export default function UploadDataset() {
   
       if (response.ok) {
         console.log('Files uploaded successfully');
+        const success = await response.json();
+        setSuccess(success)
+        
       } else {
         console.error('File upload failed');
-        const errorText = await response.text(); 
-        setError(errorText);
-
+        const error = await response.json();
+        setError(error.error);
+        return;
       }
     } catch (error) {
         console.error('Error during file upload:', error);
@@ -249,6 +256,11 @@ export default function UploadDataset() {
                 {error && (
                     <Typography variant="body2" color="error" align="center">
                     {error}
+                    </Typography>
+                )}
+                {success && (
+                    <Typography variant="body2" color="success.main" align="center">
+                    There were {success.files_count} images uploaded successfully.
                     </Typography>
                 )}
             <ListItem>

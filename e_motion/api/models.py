@@ -20,23 +20,21 @@ class LearningModel(models.Model):
     @property
     def model_id(self):
         return self.id
+    
+    class Architecture(models.TextChoices):
+        FASTER_RCNN = 'Faster RCNN'
 
     name = models.CharField(null=False, max_length=60)
-    ARCHITECTURE_CHOICES = [
-        ('option1', 'Faster RCNN'),
-        # ('option2', 'Option 2'),
-        # ('option3', 'Option 3'),
-        # ('option4', 'Option 4'),
-    ]
-    architecture = models.CharField(null=False, max_length=60, choices=ARCHITECTURE_CHOICES, default='option1')
+    architecture = models.CharField(null=False, max_length=60, choices=Architecture.choices,
+                                    default=Architecture.FASTER_RCNN)
     learning_rate = models.FloatField(null=True)
     weight_decay = models.FloatField(null=True)
     epochs = models.PositiveIntegerField(null=True)
-    validation_set_size = models.FloatField(null=True)
-    miou_score = models.FloatField(null=True)
-    top1_score = models.FloatField(null=True)
-    top5_score = models.FloatField(null=True)
-    checkpoint = models.BinaryField(null=True)
+    validation_set_size = models.IntegerField(null=True)
+    miou_score = models.FloatField(null=True, default=None)
+    top1_score = models.FloatField(null=True, default=None)
+    top5_score = models.FloatField(null=True, default=None)
+    checkpoint = models.BinaryField(null=True, default=None)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     class Meta:

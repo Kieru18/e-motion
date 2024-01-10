@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
-from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, LearningModelSerializer, ListModelSerializer
+from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
+                         CreateModelSerializer, ListModelSerializer
 from .models import User, Project, LearningModel
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
@@ -14,6 +13,9 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
+from ml.model_endpoint import train
+from django.core.exceptions import ValidationError
+import imghdr
 
 import json
 
@@ -122,20 +124,19 @@ class UploadAnnotationView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
-    @method_decorator(csrf_exempt) # Only for development, change CSRF protection for production
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-
+            model_id = self.kwargs.get('model_id')
             file_upload = request.FILES.get('file')
 
             if file_upload is None:
                 return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
-                storage_path = f'annotations/{file_upload.name}'
+                storage_path = f'annotations/{model_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
                 return Response({'success': True}, status=status.HTTP_201_CREATED)
             except Exception as e:
@@ -143,21 +144,22 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# class ModelCreateView(generics.ListCreateAPIView):
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
+class ModelCreateView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-#     def post(self, request, *args, **kwargs):
-#         if request.user.is_authenticated:
-#             data = request.data
-#             data['user'] = request.user.id
-#             serializer = ProjectSerializer(data=data)
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            data = request.data
+                        
+            serializer = CreateModelSerializer(data=data)
 
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+            if serializer.is_valid():
+                instance = serializer.save()
+                modelId = instance.id
+                return Response({'modelId': modelId}, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class ProjectDeleteView(generics.ListCreateAPIView):
@@ -202,21 +204,31 @@ class UploadFilesView(generics.ListCreateAPIView):
         if request.user.is_authenticated:
             project_id = self.kwargs.get('project_id')
 
+            print(request.headers)
             if 'files[]' not in request.FILES:
                 return Response({'error': 'No files uploaded'}, status=status.HTTP_400_BAD_REQUEST)
 
             files = request.FILES.getlist('files[]')
 
             uploaded_paths = []
+            files_uploaded = 0
             try:
                 for file_upload in files:
-                    storage_path = f'dataset_project_{project_id}/{file_upload.name}'
+                    storage_path = f'datasets/{project_id}/{file_upload.name}'
+                    file_type = imghdr.what(file_upload)
+                    if file_type not in ['jpeg', 'jpg', 'png']:
+                        return Response({'error': 'Invalid file format. Only .jpg and .png files are allowed.'},
+                                        status=status.HTTP_400_BAD_REQUEST)
+                    
                     saved_path = default_storage.save(storage_path, file_upload)
+                    files_uploaded += 1
                     uploaded_paths.append(saved_path)
+            except ValidationError as e:
+                return Response({'error': str(e)}, status=status.HTTP_406_NOT_ACCEPTABLE)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            return Response({'success': True, 'paths': uploaded_paths}, status=status.HTTP_201_CREATED)
+            return Response({'success': True, 'files_count': files_uploaded, 'paths': uploaded_paths}, status=status.HTTP_201_CREATED)
 
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -245,4 +257,25 @@ class MakePredictionsView(views.APIView):
                 status=status.HTTP_200_OK,
             )
             return response
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+
+class TrainView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            model_id = self.kwargs.get('model_id')
+            project_id = LearningModel.objects.get(id=model_id).project.id
+            print(f"TrainView project_id: {project_id}, model_id: {model_id}")
+
+            try:
+                print("Training started")
+                train(project_id, model_id)
+                print("Training finished")
+                return Response({'success': True}, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

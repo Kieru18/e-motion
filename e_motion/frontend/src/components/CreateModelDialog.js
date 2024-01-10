@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -30,9 +30,11 @@ export default function CreateModelDialog(props) {
     const [weight_decay, setWeightDecay] = React.useState("");
     const [epochs, setEpochs] = React.useState("");
     const [validation_set_size, setValidationSetSize] = React.useState("");
-    const [project_id, setProjectId] = React.useState("");  // [TODO] get project id from props
     const [annotations, setAnnotations] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
  
+    const projectId = props.projectId;
+    const projectTitle = props.projectTitle;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -51,7 +53,6 @@ export default function CreateModelDialog(props) {
     const handleSave = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-
         const dataJson = {
             name,
             architecture,
@@ -59,43 +60,56 @@ export default function CreateModelDialog(props) {
             weight_decay,
             epochs,
             validation_set_size,
-          };
-        
+            miou_score: null,
+            top1_score: null,
+            top5_score: null,
+            checkpoint: null,
+            project: projectId,
+        };
 
         formData.append('file', annotations);
         formData.append('data', JSON.stringify(dataJson));
-        
 
-        // try {
-        //     const response = await fetch('/api/create_model', {
-        //       method: 'POST',
-        //       headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
-        //       },
-        //       body: JSON.stringify({
-        //         name,
-        //         architecture,
-        //         learning_rate,
-        //         weight_decay,
-        //         epochs,
-        //         validation_set_size,
-        //       }),
-        //     });
-      
-        //     if (!response.ok) {
-        //       const error = await response.json();
-        //       setError(error.detail);
-        //       return;
-        //     }
-        //     setOpen(false);
-        //     props.onClose(true);
-        //   } catch (error) {
-        //     console.error('Error', error);
-        //   }
+        const learningRateFloat = parseFloat(learning_rate);
+        const weightDecayFloat = parseFloat(weight_decay);
+        const epochsInt = parseInt(epochs);
+        const validationSetSizeFloat = parseFloat(validation_set_size);
+
+        var modelId = null;
 
         try {
-            const response = await fetch('/api/upload_annotation', {
+            const response = await fetch('/api/create_model', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+              },
+              body: JSON.stringify({
+                name,
+                architecture,
+                learning_rate: learningRateFloat,
+                weight_decay: weightDecayFloat,
+                epochs: epochsInt,
+                validation_set_size: validationSetSizeFloat,
+                project: projectId,
+              }),
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              setError(error.detail);
+              console.log("error", error.detail)
+              return;
+            }
+            const data = await response.json();
+            modelId = data["modelId"]
+          } catch (error) {
+            console.error('Error', error);
+          }
+
+        try {
+            const url = `/api/upload_annotation/${modelId}/`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
@@ -118,12 +132,35 @@ export default function CreateModelDialog(props) {
                     console.log("text-error", errorText)
                 }
             }
-            console.log("success?", response.status)
-            setOpen(false);
-            props.onClose(true);
         } catch (error) {
             console.error('Error', error);
         }
+
+        try {
+            setLoading(true);
+            const trainUrl = `/api/train/${modelId}/`;
+            const response = await fetch(trainUrl, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
+            },
+            
+            });
+            if (!response.ok) {
+              setLoading(false)
+              const error = await response.json();
+              setError(error.detail);
+              console.log("error", error.detail)
+              return;
+            }
+            setLoading(false)
+            // NAVIGATE TO TRAINING RESUTLS HERE @TODO
+            // setOpen(false);
+            // props.onClose(true);
+          } catch (error) {
+            console.error('Error', error);
+          }
+
     };
 
     return (
@@ -131,7 +168,6 @@ export default function CreateModelDialog(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Create Model
             </Button>
-
             <Dialog
                 fullScreen
                 open={open}
@@ -149,10 +185,10 @@ export default function CreateModelDialog(props) {
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Create Model
+                            Create Model for Project {projectTitle} (id: {projectId})
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSave}>
-                            save
+                            save & train
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -179,7 +215,7 @@ export default function CreateModelDialog(props) {
                             <MenuItem value="" disabled >
                                 <em>architecture</em>
                             </MenuItem>
-                            <MenuItem value={10}>Faster RCNN</MenuItem>
+                            <MenuItem value={"Faster RCNN"}>Faster RCNN</MenuItem>
                             {/* <MenuItem value={20}>model 2</MenuItem> */}
                             {/* <MenuItem value={30}>model 3</MenuItem> */}
                         </Select>
@@ -189,6 +225,7 @@ export default function CreateModelDialog(props) {
                         <TextField
                             required
                             fullWidth
+                            // type="number"
                             label="learning rate"
                             id="fullWidth"
                             onChange={(event) => setLearningRate(event.target.value)}
@@ -199,6 +236,7 @@ export default function CreateModelDialog(props) {
                         <TextField
                             required
                             fullWidth
+                            // type="number"
                             label="weight decay"
                             id="fullWidth"
                             onChange={(event) => setWeightDecay(event.target.value)}
@@ -209,6 +247,7 @@ export default function CreateModelDialog(props) {
                         <TextField
                             required
                             fullWidth
+                            // type="number"
                             label="number of epochs"
                             id="fullWidth"
                             onChange={(event) => setEpochs(event.target.value)}
@@ -237,6 +276,15 @@ export default function CreateModelDialog(props) {
                         <Typography variant="body2" color="error" align="center">
                             {error}
                         </Typography>
+                    )}
+                    {loading && (
+                    <div style={{ textAlign: 'center', marginTop: 10 }}>
+                        
+                        <div style={{ textAlign: 'center', marginTop: 10 }}>
+                        <span style={{ marginLeft: 10, marginBottom: 20}}>Training in progress...</span>
+                        </div>
+                        <CircularProgress size={20} />
+                    </div>
                     )}
                 </List>
             </Dialog>

@@ -151,7 +151,7 @@ class ModelCreateView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             data = request.data
-                        
+
             serializer = CreateModelSerializer(data=data)
 
             if serializer.is_valid():
@@ -219,7 +219,7 @@ class UploadFilesView(generics.ListCreateAPIView):
                     if file_type not in ['jpeg', 'jpg', 'png']:
                         return Response({'error': 'Invalid file format. Only .jpg and .png files are allowed.'},
                                         status=status.HTTP_400_BAD_REQUEST)
-                    
+
                     saved_path = default_storage.save(storage_path, file_upload)
                     files_uploaded += 1
                     uploaded_paths.append(saved_path)
@@ -258,7 +258,7 @@ class MakePredictionsView(views.APIView):
             )
             return response
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
-    
+
 
 class TrainView(views.APIView):
     authentication_classes = [TokenAuthentication]
@@ -277,5 +277,5 @@ class TrainView(views.APIView):
                 return Response({'success': True}, status=status.HTTP_200_OK)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

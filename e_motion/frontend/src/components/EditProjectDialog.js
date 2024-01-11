@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import CreateModelDialog from './CreateModelDialog';
 import DeleteProjectDialog from './DeleteProjectDialog';
 import { useNavigate } from "react-router-dom";
+import UploadDatasetDialog from './UploadDatasetDialog';
 import { useSnackbar } from "notistack";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -84,18 +85,6 @@ export default function EditProjectDialog(props) {
     navigate('/predict', { state: { project_id: id } })
   };
 
-  const handleNavigateToUpload = (event) => {
-    event.preventDefault();
-
-    navigate("/upload-dataset", {
-      state: {
-        project_id: id,
-        project_title: title,
-      }
-    });
-  };
-
-
   return (
     <React.Fragment>
       <Dialog
@@ -164,9 +153,7 @@ export default function EditProjectDialog(props) {
           )}
           <Divider />
           <DeleteProjectDialog projectId={id} close={handleClose}/>
-          <Button variant="outlined"  onClick={handleNavigateToUpload}>
-            Upload the Dataset
-          </Button>
+          <UploadDatasetDialog projectId={id} projectTitle={title} />
           <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
           </Button>

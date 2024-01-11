@@ -37,6 +37,11 @@ export default function CreateProjectDialog(props) {
   const handleSave = async (event) => {
     event.preventDefault();
 
+    if (!title || !description || !dataset_url) {
+      enqueueSnackbar('Please fill out all fields', { variant: 'error' });
+      return;
+    }
+
     try {
       const response = await fetch('/api/create_project', {
         method: 'POST',
@@ -52,7 +57,7 @@ export default function CreateProjectDialog(props) {
       });
 
       if (!response.ok) {
-        enqueueSnackbar('Error creating project', { variant: 'error' });
+        enqueueSnackbar('Project creation failed', { variant: 'error' });
         const error = await response.json();
         setError(error.detail);
         return;

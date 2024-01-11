@@ -109,7 +109,7 @@ export default function CreateModelDialog(props) {
             });
 
             if (!response.ok) {
-              enqueueSnackbar('Model creation failed', { variant: 'error' }, );
+              enqueueSnackbar('Model creation failed', { variant: 'error' });
               const error = await response.json();
               setError(error.detail);
               console.log("error", error.detail)

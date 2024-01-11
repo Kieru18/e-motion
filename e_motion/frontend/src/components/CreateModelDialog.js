@@ -16,6 +16,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useSnackbar } from 'notistack';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -32,6 +33,7 @@ export default function CreateModelDialog(props) {
     const [validation_set_size, setValidationSetSize] = React.useState("");
     const [annotations, setAnnotations] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
+    const { enqueueSnackbar } = useSnackbar();
  
     const projectId = props.projectId;
     const projectTitle = props.projectTitle;
@@ -52,6 +54,17 @@ export default function CreateModelDialog(props) {
 
     const handleSave = async (event) => {
         event.preventDefault();
+
+        if (!name || !architecture || !learning_rate || !weight_decay || !epochs || !validation_set_size) {
+            enqueueSnackbar('Please fill out all required fields', { variant: 'error' });
+            return;
+        }
+
+        if (!annotations) {
+            enqueueSnackbar('Please upload annotations', { variant: 'error' });
+            return;
+        }
+
         const formData = new FormData();
         const dataJson = {
             name,
@@ -96,11 +109,13 @@ export default function CreateModelDialog(props) {
             });
 
             if (!response.ok) {
+              enqueueSnackbar('Model creation failed', { variant: 'error' }, );
               const error = await response.json();
               setError(error.detail);
               console.log("error", error.detail)
               return;
             }
+            enqueueSnackbar('Model created successfully', { variant: 'success' });
             const data = await response.json();
             modelId = data["modelId"]
           } catch (error) {
@@ -119,6 +134,7 @@ export default function CreateModelDialog(props) {
             });
 
             if (!response.ok) {
+                enqueueSnackbar('Annotations upload failed', { variant: 'error' });
                 // Check if the response is JSON
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
@@ -132,12 +148,14 @@ export default function CreateModelDialog(props) {
                     console.log("text-error", errorText)
                 }
             }
+            enqueueSnackbar('Annotations uploaded successfully', { variant: 'success' });
         } catch (error) {
             console.error('Error', error);
         }
 
         try {
             setLoading(true);
+            enqueueSnackbar('Training in progress...', { variant: 'info' });
             const trainUrl = `/api/train/${modelId}/`;
             const response = await fetch(trainUrl, {
               method: 'POST',
@@ -147,12 +165,14 @@ export default function CreateModelDialog(props) {
             
             });
             if (!response.ok) {
+              enqueueSnackbar('Training failed', { variant: 'error' });
               setLoading(false)
               const error = await response.json();
               setError(error.detail);
               console.log("error", error.detail)
               return;
             }
+            enqueueSnackbar('Training completed successfully', { variant: 'success' });
             setLoading(false)
             // NAVIGATE TO TRAINING RESUTLS HERE @TODO
             // setOpen(false);

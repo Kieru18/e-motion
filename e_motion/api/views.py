@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
-                         CreateModelSerializer, ListModelSerializer
+                         CreateModelSerializer, ListModelSerializer, ListScoresSerializer
 from .models import User, Project, LearningModel
 
 from rest_framework.authtoken.models import Token
@@ -13,10 +13,11 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.files.storage import default_storage
-from ml.model_endpoint import train
+from ml.model_endpoint import train, predict
 from django.core.exceptions import ValidationError
 import imghdr
 
+import json
 
 
 class UserView(generics.ListAPIView):
@@ -91,9 +92,10 @@ class ListModelsView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, format=None):
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            content = LearningModel.objects.filter(project=request.data["project_id"])  # SELECT all models for the Project
+            project_id = self.kwargs.get('project_id')
+            content = LearningModel.objects.filter(project=project_id)  # SELECT all models for the Project
             serializer = ListModelSerializer(content, many=True)
             return JsonResponse(serializer.data, safe=False)
 
@@ -149,7 +151,7 @@ class ModelCreateView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             data = request.data
-                        
+
             serializer = CreateModelSerializer(data=data)
 
             if serializer.is_valid():
@@ -178,16 +180,33 @@ class ProjectEditView(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            project_id = request.data["id"]
-            data = request.data
-            data["user"] = request.user.id
-            project_instance = Project.objects.get(id=project_id)
+            try:
+                project_id = request.data["id"]
+                data = request.data
+                data["user"] = request.user.id
+                project_instance = Project.objects.get(id=project_id)
+            except Exception:
+                return Response({'error': 'Invalid request data.'}, status=status.HTTP_400_BAD_REQUEST)
 
             serializer = ProjectSerializer(project_instance, data=data)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'info': 'Record updated'}, status=status.HTTP_202_ACCEPTED)
             return Response({'error': 'Data validation failed'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class ListScoresView(generics.ListCreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            model_id = self.kwargs.get('model_id')
+            content = LearningModel.objects.get(id=model_id)
+            serializer = ListScoresSerializer(content)
+            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
@@ -214,7 +233,7 @@ class UploadFilesView(generics.ListCreateAPIView):
                     if file_type not in ['jpeg', 'jpg', 'png']:
                         return Response({'error': 'Invalid file format. Only .jpg and .png files are allowed.'},
                                         status=status.HTTP_400_BAD_REQUEST)
-                    
+
                     saved_path = default_storage.save(storage_path, file_upload)
                     files_uploaded += 1
                     uploaded_paths.append(saved_path)
@@ -232,15 +251,30 @@ class MakePredictionsView(views.APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    def validate(self, project_id, model_id):
+        record = LearningModel.objects.get(id=model_id, project_id=project_id)
+        if not record:
+            return False
+        return True
+
+    def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            project_id = request.data["project_id"]
-            model_id = request.data["selected_id"]
-            # TODO call make_prediction method
-            # TODO wynikowy plik z anotacjami w responsie
-            return Response({'info': 'JSON ready to download'}, status=status.HTTP_200_OK)
+            project_id = kwargs.get('project_id')
+            model_id = kwargs.get('model_id')
+            if self.validate(project_id, model_id):
+                generated_annotations = predict(project_id, model_id)
+                json_data = json.dumps(generated_annotations, indent=4)
+
+                response = FileResponse(
+                    json_data,
+                    as_attachment=True,
+                    filename='annotations.json',
+                    status=status.HTTP_200_OK,
+                )
+                return response
+            return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
-    
+
 
 class TrainView(views.APIView):
     authentication_classes = [TokenAuthentication]
@@ -259,5 +293,5 @@ class TrainView(views.APIView):
                 return Response({'success': True}, status=status.HTTP_200_OK)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)

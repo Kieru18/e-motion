@@ -16,21 +16,35 @@ const theme = createTheme();
 export default function TrainingResultsPage(props) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [metrics, setMetrics] = useState([]);
 
-  // const metrics = {
-  //   miou: location.state["miou"],
-  //   top1: location.state["top1"],
-  //   top5: location.state["top5"],
-  // };
-
-  const metrics = {
-    miou: 0.56,
-    top1: 0.66,
-    top5: 0.76,
+  const fetchScores = () => {
+    fetch(`/api/get_scores/${location.state.model_id}/`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${localStorage.getItem('token')}`,
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch scores");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setMetrics(data);
+    })
+    .catch((error) => console.log(error));
   };
 
+  // fetch model scores when component is mounted
+  React.useEffect(() => {
+    fetchScores();
+  }, []);
+
   const handlePredictionsClick = () => {
-    navigate('/predict'); // , { state: { project_id: location.state.project_id } }
+    navigate('/models', { state: { project_id: location.state.project_id } }); // , { state: { project_id: location.state.project_id } }
   };
 
   const handleDashboardClick = () => {

@@ -27,21 +27,21 @@ export default function Scores(props) {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                         <TableCell component="th" scope="row">Mean Intersection over Union (mIoU)</TableCell>
-                        <TableCell align="right">{data["miou"]}</TableCell>
+                        <TableCell align="right">{data["miou_score"]}</TableCell>
                     </TableRow>
                     <TableRow
                         key="top1"
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                         <TableCell component="th" scope="row">Top 1 score</TableCell>
-                        <TableCell align="right">{data["top1"]}</TableCell>
+                        <TableCell align="right">{data["top1_score"]}</TableCell>
                     </TableRow>
                     <TableRow
                         key="top5"
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                         <TableCell component="th" scope="row">Top 5 score</TableCell>
-                        <TableCell align="right">{data["top5"]}</TableCell>
+                        <TableCell align="right">{data["top5_score"]}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

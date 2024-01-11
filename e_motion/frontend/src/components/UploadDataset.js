@@ -25,6 +25,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from 'react';
 import Input from '@mui/material/Input';
 import Stack from '@mui/material/Stack';
+import { useSnackbar } from 'notistack';
 
 
 
@@ -95,6 +96,7 @@ export default function UploadDataset() {
   const [error, setError] = React.useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [success, setSuccess] = React.useState(false)
+  const { enqueueSnackbar } = useSnackbar();
   
 
   const toggleDrawer = () => {
@@ -116,6 +118,8 @@ export default function UploadDataset() {
     setError(false)
     setSuccess(false)
     
+    enqueueSnackbar('Uploading files...', { variant: 'info' });
+
     const formData = new FormData();
     const projectId = location.state.project_id;
     const apiUrl = `/api/upload/${projectId}/`;

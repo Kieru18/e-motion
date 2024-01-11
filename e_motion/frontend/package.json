@@ -27,6 +27,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "babel-plugin-file-loader": "^2.0.0"
+    "babel-plugin-file-loader": "^2.0.0",
+    "notistack": "^3.0.1"
   }
 }

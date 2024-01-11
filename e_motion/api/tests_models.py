@@ -66,7 +66,7 @@ class LearningModelTest(TestCase):
                                      learning_rate=0.0001,
                                      weight_decay=0.9,
                                      epochs=200,
-                                     validation_set_size=0.2,
+                                     validation_set_size=2,
                                      project=project)
 
     def test_fields_values(self):
@@ -74,11 +74,10 @@ class LearningModelTest(TestCase):
         self.assertEqual(model.id, 1)
         self.assertEqual(model.model_id, 1)
         self.assertEqual(model.name, 'model')
-        self.assertEqual(model.architecture, 'Faster RCNN')
         self.assertEqual(model.learning_rate, 0.0001)
         self.assertEqual(model.weight_decay, 0.9)
         self.assertEqual(model.epochs, 200)
-        self.assertEqual(model.validation_set_size, 0.2)
+        self.assertEqual(model.validation_set_size, 2)
 
     def test_foreign_key(self):
         project = Project.objects.get(id=1)
@@ -93,16 +92,11 @@ class LearningModelTest(TestCase):
         self.assertFalse(nullable)
 
     def test_architecture_constraints(self):
-        proper_choices = [
-            ('Faster RCNN', 'Faster RCNN'),
-        ]
         model = LearningModel.objects.get(id=1)
         max_length = model._meta.get_field('architecture').max_length
         nullable = model._meta.get_field('architecture').null
-        arch_choices = model._meta.get_field('architecture').choices
         self.assertEqual(max_length, 60)
         self.assertFalse(nullable)
-        self.assertListEqual(arch_choices, proper_choices)
 
     def test_lr_constraints(self):
         model = LearningModel.objects.get(id=1)

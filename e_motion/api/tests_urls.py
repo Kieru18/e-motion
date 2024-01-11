@@ -47,7 +47,7 @@ class UrlsTest(TestCase):
         self.assertEqual(resolver.func.view_class, ProjectEditView)
 
     def test_upload_annotation_url(self):
-        path = "/api/upload_annotation"
+        path = "/api/upload_annotation/1/"
         resolver = resolve(path)
         self.assertEqual(resolver.func.view_class, UploadAnnotationView)
 

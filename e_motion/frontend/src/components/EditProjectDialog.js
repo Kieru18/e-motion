@@ -73,8 +73,7 @@ export default function EditProjectDialog(props) {
   };
 
   const handleOpenLS = () => {
-    window.open('https://www.google.com/', '_blank', 'noreferrer');
-    // window.open('http://localhost:8089/user/login/', '_blank', 'noreferrer');
+    window.open('http://localhost:8089/user/login/', '_blank', 'noreferrer');
   };
 
   const handleDeleteProject = async () => {

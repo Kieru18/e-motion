@@ -15,6 +15,7 @@ import { useState } from 'react';
 import Input from '@mui/material/Input';
 import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
+import { useSnackbar } from 'notistack';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -25,12 +26,10 @@ const defaultTheme = createTheme();
 export default function UploadDatasetDialog(props) {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const [error, setError] = React.useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [success, setSuccess] = React.useState(false)
-  
   const projectId = props.projectId;
   const projectTitle = props.projectTitle;
+  const { enqueueSnackbar } = useSnackbar();
 
 
   const handleClickOpen = () => {
@@ -53,15 +52,19 @@ export default function UploadDatasetDialog(props) {
   };
 
   const handleUpload = async () => {
-    setError(false)
-    setSuccess(false)
-    
+
     const formData = new FormData();
     const apiUrl = `/api/upload/${projectId}/`;
 
     selectedFiles.forEach((file) => {
       formData.append('files[]', file);
     });
+
+    if (!selectedFiles) {
+      enqueueSnackbar('Please select files', { variant: 'error' });
+      return;
+    }
+
 
     try {
       const response = await fetch(apiUrl, {
@@ -75,17 +78,19 @@ export default function UploadDatasetDialog(props) {
       if (response.ok) {
         console.log('Files uploaded successfully');
         const success = await response.json();
-        setSuccess(success)
+        enqueueSnackbar('All files uploaded successfully', { variant: 'success' });
+        return;
         
       } else {
         console.error('File upload failed');
         const error = await response.json();
-        setError(error.error);
+        enqueueSnackbar(error.error, { variant: 'error' });
         return;
       }
     } catch (error) {
-        console.error('Error during file upload:', error);
-        setError('An unexpected error occurred during file upload.');
+        console.error('Error during file upload', error);
+        enqueueSnackbar('Files upload failed', { variant: 'error' });
+        return;
     }
   };
 

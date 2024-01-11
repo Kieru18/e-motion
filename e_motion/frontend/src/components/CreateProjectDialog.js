@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
+import { useSnackbar } from 'notistack';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -23,6 +24,7 @@ export default function CreateProjectDialog(props) {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [dataset_url, setUrl] = React.useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,10 +52,13 @@ export default function CreateProjectDialog(props) {
       });
 
       if (!response.ok) {
+        enqueueSnackbar('Error creating project', { variant: 'error' });
         const error = await response.json();
         setError(error.detail);
         return;
       }
+      
+      enqueueSnackbar('Project created successfully', { variant: 'success' });
       setOpen(false);
       props.onClose(true);
     } catch (error) {

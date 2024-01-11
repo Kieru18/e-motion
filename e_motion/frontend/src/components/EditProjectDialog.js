@@ -13,7 +13,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 import CreateModelDialog from './CreateModelDialog';
+import DeleteProjectDialog from './DeleteProjectDialog';
 import { useNavigate } from "react-router-dom";
+import UploadDatasetDialog from './UploadDatasetDialog';
+import { useSnackbar } from "notistack";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,6 +30,7 @@ export default function EditProjectDialog(props) {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [dataset_url, setUrl] = React.useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
     if (open && props.row) {
@@ -76,48 +80,9 @@ export default function EditProjectDialog(props) {
     window.open('http://localhost:8089/user/login/', '_blank', 'noreferrer');
   };
 
-  const handleDeleteProject = async () => {
-    try {
-        const response = await fetch('/api/delete_project', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
-          },
-          body: JSON.stringify({
-            id,
-          }),
-        });
-
-        if (!response.ok) {
-          const error = await response.json();
-          console.log(error.detail);
-          return;
-        }
-        setOpen(false);
-        props.onClose();
-    } catch (error) {
-        console.error('Error', error);
-    }
-    setOpen(false);
-    props.onClose();
-  };
-
   const handleMakePredictions = () => {
     navigate('/models', { state: { project_id: id, project_name: title } })
   };
-
-  const handleNavigateToUpload = (event) => {
-    event.preventDefault();
-
-    navigate("/upload-dataset", {
-      state: {
-        project_id: id,
-        project_title: title,
-      }
-    });
-  };
-
 
   return (
     <React.Fragment>
@@ -186,16 +151,12 @@ export default function EditProjectDialog(props) {
             </Typography>
           )}
           <Divider />
-          <Button variant="outlined" color="error" onClick={handleDeleteProject}>
-            Delete Project
-          </Button>
-          <Button variant="outlined"  onClick={handleNavigateToUpload}>
-            Upload the Dataset
-          </Button>
+          <DeleteProjectDialog projectId={id} close={handleClose}/>
+          <UploadDatasetDialog projectId={id} projectTitle={title} />
           <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
           </Button>
-          <CreateModelDialog projectId={id} projectTitle={title} />
+          <CreateModelDialog projectId={id} projectTitle={title}/>
           <Button variant="outlined" onClick={handleMakePredictions}>
             Go to Make Predictions
           </Button>

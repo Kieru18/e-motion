@@ -1,4 +1,5 @@
 # ML-assisted Labeling
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 The project aims to create an advanced system supporting data annotation in the field of CV. The main functionalities include: creating new projects or continuing work on existing ones, defining data categories, adding photos, annotating visual data, managing annotations, selecting model architecture, and automatic training after manually tagging photos. Additionally, the system enables applying predictions to unlabeled data, correcting model results, analyzing data and versioning models.
@@ -19,13 +20,24 @@ The project aims to create an advanced system supporting data annotation in the 
 - React.js
 - PyTorch
 
-## Installation
+## Installation (recommended):
+To automatically install all app dependencies:
+```bash
+./install.sh
+```
+
+## Usage
+To run (installed) application:
+```bash
+./run.sh
+```
+
+## Manual installation (optional):
 It is recommended to use a virtual environment. If you selected the localization and the environment:
 ```
 pip install -r requirements.txt
 ```
 
-# LABEL STUDIO (Docker):
 Download the image:
 ```
 docker pull heartexlabs/label-studio:latest
@@ -43,12 +55,6 @@ On next runs (start existing container):
 docker start label_studio
 ```
 
-## Usage
-```
-```
-
-## Demo
-
 ## Authors
 - [@Karol Ziarek](https://github.com/ziarekk)
 - [@Jan Fidor](https://github.com/JanFidor)
@@ -56,3 +62,4 @@ docker start label_studio
 - [@Jakub Kieruczenko](https://github.com/Kieru18)
 
 ## License
+Please check the MIT license that is listed in this repository.

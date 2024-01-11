@@ -77,12 +77,11 @@ export default function EditProjectDialog(props) {
   };
 
   const handleOpenLS = () => {
-    // TODO: set Label Studio Docker link: (http://localhost:8089/user/login/)
-    window.open('https://www.google.com/', '_blank', 'noreferrer');
+    window.open('http://localhost:8089/user/login/', '_blank', 'noreferrer');
   };
 
   const handleMakePredictions = () => {
-    navigate('/predict', { state: { project_id: id } })
+    navigate('/models', { state: { project_id: id, project_name: title } })
   };
 
   return (

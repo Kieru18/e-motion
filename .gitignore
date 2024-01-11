@@ -3,3 +3,5 @@
 e_motion/frontend/node_modules
 e_motion/*/__pycache__
 emotionenv
+.coverage
+htmlcov

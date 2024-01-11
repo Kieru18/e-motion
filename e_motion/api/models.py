@@ -20,7 +20,7 @@ class LearningModel(models.Model):
     @property
     def model_id(self):
         return self.id
-    
+
     class Architecture(models.TextChoices):
         FASTER_RCNN = 'Faster RCNN'
 

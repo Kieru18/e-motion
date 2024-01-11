@@ -14,6 +14,7 @@ import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 import CreateModelDialog from './CreateModelDialog';
 import { useNavigate } from "react-router-dom";
+import UploadDatasetDialog from './UploadDatasetDialog';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -108,18 +109,6 @@ export default function EditProjectDialog(props) {
     navigate('/predict', { state: { project_id: id } })
   };
 
-  const handleNavigateToUpload = (event) => {
-    event.preventDefault();
-
-    navigate("/upload-dataset", {
-      state: {
-        project_id: id,
-        project_title: title,
-      }
-    });
-  };
-
-
   return (
     <React.Fragment>
       <Dialog
@@ -190,9 +179,7 @@ export default function EditProjectDialog(props) {
           <Button variant="outlined" color="error" onClick={handleDeleteProject}>
             Delete Project
           </Button>
-          <Button variant="outlined"  onClick={handleNavigateToUpload}>
-            Upload the Dataset
-          </Button>
+          <UploadDatasetDialog projectId={id} projectTitle={title} />
           <Button variant="outlined" onClick={handleOpenLS}>
             Go to Manual Annotation
           </Button>

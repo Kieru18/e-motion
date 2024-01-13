@@ -57,10 +57,32 @@ class LoginView(generics.ListCreateAPIView):
 
 
 class LogoutView(generics.ListCreateAPIView):
+    """
+    Handles user logout by deleting the authentication token.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        get(request, format=None): Handles HTTP GET for logging out a user.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
+        """
+        Handle HTTP GET for logging out a user.
+
+        Deletes the authentication token for the authenticated user.
+
+        Args:
+            request (Request): HTTP request object.
+            format (str, optional): Requested format. Defaults to None.
+
+        Returns:
+            Response: HTTP response indicating success or failure of logout.
+        """
         if request.user.is_authenticated:
             request.user.auth_token.delete()
             return Response(status=status.HTTP_200_OK)
@@ -76,10 +98,32 @@ class TestTokenView(generics.ListCreateAPIView):
 
 
 class ListProjectsView(generics.ListCreateAPIView):
+    """
+    Handles listing and creating projects for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        get(request, format=None): Handles HTTP GET for listing the user's projects.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
+        """
+        Handle HTTP GET for listing the user's projects.
+
+        Returns a JSON response containing the projects associated with the authenticated user.
+
+        Args:
+            request (Request): HTTP request object.
+            format (str, optional): Requested format. Defaults to None.
+
+        Returns:
+            JsonResponse: JSON response containing user's projects.
+        """
         if request.user.is_authenticated:
             content = Project.objects.filter(user=request.user)  # SELECT all User's projects
             serializer = ProjectSerializer(content, many=True)
@@ -89,10 +133,33 @@ class ListProjectsView(generics.ListCreateAPIView):
 
 
 class ListModelsView(generics.ListCreateAPIView):
+    """
+    Handles listing and creating learning models for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        get(request, *args, **kwargs): Handles HTTP GET for listing models for a specific project.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        """
+        Handle HTTP GET for listing models for a specific project.
+
+        Returns a JSON response containing the learning models associated with the specified project.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments (project_id used here).
+
+        Returns:
+            JsonResponse: JSON response containing learning models for the project.
+        """
         if request.user.is_authenticated:
             project_id = self.kwargs.get('project_id')
             content = LearningModel.objects.filter(project=project_id)  # SELECT all models for the Project
@@ -103,10 +170,33 @@ class ListModelsView(generics.ListCreateAPIView):
 
 
 class ProjectCreateView(generics.ListCreateAPIView):
+    """
+    Handles creating projects for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        post(request, *args, **kwargs): Handles HTTP POST for creating a new project.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle HTTP POST for creating a new project.
+
+        Creates a new project associated with the authenticated user.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Response: HTTP response indicating success or failure of project creation.
+        """
         if request.user.is_authenticated:
             data = request.data
             data['user'] = request.user.id
@@ -144,6 +234,7 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class ModelCreateView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -163,10 +254,33 @@ class ModelCreateView(generics.ListCreateAPIView):
 
 
 class ProjectDeleteView(generics.ListCreateAPIView):
+    """
+    Handles deleting projects for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        post(request, *args, **kwargs): Handles HTTP POST for deleting a project.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle HTTP POST for deleting a project.
+
+        Deletes the project with the specified ID associated with the authenticated user.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Response: HTTP response indicating success or failure of project deletion.
+        """
         if request.user.is_authenticated:
             project_id = request.data["id"]
             Project.objects.filter(id=project_id).delete()
@@ -175,10 +289,33 @@ class ProjectDeleteView(generics.ListCreateAPIView):
 
 
 class ProjectEditView(generics.ListCreateAPIView):
+    """
+    Handles editing projects for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        post(request, *args, **kwargs): Handles HTTP POST for editing a project.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle HTTP POST for editing a project.
+
+        Edits the project with the specified ID associated with the authenticated user.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Response: HTTP response indicating success or failure of project editing.
+        """
         if request.user.is_authenticated:
             try:
                 project_id = request.data["id"]
@@ -197,10 +334,33 @@ class ProjectEditView(generics.ListCreateAPIView):
 
 
 class ListScoresView(generics.ListCreateAPIView):
+    """
+    Handles listing scores for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        get(request, *args, **kwargs): Handles HTTP GET for listing scores of a learning model.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        """
+        Handle HTTP GET for listing scores of a learning model.
+
+        Returns a JSON response containing scores for the specified learning model.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            JsonResponse: JSON response containing scores for the model.
+        """
         if request.user.is_authenticated:
             model_id = self.kwargs.get('model_id')
             content = LearningModel.objects.get(id=model_id)
@@ -248,16 +408,50 @@ class UploadFilesView(generics.ListCreateAPIView):
 
 
 class MakePredictionsView(views.APIView):
+    """
+    Handles making predictions for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        validate(project_id, model_id): Validates the learning model for the given project.
+        get(request, *args, **kwargs): Handles HTTP GET for making predictions.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def validate(self, project_id, model_id):
+        """
+        Validate the learning model for the given project.
+
+        Args:
+            project_id (str): ID of the project.
+            model_id (str): ID of the learning model.
+
+        Returns:
+            bool: True if the learning model is valid, False otherwise.
+        """
         record = LearningModel.objects.get(id=model_id, project_id=project_id)
         if not record:
             return False
         return True
 
     def get(self, request, *args, **kwargs):
+        """
+        Handle HTTP GET for making predictions.
+
+        Makes predictions using the specified learning model and project.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            FileResponse: JSON file response containing the generated annotations.
+        """
         if request.user.is_authenticated:
             project_id = kwargs.get('project_id')
             model_id = kwargs.get('model_id')

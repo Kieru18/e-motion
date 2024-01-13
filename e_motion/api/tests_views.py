@@ -178,3 +178,46 @@ class ListModelsViewTest(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(json.loads(response.content), [])
+
+
+class ListScoresViewTest(APITestCase):
+    def setUp(self):
+        self.test_user = User.objects.create_user(username='test', password='test')
+        self.client.force_authenticate(user=self.test_user)
+        self.project = Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
+        self.model = LearningModel.objects.create(name="model1", architecture="Faster RCNN", miou_score=0.0, top1_score=0.6, top5_score=0.7, project=self.project)
+        self.url = f"/api/get_scores/{self.model.id}/"
+
+    def test_valid_request(self):
+        result = {'miou_score': 0.0, 'top1_score': 0.6, 'top5_score': 0.7}
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content), result)
+
+    def test_no_models_bad_request(self):
+        for record in LearningModel.objects.filter(project=self.project):
+            record.delete()
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(json.loads(response.content), {'detail': 'Not found.'})
+
+
+class MakePredictionsViewTest(APITestCase):
+    def setUp(self):
+        self.test_user = User.objects.create_user(username='test', password='test')
+        self.client.force_authenticate(user=self.test_user)
+        self.project = Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
+        self.model = LearningModel.objects.create(id=1, name="model1", architecture="Faster RCNN", miou_score=0.0, top1_score=0.6, top5_score=0.7, project=self.project)
+        self.url = "/api/make_predictions/1/1/"
+
+    def test_get_unauthenticated(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_no_model_in_db(self):
+        invalid_model_id_url = f'/api/make_predictions/{self.project.id}/2/'
+        response = self.client.get(invalid_model_id_url)
+        self.assertEqual(response.status_code, 404)

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
 from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
@@ -363,7 +363,7 @@ class ListScoresView(generics.ListCreateAPIView):
         """
         if request.user.is_authenticated:
             model_id = self.kwargs.get('model_id')
-            content = LearningModel.objects.get(id=model_id)
+            content = get_object_or_404(LearningModel, id=model_id)
             serializer = ListScoresSerializer(content)
             return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
@@ -433,10 +433,11 @@ class MakePredictionsView(views.APIView):
         Returns:
             bool: True if the learning model is valid, False otherwise.
         """
-        record = LearningModel.objects.get(id=model_id, project_id=project_id)
-        if not record:
+        try:
+            record = LearningModel.objects.get(id=model_id, project_id=project_id)
+            return True
+        except Exception:
             return False
-        return True
 
     def get(self, request, *args, **kwargs):
         """
@@ -466,7 +467,7 @@ class MakePredictionsView(views.APIView):
                     status=status.HTTP_200_OK,
                 )
                 return response
-            return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Invalid request'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 

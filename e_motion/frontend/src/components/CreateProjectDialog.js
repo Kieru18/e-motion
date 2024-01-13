@@ -14,10 +14,30 @@ import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 import { useSnackbar } from 'notistack';
 
+/**
+ * Transition component for the dialog slide effect.
+ * @param {Object} props - Component properties.
+ * @param {Object} ref - Forwarded ref.
+ * @returns {JSX.Element} Slide component.
+ */
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+/**
+ * CreateProjectDialog Component
+ *
+ * A dialog component for creating a new project with title, description, and dataset URL.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <CreateProjectDialog onClose={(success) => console.log(`Project creation ${success ? 'succeeded' : 'failed'}`)} />
+ *
+ * @param {Object} props - The properties of the component.
+ * @param {function} props.onClose - Callback function called when the dialog is closed.
+ * @returns {JSX.Element} Rendered CreateProjectDialog component.
+ */
 export default function CreateProjectDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -62,7 +82,7 @@ export default function CreateProjectDialog(props) {
         setError(error.detail);
         return;
       }
-      
+
       enqueueSnackbar('Project created successfully', { variant: 'success' });
       setOpen(false);
       props.onClose(true);

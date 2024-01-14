@@ -1,5 +1,6 @@
 # ML-assisted Labeling
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Documentation Status](https://readthedocs.org/projects/e-motion/badge/?version=latest)](https://e-motion.readthedocs.io/en/latest/?badge=latest)
 
 ## Overview
 The project aims to create an advanced system supporting data annotation in the field of CV. The main functionalities include: creating new projects or continuing work on existing ones, defining data categories, adding photos, annotating visual data, managing annotations, selecting model architecture, and automatic training after manually tagging photos. Additionally, the system enables applying predictions to unlabeled data, correcting model results, analyzing data and versioning models.
@@ -19,6 +20,10 @@ The project aims to create an advanced system supporting data annotation in the 
 - Django Rest Framework
 - React.js
 - PyTorch
+
+## Docs
+See the documentation for more detailed information:
+https://e-motion.readthedocs.io/en/latest/
 
 ## Installation (recommended):
 To automatically install all app dependencies:

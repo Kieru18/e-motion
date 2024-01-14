@@ -35,7 +35,7 @@ def parse_image_json(label_data):
 
     for id in ids:
         img, ann = coco_image_data(coco, id)
-        images.append(img)
+        images.append(Path(img).name)
         annotations.append(ann)
 
     return images, annotations

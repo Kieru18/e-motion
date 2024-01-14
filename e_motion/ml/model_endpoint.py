@@ -13,6 +13,9 @@ import torch
 import torch.optim as optim
 import numpy as np
 import io
+import ast
+import pickle
+from pathlib import Path
 
 BATCH_SIZE = 2
 
@@ -69,7 +72,7 @@ def train(project_id, model_id):
     print("Training the model...")
     try:
         trainer = L.Trainer(limit_train_batches=100, max_epochs=model_django.epochs, 
-                            accelerator="gpu")
+                            accelerator="auto")
         trainer.fit(model=module, train_dataloaders=loader_train)
     except Exception as e:
         print(e)
@@ -107,18 +110,26 @@ def predict(project_id, model_id):
     dataset_path = dataset_path_from_id(project_id)
     # root = project_root_from_id(project_id)
     model_django = load_model_params(model_id)
+    image_paths = image_paths_for_prediction(project_id, model_id)
 
     # checkpoint_path = model_checkpoint_from_id(model_id)
-    model = initialize_model(project_id, model_id).load_state_dict(model_django.checkpoint)
+    print(f"Image paths prediction: {image_paths}")
+    # state = ast.literal_eval(model_django.checkpoint.decode())
+    buffer = io.BytesIO(model_django.checkpoint)
+    # print(f"State: {state}")
+    model = initialize_model(project_id, model_id)
+    model.load_state_dict(torch.load(buffer))
+
     module = CocoDetectorModule(model)
 
-    image_paths = image_paths_for_prediction(project_id, model_id)
+    
     images = [read_image(path) for path in image_paths]
 
     eval_transform = get_transform()
     transformed_images = [eval_transform(image) for image in images]
 
     shapes = [image.shape for image in images]
+    print("Shapes:", shapes)
     predictions = module.predict(transformed_images)
 
     classes = project_classes(model_id)
@@ -160,12 +171,12 @@ def evaluate_detector(model_id, model: CocoDetectorModule, dataset):
 def image_paths_for_prediction(project_id, model_id):
     # root = project_root_from_id(project_id)
     dataset_path = dataset_path_from_id(project_id)
-    json_path = annotation_path_from_id(model_id) + "/result.json" # hardcoded annotation file name
+    json_path = os.path.join(annotation_path_from_id(model_id), "result.json") # hardcoded annotation file name
     # labels_path = project_labels_path_from_id(project_id)
     
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-        labeled_image_paths = [os.path.join(dataset_path, image["file_name"]) 
+        labeled_image_paths = [os.path.join(dataset_path, Path(image["file_name"]).name) 
                                for image in json_data["images"]]
     all_image_names = os.listdir(dataset_path)
     all_image_paths = [os.path.join(dataset_path, name) for name in all_image_names]
@@ -175,7 +186,7 @@ def image_paths_for_prediction(project_id, model_id):
 
 def project_classes(model_id):
     # json_path = project_labels_path_from_id(project_id)
-    json_path = annotation_path_from_id(model_id) + "/result.json" # hardcoded annotation file name
+    json_path = os.path.join(annotation_path_from_id(model_id), "result.json") # hardcoded annotation file name
     with open(json_path) as json_file:
         json_data = json.load(json_file)
     return [category["name"] for category in json_data["categories"]]
@@ -237,12 +248,11 @@ def collate_fn(batch):
 def dataset_path_from_id(project_id):
     current_directory = os.getcwd()
     print(f"{current_directory}, dataset_path_from_id()")
-    return f"{current_directory}/uploads/datasets/{project_id}"
+    return os.path.join(current_directory, "e_motion", "uploads", "datasets", str(project_id))
 
 def annotation_path_from_id(model_id):
     current_directory = os.getcwd()
-    print(f"{current_directory}, annotation_path_from_id()")
-    return f"{current_directory}/uploads/annotations/{model_id}"
+    return os.path.join(current_directory, "e_motion", "uploads", "annotations", str(model_id))
 
 
 # def model_checkpoint_from_id(model_id):

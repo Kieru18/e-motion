@@ -13,7 +13,9 @@ from pycocotools.cocoeval import COCOeval
 class CocoEvaluator:
     def __init__(self, coco_gt, iou_types):
         if not isinstance(iou_types, (list, tuple)):
-            raise TypeError(f"This constructor expects iou_types of type list or tuple, instead  got {type(iou_types)}")
+            raise TypeError(
+                f"This constructor expects iou_types of type list or tuple, instead  got {type(iou_types)}"
+            )
         coco_gt = copy.deepcopy(coco_gt)
         self.coco_gt = coco_gt
 
@@ -44,7 +46,9 @@ class CocoEvaluator:
     def synchronize_between_processes(self):
         for iou_type in self.iou_types:
             self.eval_imgs[iou_type] = np.concatenate(self.eval_imgs[iou_type], 2)
-            create_common_coco_eval(self.coco_eval[iou_type], self.img_ids, self.eval_imgs[iou_type])
+            create_common_coco_eval(
+                self.coco_eval[iou_type], self.img_ids, self.eval_imgs[iou_type]
+            )
 
     def accumulate(self):
         for coco_eval in self.coco_eval.values():
@@ -104,7 +108,10 @@ class CocoEvaluator:
             labels = prediction["labels"].tolist()
 
             rles = [
-                mask_util.encode(np.array(mask[0, :, :, np.newaxis], dtype=np.uint8, order="F"))[0] for mask in masks
+                mask_util.encode(
+                    np.array(mask[0, :, :, np.newaxis], dtype=np.uint8, order="F")
+                )[0]
+                for mask in masks
             ]
             for rle in rles:
                 rle["counts"] = rle["counts"].decode("utf-8")
@@ -189,4 +196,6 @@ def create_common_coco_eval(coco_eval, img_ids, eval_imgs):
 def evaluate(imgs):
     with redirect_stdout(io.StringIO()):
         imgs.evaluate()
-    return imgs.params.imgIds, np.asarray(imgs.evalImgs).reshape(-1, len(imgs.params.areaRng), len(imgs.params.imgIds))
+    return imgs.params.imgIds, np.asarray(imgs.evalImgs).reshape(
+        -1, len(imgs.params.areaRng), len(imgs.params.imgIds)
+    )

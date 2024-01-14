@@ -342,7 +342,7 @@ def dataset_path_from_id(project_id: int):
     """
     current_directory = os.getcwd()
     return os.path.join(
-        current_directory, "e_motion", "uploads", "datasets", str(project_id)
+        current_directory, "uploads", "datasets", str(project_id)
     )
 
 
@@ -358,7 +358,7 @@ def annotation_path_from_id(model_id: int):
     """
     current_directory = os.getcwd()
     return os.path.join(
-        current_directory, "e_motion", "uploads", "annotations", str(model_id)
+        current_directory, "uploads", "annotations", str(model_id)
     )
 
 

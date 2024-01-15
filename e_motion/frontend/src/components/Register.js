@@ -60,7 +60,7 @@ export default function SignUpSide() {
       if (!response.ok) {
         // Handle error cases
         const error = await response.json();
-        setError(error.detail || 'Registration failed failed');
+        setError(error.detail || 'Registration failed');
         return;
       }
 

@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 // import Image from '../images/loadingScreen.png';
 
 const defaultTheme = createTheme();
@@ -40,9 +41,11 @@ export default function SignUpSide() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('')
 
     try {
       const response = await fetch('/api/signup', {
@@ -61,6 +64,7 @@ export default function SignUpSide() {
         // Handle error cases
         const error = await response.json();
         setError(error.detail || 'Registration failed');
+        enqueueSnackbar('Registration failed', { variant: 'error' });
         return;
       }
 
@@ -68,9 +72,11 @@ export default function SignUpSide() {
       // Handle successful registration, e.g., redirect, show success message, etc.
       localStorage.setItem('token', data.token);  // LOCALSTORAGE
       console.log('Registration successful', data);
+      enqueueSnackbar('Registration successful', { variant: 'success' });
       navigate('/dashboard');
     } catch (error) {
       console.error('Error during registration', error);
+      enqueueSnackbar('Error during registration', { variant: 'error' });
     }
   };
 

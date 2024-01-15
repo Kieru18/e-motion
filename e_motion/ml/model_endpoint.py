@@ -292,7 +292,7 @@ def initialize_optimizer(model: CocoDetectorABC, model_id: int):
 
 
 def initialize_coco_loader(
-    dataset_path: str, annotation_path: str, batch_size: int, is_shuffled: bool = False, indices: list | None = None
+    dataset_path: str, annotation_path: str, batch_size: int, is_shuffled: bool = False, indices: list = None
 ):
     """
     Initialize COCO DataLoader for the object detection dataset.

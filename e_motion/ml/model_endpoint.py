@@ -20,7 +20,7 @@ from pathlib import Path
 BATCH_SIZE = 2
 
 
-def train(project_id: int, model_id: int) -> list[float]:
+def train(project_id: int, model_id: int) -> list:
     """
     Train the object detection model.
 
@@ -292,7 +292,7 @@ def initialize_optimizer(model: CocoDetectorABC, model_id: int):
 
 
 def initialize_coco_loader(
-    dataset_path: str, annotation_path: str, batch_size: int, is_shuffled: bool = False, indices: list[int] | None = None
+    dataset_path: str, annotation_path: str, batch_size: int, is_shuffled: bool = False, indices: list | None = None
 ):
     """
     Initialize COCO DataLoader for the object detection dataset.

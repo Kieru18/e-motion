@@ -93,7 +93,7 @@ class DataParsingTest(TestCase):
         img_path, annotations = parse_image_json(labeled_data)
         annotations[0]["scores"] = torch.tensor([0.5, 1])
         
-        serialized_preds = serialize_predictions(image_shapes, annotations, img_path, "v", classes)
+        serialized_preds = serialize_predictions(image_shapes, annotations, img_path, "v", classes, 5)
 
         preds = serialized_preds[0]["predictions"][0]
         self.assertAlmostEqual(0.75, preds["score"])

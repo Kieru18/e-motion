@@ -29,7 +29,7 @@ export default function EditProjectDialog(props) {
   const [id, setId] = React.useState(null);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [dataset_url, setUrl] = React.useState("");
+  const [labelStudioProject, setLabelStudioProject] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
@@ -37,7 +37,7 @@ export default function EditProjectDialog(props) {
       setId(props.row.id);
       setTitle(props.row.title);
       setDescription(props.row.description);
-      setUrl(props.row.dataset_url);
+      setLabelStudioProject(props.row.labelStudioProject);
     }
   }, [open, props.row]);
 
@@ -60,7 +60,7 @@ export default function EditProjectDialog(props) {
           id,
           title,
           description,
-          dataset_url,
+          labelStudioProject,
         }),
       });
 
@@ -139,10 +139,10 @@ export default function EditProjectDialog(props) {
             <TextField
               required
               fullWidth
-              label="Dataset URL"
+              label="Label Studio Project ID"
               id="fullWidth"
-              defaultValue={dataset_url}
-              onChange={(event) => setUrl(event.target.value)}
+              defaultValue={labelStudioProject}
+              onChange={(event) => setLabelStudioProject(event.target.value)}
             />
           </ListItem>
           {error && (

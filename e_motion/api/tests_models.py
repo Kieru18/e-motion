@@ -19,7 +19,7 @@ class ProjectModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         user = User.objects.create(username='test', password='test')
-        Project.objects.create(title='title', description='desc', dataset_url='url', user=user)
+        Project.objects.create(title='title', description='desc', label_studio_project='1', user=user)
 
     def test_fields_values(self):
         project = Project.objects.get(id=1)
@@ -27,7 +27,7 @@ class ProjectModelTest(TestCase):
         self.assertEqual(project.project_id, 1)
         self.assertEqual(project.title, 'title')
         self.assertEqual(project.description, 'desc')
-        self.assertEqual(project.dataset_url, 'url')
+        self.assertEqual(project.label_studio_project, '1')
 
     def test_foreign_key(self):
         project = Project.objects.get(id=1)
@@ -48,10 +48,10 @@ class ProjectModelTest(TestCase):
         self.assertEqual(max_length, 250)
         self.assertTrue(nullable)
 
-    def test_dataset_url_constraints(self):
+    def test_label_studio_project_constraints(self):
         project = Project.objects.get(id=1)
-        max_length = project._meta.get_field('dataset_url').max_length
-        nullable = project._meta.get_field('dataset_url').null
+        max_length = project._meta.get_field('label_studio_project').max_length
+        nullable = project._meta.get_field('label_studio_project').null
         self.assertEqual(max_length, 150)
         self.assertTrue(nullable)
 
@@ -60,7 +60,7 @@ class LearningModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         user = User.objects.create(username='test', password='test')
-        project = Project.objects.create(title='title', description='desc', dataset_url='url', user=user)
+        project = Project.objects.create(title='title', description='desc', label_studio_project='1', user=user)
         LearningModel.objects.create(name='model',
                                      architecture='Faster RCNN',
                                      learning_rate=0.0001,

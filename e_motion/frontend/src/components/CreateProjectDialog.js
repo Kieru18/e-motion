@@ -23,7 +23,7 @@ export default function CreateProjectDialog(props) {
   const [error, setError] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [dataset_url, setUrl] = React.useState("");
+  const [labelStudioProject, setLabelStudioProject] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
@@ -37,7 +37,7 @@ export default function CreateProjectDialog(props) {
   const handleSave = async (event) => {
     event.preventDefault();
 
-    if (!title || !description || !dataset_url) {
+    if (!title || !description || !labelStudioProject) {
       enqueueSnackbar('Please fill out all fields', { variant: 'error' });
       return;
     }
@@ -52,7 +52,7 @@ export default function CreateProjectDialog(props) {
         body: JSON.stringify({
           title,
           description,
-          dataset_url,
+          labelStudioProject,
         }),
       });
 
@@ -127,9 +127,9 @@ export default function CreateProjectDialog(props) {
             <TextField
               required
               fullWidth
-              label="Dataset URL"
+              label="Label Studio Project ID"
               id="fullWidth"
-              onChange={(event) => setUrl(event.target.value)}
+              onChange={(event) => setLabelStudioProject(event.target.value)}
             />
           </ListItem>
           {error && (

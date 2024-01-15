@@ -25,7 +25,7 @@ export default function ProjectsTable(props) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Description</TableCell>
-            <TableCell>Dataset URL</TableCell>
+            <TableCell>Label Studio Project ID</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -33,7 +33,7 @@ export default function ProjectsTable(props) {
             <TableRow key={row.id} onClick={() => handleClick(row)} hover>
               <TableCell>{row.title}</TableCell>
               <TableCell>{row.description}</TableCell>
-              <TableCell>{row.dataset_url}</TableCell>
+              <TableCell>{row.labelStudioProject}</TableCell>
             </TableRow>
           ))}
         </TableBody>

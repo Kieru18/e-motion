@@ -48,7 +48,7 @@ class ProjectCreateViewTests(APITestCase):
         data = {
             'title': 'title',
             'description': 'description',
-            'dataset_url': 'dataset_url',
+            'label_studio_project': 'label_studio_project',
         }
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -78,8 +78,8 @@ class ProjectDeleteViewTests(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
-        Project.objects.create(title='title2', description='desc2', dataset_url='url2', user=self.test_user)
+        Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
+        Project.objects.create(title='title2', description='desc2', label_studio_project='2', user=self.test_user)
         self.url = "/api/delete_project"
 
     def test_valid_request(self):
@@ -102,12 +102,12 @@ class ProjectEditViewTests(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
-        Project.objects.create(title='title2', description='desc2', dataset_url='url2', user=self.test_user)
+        Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
+        Project.objects.create(title='title2', description='desc2', label_studio_project='2', user=self.test_user)
         self.url = "/api/edit_project"
 
     def test_valid_edit_request(self):
-        data = {"id": 1, "title": "new", "description": "desc1", "dataset_url": "url1", "user": 1}
+        data = {"id": 1, "title": "new", "description": "desc1", "label_studio_project": "1", "user": 1}
         expected = "new"
 
         response = self.client.post(self.url, data, format='json')
@@ -115,13 +115,13 @@ class ProjectEditViewTests(APITestCase):
         self.assertEqual(Project.objects.get(id=1).title, expected)
 
     def test_invalid_request_no_id(self):
-        data = {"title": "new", "description": "desc1", "dataset_url": "url1", "user": 1}
+        data = {"title": "new", "description": "desc1", "label_studio_project": "1", "user": 1}
 
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_request_incorrect_field(self):
-        data = {"id": 1, "pods": "new", "description": "desc1", "dataset_url": "url1", "user": 1}
+        data = {"id": 1, "pods": "new", "description": "desc1", "label_studio_project": "1", "user": 1}
 
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -131,14 +131,14 @@ class ListProjectsViewTests(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
-        Project.objects.create(title='title2', description='desc2', dataset_url='url2', user=self.test_user)
+        Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
+        Project.objects.create(title='title2', description='desc2', label_studio_project='2', user=self.test_user)
         self.url = "/api/list_projects"
 
     def test_valid_request(self):
         data = [
-            {"id": 1, "title": "title1", "description": "desc1", "dataset_url": "url1", "user": 1},
-            {"id": 2, "title": "title2", "description": "desc2", "dataset_url": "url2", "user": 1},
+            {"id": 1, "title": "title1", "description": "desc1", "label_studio_project": "1", "user": 1},
+            {"id": 2, "title": "title2", "description": "desc2", "label_studio_project": "2", "user": 1},
         ]
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -157,7 +157,7 @@ class ListModelsViewTest(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        self.project = Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
+        self.project = Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
         LearningModel.objects.create(name="model1", architecture="Faster RCNN", project=self.project)
         LearningModel.objects.create(name="model2", architecture="Faster RCNN", project=self.project)
         self.url = f"/api/list_models/{self.project.id}/"

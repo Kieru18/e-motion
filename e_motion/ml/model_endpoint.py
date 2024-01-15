@@ -225,15 +225,6 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 
-# def project_labels_path_from_id(project_id):
-#     root = project_root_from_id(project_id)
-#     return os.path.join(root, "result.json")
-
-
-# def project_root_from_id(project_id):
-#     project = Project.objects.get(pk=project_id)
-#     return f"uploads/{project.dataset_url}"
-
 def dataset_path_from_id(project_id):
     current_directory = os.getcwd()
     print(f"{current_directory}, dataset_path_from_id()")
@@ -243,10 +234,6 @@ def annotation_path_from_id(model_id):
     current_directory = os.getcwd()
     print(f"{current_directory}, annotation_path_from_id()")
     return f"{current_directory}/uploads/annotations/{model_id}"
-
-
-# def model_checkpoint_from_id(model_id):
-#     return os.path.join(os.curdir, "models", model_id, "checkpoint.cpt")
 
 
 def load_model_params(model_id):

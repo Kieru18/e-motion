@@ -123,7 +123,7 @@ def coco_image_data(coco, img_id):
 
 
 def serialize_predictions(
-    image_shapes, predictions, image_paths, model_version, classes
+    image_shapes, predictions, image_paths, model_version, classes, dataset_url
 ):
     """
     Serialize predictions into a specific format.
@@ -139,13 +139,13 @@ def serialize_predictions(
         List: List of serialized predictions.
     """
     return [
-        image_predictions_to_id(path, model_version, shape, y, classes)
+        image_predictions_to_id(path, model_version, shape, y, classes, dataset_url)
         for shape, y, path in zip(image_shapes, predictions, image_paths)
     ]
 
 
 def image_predictions_to_id(
-    image_path, model_version, image_shape, prediction, classes
+    image_path, model_version, image_shape, prediction, classes, dataset_url
 ):
     """
     Convert image predictions to a specific format.
@@ -168,6 +168,7 @@ def image_predictions_to_id(
     }
     prediction_dict = {}
 
+    image_path = f"/data/upload/{dataset_url}/{Path(image_path).name}"
     output["data"]["image"] = image_path
     prediction_dict["model_version"] = model_version
 

@@ -153,8 +153,8 @@ def predict(project_id: int, model_id: int) -> dict:
     predictions = module.predict(transformed_images)
 
     classes = project_classes(model_id)
-
-    return serialize_predictions(shapes, predictions, image_paths, model_id, classes)
+    dataset_url = load_project_url(project_id)
+    return serialize_predictions(shapes, predictions, image_paths, model_id, classes, dataset_url)
 
 
 def evaluate_detector(model_id: int, model: CocoDetectorModule, dataset: DetectorDataset) -> list[float]:
@@ -222,10 +222,14 @@ def image_paths_for_prediction(project_id: int, model_id: int):
 
     with open(json_path) as json_file:
         json_data = json.load(json_file)
+        annotation_list = json_data["annotations"]
+        labeled_image_ids = set(data["image_id"] for data in annotation_list)
+
         labeled_image_paths = [
             os.path.join(dataset_path, Path(image["file_name"]).name)
-            for image in json_data["images"]
+            for image in json_data["images"] if image["id"] in labeled_image_ids
         ]
+
     all_image_names = os.listdir(dataset_path)
     all_image_paths = [os.path.join(dataset_path, name) for name in all_image_names]
     unlabeled_image_paths = set(all_image_paths) - set(labeled_image_paths)
@@ -374,3 +378,17 @@ def load_model_params(model_id: int):
     """
     print("Loading model params... (load_model_params())")
     return LearningModel.objects.get(pk=model_id)
+
+
+def load_project_url(project_id: int):
+    """
+    Load project url from the database.
+
+    Args:
+        project_id (int): ID of the project.
+
+    Returns:
+        Int: Dataset url.
+    """
+    print("Loading model params... (load_model_params())")
+    return int(Project.objects.get(pk=project_id).dataset_url)

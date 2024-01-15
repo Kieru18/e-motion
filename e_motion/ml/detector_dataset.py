@@ -51,6 +51,8 @@ class DetectorDataset(Dataset):
 
         with open(os.path.join(annotation_path, "result.json")) as f:
             json_data = json.load(f)
+        
+        json_data["images"] = self._training_image_data(json_data) 
         self.img_paths, self.targets = parse_image_json(json_data)
 
         coco = COCO()
@@ -58,6 +60,11 @@ class DetectorDataset(Dataset):
         coco.createIndex()
 
         self.coco = coco
+
+    def _training_image_data(self, json_data):
+        annotation_list = json_data["annotations"]
+        labeled_ids = set(data["image_id"] for data in annotation_list)
+        return [data for data in json_data["images"] if data["id"] in labeled_ids]
 
     def __getitem__(self, idx):
         """

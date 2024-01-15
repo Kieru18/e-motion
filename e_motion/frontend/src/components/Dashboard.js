@@ -22,7 +22,7 @@ import { mainListItems } from './listItems';
 import ProjectsTable from './ProjectsTable';
 import CreateProjectDialog from './CreateProjectDialog';
 import EditProjectDialog from './EditProjectDialog';
-
+import { useSnackbar } from 'notistack';
 
 function Copyright(props) {
   return (
@@ -92,7 +92,7 @@ export default function Dashboard() {
   const [shouldListProjects, setShouldListProjects] = React.useState(false);
   const [selectedProject, setSelectedProject] = React.useState({});
   const [openEditDialog, setOpenEditDialog] = React.useState(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -149,6 +149,7 @@ export default function Dashboard() {
     };
     fetch("/api/logout", requestOptions).then(() => {
       navigate("/");
+      enqueueSnackbar('You have been logged out', { variant: 'info' });
       localStorage.removeItem('token');  // LOCALSTORAGE
     });
   };

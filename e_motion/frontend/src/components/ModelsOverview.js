@@ -27,23 +27,6 @@ function Copyright(props) {
   );
 }
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100%px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const defaultTheme = createTheme();
 
 export default function ModelsOverviewPage() {
@@ -136,10 +119,10 @@ export default function ModelsOverviewPage() {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <MuiAppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: '24px',
             }}
           >
             <Typography
@@ -159,7 +142,7 @@ export default function ModelsOverviewPage() {
               Logout
             </Button>
           </Toolbar>
-        </AppBar>
+        </MuiAppBar>
         <Box
           component="main"
           sx={{

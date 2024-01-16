@@ -1,3 +1,10 @@
+"""
+Unit tests for the models in the 'api' application.
+
+This module contains tests for the models defined in the 'api' application's models.py file.
+Each test case focuses on the behavior and functionality of the data models.
+"""
+
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from .models import Project, LearningModel

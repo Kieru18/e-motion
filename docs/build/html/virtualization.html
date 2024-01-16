@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Virtualization/Contenerization &#8212; E-motion 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
@@ -33,6 +33,31 @@
             
   <section id="virtualization-contenerization">
 <h1>Virtualization/Contenerization<a class="headerlink" href="#virtualization-contenerization" title="Permalink to this heading">¶</a></h1>
+<section id="integrating-label-studio-with-our-app">
+<h2>Integrating Label Studio with Our App<a class="headerlink" href="#integrating-label-studio-with-our-app" title="Permalink to this heading">¶</a></h2>
+<p>Our application leverages Docker containerization to seamlessly integrate the Label Studio app, streamlining the deployment and management of the entire system.</p>
+</section>
+<section id="key-components">
+<h2>Key Components<a class="headerlink" href="#key-components" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Label Studio Docker Image</dt><dd><p>We utilize the official Label Studio Docker image (heartexlabs/label-studio:latest), ensuring a consistent and reliable environment.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Container Orchestration:</dt><dd><p>Docker containers provide encapsulation and isolation, allowing us to run the Label Studio app alongside our application without conflicts.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Integration with Our App:</dt><dd><p>The Docker container runs Label Studio as a service, integrating it seamlessly with our application.
+The containerized Label Studio instance is accessible and can be interacted with through well-defined APIs.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
 </section>
 
 
@@ -63,7 +88,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ux_design.html">User Experience Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ui_standard.html">User Interface Standard Project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">Tests specification</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Virtualization/Contenerization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Virtualization/Contenerization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#integrating-label-studio-with-our-app">Integrating Label Studio with Our App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-components">Key Components</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user_manual.html">User manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin_manual.html">Admin manual</a></li>

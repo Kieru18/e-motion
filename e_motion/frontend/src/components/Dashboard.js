@@ -16,6 +16,12 @@ import CreateProjectDialog from './CreateProjectDialog';
 import EditProjectDialog from './EditProjectDialog';
 import { useSnackbar } from 'notistack';
 
+/**
+ * Copyright component for displaying copyright information.
+ *
+ * @param {Object} props - The properties of the component.
+ * @returns {JSX.Element} Rendered Copyright component.
+ */
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,6 +37,18 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+/**
+ * Dashboard Component
+ *
+ * The main dashboard component that displays projects and provides navigation.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <Dashboard />
+ *
+ * @returns {JSX.Element} Rendered Dashboard component.
+ */
 export default function Dashboard() {
   const navigate = useNavigate();
   const [projects, setProjects] = React.useState([]);

@@ -197,11 +197,19 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         return img, target
 
 
-def get_coco(root, image_set, transforms, mode="instances", use_v2=False, with_masks=False):
+def get_coco(
+    root, image_set, transforms, mode="instances", use_v2=False, with_masks=False
+):
     anno_file_template = "{}_{}2017.json"
     PATHS = {
-        "train": ("train2017", os.path.join("annotations", anno_file_template.format(mode, "train"))),
-        "val": ("val2017", os.path.join("annotations", anno_file_template.format(mode, "val"))),
+        "train": (
+            "train2017",
+            os.path.join("annotations", anno_file_template.format(mode, "train")),
+        ),
+        "val": (
+            "val2017",
+            os.path.join("annotations", anno_file_template.format(mode, "val")),
+        ),
         # "train": ("val2017", os.path.join("annotations", anno_file_template.format(mode, "val")))
     }
 
@@ -212,7 +220,9 @@ def get_coco(root, image_set, transforms, mode="instances", use_v2=False, with_m
     if use_v2:
         from torchvision.datasets import wrap_dataset_for_transforms_v2
 
-        dataset = torchvision.datasets.CocoDetection(img_folder, ann_file, transforms=transforms)
+        dataset = torchvision.datasets.CocoDetection(
+            img_folder, ann_file, transforms=transforms
+        )
         target_keys = ["boxes", "labels", "image_id"]
         if with_masks:
             target_keys += ["masks"]

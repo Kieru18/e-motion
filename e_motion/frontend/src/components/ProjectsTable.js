@@ -11,6 +11,21 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
+/**
+ * ProjectsTable Component
+ *
+ * A table component for displaying a list of projects.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <ProjectsTable data={projectsData} onChange={handleProjectChange} />
+ *
+ * @param {Object} props - Component properties.
+ * @param {Array} props.data - An array of project data.
+ * @param {Function} props.onChange - Callback function triggered when a project is clicked.
+ * @returns {JSX.Element} Rendered ProjectsTable component.
+ */
 export default function ProjectsTable(props) {
 
   const handleClick = (row) => {

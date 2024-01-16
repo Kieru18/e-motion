@@ -29,6 +29,18 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+/**
+ * ModelsOverviewPage Component
+ *
+ * A page component for displaying a list of models associated with a project.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <ModelsOverviewPage />
+ *
+ * @returns {JSX.Element} Rendered ModelsOverviewPage component.
+ */
 export default function ModelsOverviewPage() {
   const navigate = useNavigate();
   const location = useLocation();

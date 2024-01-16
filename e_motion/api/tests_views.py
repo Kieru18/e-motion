@@ -1,55 +1,31 @@
-from django.test import TestCase, Client
+"""
+Unit tests for the views in the 'api' application.
+
+This module contains tests for the views defined in the 'api' application's views.py file.
+Test cases cover the handling of HTTP requests, responses, and the overall behavior of the views.
+"""
+from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from rest_framework.authtoken.models import Token
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
 from api.models import Project, LearningModel
 from api.views import ProjectCreateView
+from django.urls import reverse
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
-import json
-import unittest
 from django.core.files.uploadedfile import SimpleUploadedFile
-from rest_framework import status
 from PIL import Image
-import numpy as np
 from io import BytesIO
 import os
+import json
+import unittest
+import numpy as np
 
-
-
-class BasicTest(TestCase):
-    def test_hello_world(self):
-        """Basic test description"""
-        x = 1
-        self.assertEqual(x, 1)
-
-    def test_not_equal(self):
-        """Basic test description"""
-        x = 1
-        self.assertNotEqual(x, 0)
-
-
-# WZOREK
-# ==========================================
-class YourTestClass(TestCase):
-    def setUp(self):
-        # Setup run before every test method.
-        pass
-
-    def tearDown(self):
-        # Clean up run after every test method.
-        pass
-
-    def test_something_that_will_pass(self):
-        self.assertFalse(False)
-# ==========================================
 
 class SignUpViewTests(APITestCase):
     def setUp(self):
         self.url = "/api/signup"
-        self.existing_user = User.objects.create_user(username='Naruto', 
-                                                      password='123', 
+        self.existing_user = User.objects.create_user(username='Naruto',
+                                                      password='123',
                                                       email='konoha@gmail.com')
 
     def test_signup_valid(self):
@@ -91,7 +67,7 @@ class SignUpViewTests(APITestCase):
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(User.objects.count(), 1)
-    
+
     def test_signup_invalid_bad_email(self):
         data = {
             'username': 'Yuji',
@@ -136,10 +112,10 @@ class SignUpViewTests(APITestCase):
 class LoginViewTests(APITestCase):
     def setUp(self):
         self.url = "/api/login"
-        self.existing_user = User.objects.create_user(username='Naruto', 
-                                                      password='123', 
+        self.existing_user = User.objects.create_user(username='Naruto',
+                                                      password='123',
                                                       email='konoha@gmail.com')
-        
+
     def test_login_valid(self):
         data = {
             'username': 'Naruto',
@@ -171,7 +147,7 @@ class LoginViewTests(APITestCase):
         }
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-    
+
     def test_login_invalid_no_password(self):
         data = {
             'username': 'Naruto',
@@ -179,7 +155,7 @@ class LoginViewTests(APITestCase):
         }
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-    
+
     def test_login_invalid_no_username_and_password(self):
         data = {
             'username': '',
@@ -187,12 +163,12 @@ class LoginViewTests(APITestCase):
         }
         response = self.client.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        
+
 class LogoutViewTests(APITestCase):
     def setUp(self):
         self.url = "/api/logout"
-        self.user = User.objects.create_user(username='Naruto', 
-                                                      password='123', 
+        self.user = User.objects.create_user(username='Naruto',
+                                                      password='123',
                                                       email='konoha@gmail.com')
         self.client = APIClient()
         self.token = Token.objects.create(user=self.user)
@@ -228,7 +204,7 @@ class TestTokenViewTests(APITestCase):
                                              password='123',
                                              email='konoha@gmail.com')
         self.client.force_authenticate(user=self.user)
-    
+
     def test_test_token(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -426,8 +402,8 @@ class ModelCreateViewTests(APITestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-        
-        file_path = "/path/to/file.json"        
+
+        file_path = "/path/to/file.json"
 
 
 class UploadAnnotationViewTests(APITestCase):
@@ -440,7 +416,7 @@ class UploadAnnotationViewTests(APITestCase):
     def test_upload_annotation_authenticated(self):
         self.client.login(username='testuser', password='testpassword')
 
-        json_file = SimpleUploadedFile('file.json', b'{"key": "value"}', 
+        json_file = SimpleUploadedFile('file.json', b'{"key": "value"}',
                                        content_type='application/json')
         data = {
             'file': json_file,
@@ -466,7 +442,7 @@ class UploadAnnotationViewTests(APITestCase):
         self.assertTrue(response.data['success'])
 
     def test_upload_annotation_unauthenticated(self):
-        json_file = SimpleUploadedFile('file.json', b'{"key": "value"}', 
+        json_file = SimpleUploadedFile('file.json', b'{"key": "value"}',
                                        content_type='application/json')
         data = {
             'file': json_file,
@@ -492,7 +468,7 @@ class UploadAnnotationViewTests(APITestCase):
     def test_upload_annotation_invalid_file(self):
         self.client.login(username='testuser', password='testpassword')
 
-        json_file = SimpleUploadedFile('skibidi.txt', b'ogladacie moze skibidi toilet?', 
+        json_file = SimpleUploadedFile('skibidi.txt', b'ogladacie moze skibidi toilet?',
                                        content_type='text/plain')
         data = {
             'file': json_file,
@@ -598,35 +574,118 @@ class ProjectEditViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-class ListScoresViewTests(APITestCase):
+class ListScoresViewTest(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        self.project = Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
-        self.model = LearningModel.objects.create(name="model1", architecture="Faster RCNN", project=self.project,
-                                                  miou_score=0.2, top1_score=0.1, top5_score=0.3)
+        self.project = Project.objects.create(title='title1',
+                                              description='desc1',
+                                              label_studio_project='1',
+                                              user=self.test_user)
+        self.model = LearningModel.objects.create(name="model1",
+                                                  architecture="Faster RCNN",
+                                                  miou_score=0.0,
+                                                  top1_score=0.6,
+                                                  top5_score=0.7,
+                                                  project=self.project)
         self.url = f"/api/get_scores/{self.model.id}/"
 
     def test_valid_request(self):
-        data = {"miou_score": 0.2, "top1_score": 0.1, "top5_score": 0.3}
+        result = {'miou_score': 0.0, 'top1_score': 0.6, 'top5_score': 0.7}
 
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content), result)
+
+    def test_no_models_bad_request(self):
+        for record in LearningModel.objects.filter(project=self.project):
+            record.delete()
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(json.loads(response.content), {'detail': 'Not found.'})
+
+class MakePredictionsViewTest(APITestCase):
+    def setUp(self):
+        self.test_user = User.objects.create_user(username='test', password='test')
+        self.client.force_authenticate(user=self.test_user)
+        self.project = Project.objects.create(title='title1',
+                                              description='desc1',
+                                              label_studio_project='1',
+                                              user=self.test_user)
+        self.model = LearningModel.objects.create(id=1,
+                                                  name="model1",
+                                                  architecture="Faster RCNN",
+                                                  miou_score=0.0,
+                                                  top1_score=0.6,
+                                                  top5_score=0.7,
+                                                  project=self.project)
+        self.url = "/api/make_predictions/1/1/"
+
+    def test_get_unauthenticated(self):
+        self.client.force_authenticate(user=None)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_no_model_in_db(self):
+        invalid_model_id_url = f'/api/make_predictions/{self.project.id}/2/'
+        response = self.client.get(invalid_model_id_url)
+        self.assertEqual(response.status_code, 404)
+
+
+class ListProjectsViewTests(APITestCase):
+    def setUp(self):
+        self.test_user = User.objects.create_user(username='test', password='test')
+        self.client.force_authenticate(user=self.test_user)
+        Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
+        Project.objects.create(title='title2', description='desc2', dataset_url='url2', user=self.test_user)
+        self.url = "/api/list_projects"
+
+    def test_valid_request(self):
+        data = [
+            {"id": 1, "title": "title1", "description": "desc1", "dataset_url": "url1", "user": 1},
+            {"id": 2, "title": "title2", "description": "desc2", "dataset_url": "url2", "user": 1},
+        ]
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(json.loads(response.content), data)
 
-class MakePredictionsViewTests(APITestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.project = Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.user)
-        self.model = LearningModel.objects.create(name="model1", architecture="Faster RCNN", project=self.project)
-        
-        self.url = f'/api/make_predictions/{self.project.id}/{self.model.id}/'
+    def test_no_projects(self):
+        for record in Project.objects.filter(user=self.test_user):
+            record.delete()
 
-    def test_make_predictions_unauthenticated(self):
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-    
- 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content), [])
+
+
+class ListModelsViewTest(APITestCase):
+    def setUp(self):
+        self.test_user = User.objects.create_user(username='test', password='test')
+        self.client.force_authenticate(user=self.test_user)
+        self.project = Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
+        LearningModel.objects.create(name="model1", architecture="Faster RCNN", project=self.project)
+        LearningModel.objects.create(name="model2", architecture="Faster RCNN", project=self.project)
+        self.url = f"/api/list_models/{self.project.id}/"
+
+    def test_valid_request(self):
+        data = [
+            {"id": 1, "name": "model1", "architecture": "Faster RCNN", 'miou_score': None, 'top1_score': None, 'top5_score': None},
+            {"id": 2, "name": "model2", "architecture": "Faster RCNN", 'miou_score': None, 'top1_score': None, 'top5_score': None},
+        ]
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content), data)
+
+    def test_no_models(self):
+        for record in LearningModel.objects.filter(project=self.project):
+            record.delete()
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content), [])
+
+
 class TrainViewTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
@@ -635,13 +694,11 @@ class TrainViewTests(APITestCase):
         self.url = f'/api/train/{self.model_id}/'
 
     def test_train_unauthenticated(self):
- 
         response = self.client.post(
             self.url,
         )
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
 
 
 # class UploadFilesViewTests(APITestCase):
@@ -650,7 +707,7 @@ class TrainViewTests(APITestCase):
 #         self.token = Token.objects.create(user=self.user)
 #         self.project_id = 1
 #         self.url = f'/api/upload/{self.project_id}/'
-        
+
 #         gradient = np.arange(0, 255, 25).reshape((1, -1)).astype(np.uint8)
 #         pixel_data = np.tile(gradient, (10, 1))
 
@@ -658,7 +715,7 @@ class TrainViewTests(APITestCase):
 #         image_io = BytesIO()
 #         image.save(image_io, format='JPEG')
 
-#         self.valid_image_file = SimpleUploadedFile('image1.jpeg', image_io.getvalue(), 
+#         self.valid_image_file = SimpleUploadedFile('image1.jpeg', image_io.getvalue(),
 #                                                     content_type='image/jpeg')
 
 
@@ -676,5 +733,4 @@ class TrainViewTests(APITestCase):
 
 #         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 #         self.assertTrue(response.data['success'])
-# always returns 400
-        
+# @TODO always returns 400

@@ -1,3 +1,10 @@
+"""
+Unit tests for the URL patterns in the 'api' application.
+
+This module contains tests for the URL patterns defined in the 'api' application's urls.py file.
+Each test case checks the correctness and behavior of the defined URL routes.
+"""
+
 from django.test import TestCase
 from django.urls import resolve
 from api.views import SignUpView, LoginView, LogoutView, ListProjectsView, \

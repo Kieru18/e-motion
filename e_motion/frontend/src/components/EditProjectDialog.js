@@ -67,11 +67,14 @@ export default function EditProjectDialog(props) {
       if (!response.ok) {
         const error = await response.json();
         setError(error.detail);
+        enqueueSnackbar(error.detail || 'Project edit failed', { variant: 'error' });
         return;
       }
+      enqueueSnackbar('Project saved successfuly', { variant: 'success' });
       handleClose();
     } catch (error) {
       console.error('Error', error);
+      enqueueSnackbar('Error', { variant: 'error' });
     }
     handleClose();
   };

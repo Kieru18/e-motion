@@ -1,3 +1,9 @@
+"""
+Django Views for API Endpoints.
+
+This module contains Django views that handle various API endpoints for user authentication,
+project and learning model management, file uploads, making predictions, and training models.
+"""
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views

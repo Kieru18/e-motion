@@ -1,18 +1,26 @@
 from rest_framework import serializers
-from .models import User, Project, LearningModel
 from django.contrib.auth.models import User as AuthenticationUser
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
+from rest_framework.validators import UniqueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import EmailValidator
+from .models import User, Project, LearningModel
 
 
 class RequestSerializer(serializers.ModelSerializer):
-    class Meta(object):
+    username = serializers.CharField(
+        validators=[UniqueValidator(queryset=AuthenticationUser.objects.all())]
+    )
+    email = serializers.CharField(
+        validators=[EmailValidator(), UniqueValidator(queryset=AuthenticationUser.objects.all())]
+    )
+    class Meta:
         model = AuthenticationUser
         fields = ['id', 'username', 'password', 'email']
+    
+    
+    class Meta(object):
+        model = AuthenticationUser
+        fields = ['id', 'username', 'password', 'email']   
 
 
 class ProjectSerializer(serializers.ModelSerializer):

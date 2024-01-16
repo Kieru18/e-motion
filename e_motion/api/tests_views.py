@@ -37,6 +37,63 @@ class YourTestClass(TestCase):
         self.assertFalse(False)
 # ==========================================
 
+class SignUpViewTests(APITestCase):
+    def setUp(self):
+        self.url = "/api/signup"
+        self.existing_user = User.objects.create_user(username='Naruto', 
+                                                      password='123', 
+                                                      email='konoha@gmail.com')
+
+    def test_signup_valid(self):
+        data = {
+            'username': 'Sasuke',
+            'password': 'ilovenaruto',
+            'email': 'sussygussy@gmail.com'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(User.objects.count(), 2)
+
+    def test_signup_invalid_existing_username(self):
+        data = {
+            'username': 'Naruto',
+            'password': 'ilovesasuke',
+            'email': 'bombastick@gmail.com'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+
+    def test_signup_invalid_existing_email(self):
+        data = {
+            'username': 'Itachi',
+            'password': 'akatsuki',
+            'email': 'konoha@gmail.com'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+
+    def test_signup_invalid_no_email(self):
+        data = {
+            'username': 'Gojo',
+            'password': 'nahidwin',
+            'email': ''
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+    
+    def test_signup_invalid_bad_email(self):
+        data = {
+            'username': 'Yuji',
+            'password': 'lobotomykaisen',
+            'email': 'fireinthehole'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+
 
 class ProjectCreateViewTests(APITestCase):
     def setUp(self):

@@ -47,6 +47,11 @@ export default function SignUpSide() {
     event.preventDefault();
     setError('')
 
+    if (!username || !email || !password) {
+      enqueueSnackbar('Please fill out all required fields', { variant: 'error' });
+      return;
+    }
+
     try {
       const response = await fetch('/api/signup', {
         method: 'POST',
@@ -63,9 +68,9 @@ export default function SignUpSide() {
       if (!response.ok) {
         // Handle error cases
         const error = await response.json();
-        const errorMessage = error.username || error.email || 'Registration failed'
+        const errorMessage = error.username || error.email || Array('Registration failed');
         setError(errorMessage);
-        enqueueSnackbar(errorMessage, { variant: 'error' });
+        enqueueSnackbar(errorMessage[0], { variant: 'error' });
         console.log(error)
         return;
       }

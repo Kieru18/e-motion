@@ -21,6 +21,7 @@ import json
 
 
 
+
 class SignUpView(generics.ListCreateAPIView):
     serializer_class = RequestSerializer
 
@@ -43,8 +44,10 @@ class LoginView(generics.ListCreateAPIView):
 
     def post(self, request, format=None):
         username = request.data['username']
-
-        user = get_object_or_404(AuthenticationUser, username=username)
+        try:
+            user = AuthenticationUser.objects.get(username=username)
+        except User.DoesNotExist:
+            user = None
         if not user:
             return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
         if not user.check_password(request.data['password']):
@@ -133,11 +136,13 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
             if file_upload is None:
                 return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
-
             try:
+                json.load(file_upload)
                 storage_path = f'annotations/{model_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
                 return Response({'success': True}, status=status.HTTP_201_CREATED)
+            except json.JSONDecodeError:
+                    return Response({'error': 'Invalid JSON file'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

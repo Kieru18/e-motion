@@ -45,11 +45,14 @@ class LoginView(generics.ListCreateAPIView):
         username = request.data['username']
 
         user = get_object_or_404(AuthenticationUser, username=username)
+        if not user:
+            return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
         if not user.check_password(request.data['password']):
-            return Response("missing user", status=status.HTTP_404_NOT_FOUND)
+            return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
+
         token, created = Token.objects.get_or_create(user=user)
         serializer = RequestSerializer(user)
-        return Response({'token': token.key, 'user': serializer.data})
+        return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_202_ACCEPTED)
 
 
 class LogoutView(generics.ListCreateAPIView):

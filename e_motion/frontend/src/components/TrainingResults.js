@@ -13,6 +13,18 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
+/**
+ * Training Results Page Component
+ *
+ * A page component displaying the training results, including metric scores.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <TrainingResultsPage />
+ *
+ * @returns {JSX.Element} Rendered TrainingResultsPage component.
+ */
 export default function TrainingResultsPage(props) {
   const navigate = useNavigate();
   const location = useLocation();

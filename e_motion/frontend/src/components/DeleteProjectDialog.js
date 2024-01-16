@@ -24,6 +24,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+/**
+ * DeleteProjectDialog Component
+ *
+ * A dialog component for confirming the deletion of a project.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <DeleteProjectDialog projectId={123} close={() => console.log('Dialog closed')} />
+ *
+ * @param {Object} props - The properties of the component.
+ * @param {number} props.projectId - The ID of the project to be deleted.
+ * @param {function} props.close - Callback function to close the parent dialog.
+ * @returns {JSX.Element} Rendered DeleteProjectDialog component.
+ */
 export default function DeleteProjectDialog(props) {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(true);
@@ -64,11 +79,11 @@ export default function DeleteProjectDialog(props) {
             enqueueSnackbar("Project deleted successfully", { variant: "info" });
             setDialogOpen(false);
             close();
-            
+
         } catch (error) {
             console.error('Error', error);
         }
-        
+
         setDialogOpen(false);
     };
 

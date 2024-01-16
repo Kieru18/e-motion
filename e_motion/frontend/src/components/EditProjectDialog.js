@@ -22,6 +22,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+/**
+ * EditProjectDialog Component
+ *
+ * A dialog component for editing project details.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <EditProjectDialog row={{ id: 1, title: 'Project 1', description: 'Description 1', dataset_url: 'http://example.com' }} onClose={() => console.log('Dialog closed')} />
+ *
+ * @param {Object} props - The properties of the component.
+ * @param {Object} props.row - The project details to be edited.
+ * @param {function} props.onClose - Callback function to close the parent dialog.
+ * @returns {JSX.Element} Rendered EditProjectDialog component.
+ */
 export default function EditProjectDialog(props) {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);

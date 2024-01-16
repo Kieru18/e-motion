@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Admin manual &#8212; E-motion 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
@@ -41,9 +41,63 @@
 - instrukcja zarządzania zasobami systemu]</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<p>To install all the packages needed to run the application, run the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script
+(creates venv, install Python packages, npm dependencies and LS docker image).</p>
+<p>It is recommended to use provided scripts, but if you want to install dependencies manually,
+you can follow commands from <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script and change them.</p>
+<p><code class="docutils literal notranslate"><span class="pre">install.sh</span></code> details:</p>
+<ol class="arabic">
+<li><dl>
+<dt>Python Virtual Environment:</dt><dd><p>Create:
+<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">venv</span></code></p>
+<p>Activate:
+<code class="docutils literal notranslate"><span class="pre">venv/bin/activate</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Python requirements</dt><dd><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>NPM dependencies</dt><dd><p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>LabelStudio Docker image</dt><dd><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">pull</span> <span class="pre">heartexlabs/label-studio:latest</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>LabelStudio Docker container</dt><dd><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--name</span> <span class="pre">label_studio</span> <span class="pre">--hostname=6c1add37c0c9</span> <span class="pre">--user=1001</span> <span class="pre">--env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span> <span class="pre">--env=DEBIAN_FRONTEND=noninteractive</span> <span class="pre">--env=LS_DIR=/label-studio</span> <span class="pre">--env=PIP_CACHE_DIR=/.cache</span> <span class="pre">--env=POETRY_CACHE_DIR=/.poetry-cache</span> <span class="pre">--env=DJANGO_SETTINGS_MODULE=core.settings.label_studio</span> <span class="pre">--env=LABEL_STUDIO_BASE_DATA_DIR=/label-studio/data</span> <span class="pre">--env=OPT_DIR=/opt/heartex/instance-data/etc</span> <span class="pre">--env=SETUPTOOLS_USE_DISTUTILS=stdlib</span> <span class="pre">--env=HOME=/label-studio</span> <span class="pre">--workdir=/label-studio</span> <span class="pre">-p</span> <span class="pre">8089:8080</span> <span class="pre">--label='org.opencontainers.image.ref.name=ubuntu'</span> <span class="pre">--label='org.opencontainers.image.version=22.04'</span> <span class="pre">--runtime=runc</span> <span class="pre">-d</span> <span class="pre">heartexlabs/label-studio:latest</span></code></p>
+</dd>
+</dl>
+</li>
+</ol>
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
+<p>To run installed application, use the <code class="docutils literal notranslate"><span class="pre">run.sh</span></code> script.</p>
+<p><code class="docutils literal notranslate"><span class="pre">run.sh</span></code> details:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Start LabelStudio Docker container</dt><dd><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span> <span class="pre">label_studio</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Go to application directory</dt><dd><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">./e_motion</span></code></p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Run Django server</dt><dd><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">./manage.py</span> <span class="pre">runserver</span></code></p>
+</dd>
+</dl>
+</li>
+</ol>
 </section>
 </section>
 

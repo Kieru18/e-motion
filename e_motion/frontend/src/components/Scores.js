@@ -7,7 +7,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-
+/**
+ * Scores Component
+ *
+ * A component for displaying scores in a table format.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <Scores data={scoresData} />
+ *
+ * @param {Object} props - Component properties.
+ * @param {Object} props.data - The scores data.
+ * @returns {JSX.Element} Rendered Scores component.
+ */
 export default function Scores(props) {
 
     const data = props.data;

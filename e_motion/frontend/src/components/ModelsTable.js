@@ -8,6 +8,22 @@ import Title from './Title';
 import Radio from '@mui/material/Radio';
 
 
+/**
+ * ModelsTable Component
+ *
+ * A table component for displaying a list of models associated with a project.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <ModelsTable data={modelsData} project_name="Project ABC" onSelect={handleSelect} />
+ *
+ * @param {Object} props - Component properties.
+ * @param {Array} props.data - An array of model data.
+ * @param {string} props.project_name - The name of the project.
+ * @param {Function} props.onSelect - Callback function triggered when a model is selected.
+ * @returns {JSX.Element} Rendered ModelsTable component.
+ */
 export default function ModelsTable(props) {
   const [selected, setSelected] = React.useState(0);
 

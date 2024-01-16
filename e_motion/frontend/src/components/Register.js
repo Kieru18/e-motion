@@ -63,8 +63,10 @@ export default function SignUpSide() {
       if (!response.ok) {
         // Handle error cases
         const error = await response.json();
-        setError(error.detail || 'Registration failed');
-        enqueueSnackbar('Registration failed', { variant: 'error' });
+        const errorMessage = error.username || error.email || 'Registration failed'
+        setError(errorMessage);
+        enqueueSnackbar(errorMessage, { variant: 'error' });
+        console.log(error)
         return;
       }
 

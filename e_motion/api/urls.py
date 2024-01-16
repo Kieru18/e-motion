@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserView, SignUpView, LoginView, LogoutView, TestTokenView, ListProjectsView, \
+from .views import SignUpView, LoginView, LogoutView, TestTokenView, ListProjectsView, \
                    ListModelsView, ProjectCreateView, ProjectDeleteView, ProjectEditView, \
                    MakePredictionsView, UploadFilesView, UploadAnnotationView, ModelCreateView, \
                    TrainView, ListScoresView
@@ -8,7 +8,6 @@ from .views import UserView, SignUpView, LoginView, LogoutView, TestTokenView, L
 
 
 urlpatterns = [
-    # path('users/', UserView.as_view()),
     path('signup', SignUpView.as_view()),
     path('login', LoginView.as_view()),
     path('logout', LogoutView.as_view()),

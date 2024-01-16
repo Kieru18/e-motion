@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
-from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
+from .serializers import RequestSerializer, ProjectSerializer, \
                          CreateModelSerializer, ListModelSerializer, ListScoresSerializer
 from .models import User, Project, LearningModel
 
@@ -19,10 +19,6 @@ import imghdr
 
 import json
 
-
-class UserView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 class SignUpView(generics.ListCreateAPIView):

@@ -100,7 +100,7 @@ export default function Dashboard() {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <MuiAppBar position="absolute" open={open} >
+        <MuiAppBar position="absolute" >
           <Toolbar
             sx={{
               pr: '24px', 

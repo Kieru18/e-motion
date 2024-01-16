@@ -8,8 +8,9 @@ Each test case checks the correctness and behavior of the defined URL routes.
 from django.test import TestCase
 from django.urls import resolve
 from api.views import SignUpView, LoginView, LogoutView, ListProjectsView, \
-                   ListModelsView, ProjectCreateView, ProjectDeleteView, ProjectEditView, \
-                   MakePredictionsView, UploadFilesView, UploadAnnotationView
+                      ListModelsView, ProjectCreateView, ProjectDeleteView, ProjectEditView, \
+                      MakePredictionsView, UploadFilesView, UploadAnnotationView, \
+                      TrainView, ListScoresView
 
 
 class UrlsTest(TestCase):
@@ -67,3 +68,13 @@ class UrlsTest(TestCase):
         path = "/api/upload/1/"
         resolver = resolve(path)
         self.assertEqual(resolver.func.view_class, UploadFilesView)
+
+    def test_train_url(self):
+        path = "/api/train/1/"
+        resolver = resolve(path)
+        self.assertEqual(resolver.func.view_class, TrainView)
+    
+    def test_get_scores_url(self):
+        path = "/api/get_scores/1/"
+        resolver = resolve(path)
+        self.assertEqual(resolver.func.view_class, ListScoresView)

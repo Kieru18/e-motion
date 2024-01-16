@@ -6,6 +6,7 @@ Each test case focuses on the behavior and functionality of the data models.
 """
 
 from django.test import TestCase
+from django.db.utils import IntegrityError
 from .models import Project, LearningModel
 from django.contrib.auth.models import User
 
@@ -21,12 +22,42 @@ class UserModelTest(TestCase):
         self.assertEqual(field_label, 'username')
         self.assertEqual(user.username, 'test')
 
+    def test_email_field(self):
+        user = User.objects.get(id=1)
+        email_field = user._meta.get_field('email')
+        self.assertFalse(email_field.null)
+        self.assertTrue(email_field.blank)
+
+    def test_superuser(self):
+        superuser = User.objects.create_superuser('admin', 'admin@admin.com', 'adminpass')
+        self.assertTrue(superuser.is_staff)
+        self.assertTrue(superuser.is_superuser)
+
+    def test_user_string_representation(self):
+        user = User.objects.get(id=1)
+        self.assertEqual(str(user), 'test')
+
+    def test_user_verbose_name_plural(self):
+        self.assertEqual(User._meta.verbose_name_plural, 'users')
+
+    def test_user_first_name(self):
+        user = User.objects.get(id=1)
+        user.first_name = 'John'
+        user.save()
+        self.assertEqual(user.first_name, 'John')
+
+    def test_user_last_name(self):
+        user = User.objects.get(id=1)
+        user.last_name = 'Doe'
+        user.save()
+        self.assertEqual(user.last_name, 'Doe')
+
 
 class ProjectModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         user = User.objects.create(username='test', password='test')
-        Project.objects.create(title='title', description='desc', dataset_url='url', user=user)
+        Project.objects.create(title='title', description='desc', label_studio_project='1', user=user)
 
     def test_fields_values(self):
         project = Project.objects.get(id=1)
@@ -34,7 +65,7 @@ class ProjectModelTest(TestCase):
         self.assertEqual(project.project_id, 1)
         self.assertEqual(project.title, 'title')
         self.assertEqual(project.description, 'desc')
-        self.assertEqual(project.dataset_url, 'url')
+        self.assertEqual(project.label_studio_project, '1')
 
     def test_foreign_key(self):
         project = Project.objects.get(id=1)
@@ -55,19 +86,23 @@ class ProjectModelTest(TestCase):
         self.assertEqual(max_length, 250)
         self.assertTrue(nullable)
 
-    def test_dataset_url_constraints(self):
+    def test_label_studio_project_constraints(self):
         project = Project.objects.get(id=1)
-        max_length = project._meta.get_field('dataset_url').max_length
-        nullable = project._meta.get_field('dataset_url').null
+        max_length = project._meta.get_field('label_studio_project').max_length
+        nullable = project._meta.get_field('label_studio_project').null
         self.assertEqual(max_length, 150)
         self.assertTrue(nullable)
+
+    def test_description_default_value(self):
+        project = Project.objects.create(title='title2', label_studio_project='3', user=User.objects.get(id=1))
+        self.assertIsNone(project.description)
 
 
 class LearningModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         user = User.objects.create(username='test', password='test')
-        project = Project.objects.create(title='title', description='desc', dataset_url='url', user=user)
+        project = Project.objects.create(title='title', description='desc', label_studio_project='1', user=user)
         LearningModel.objects.create(name='model',
                                      architecture='Faster RCNN',
                                      learning_rate=0.0001,
@@ -144,3 +179,10 @@ class LearningModelTest(TestCase):
         model = LearningModel.objects.get(id=1)
         nullable = model._meta.get_field('checkpoint').null
         self.assertTrue(nullable)
+
+    def test_default_values_for_scores_and_checkpoint(self):
+        model = LearningModel.objects.create(name='model2', architecture='Faster RCNN', project=Project.objects.get(id=1))
+        self.assertIsNone(model.miou_score)
+        self.assertIsNone(model.top1_score)
+        self.assertIsNone(model.top5_score)
+        self.assertIsNone(model.checkpoint)

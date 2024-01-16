@@ -6,22 +6,11 @@ into Python data types that can be easily rendered into JSON and other content t
 """
 
 from rest_framework import serializers
-from .models import User, Project, LearningModel
 from django.contrib.auth.models import User as AuthenticationUser
-
-
-class UserSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the 'User' model.
-
-    Meta:
-        model (User): The model to be serialized.
-        fields (list): The fields to include in the serialization.
-    """
-    class Meta:
-        model = User
-        fields = '__all__'
-
+from rest_framework.validators import UniqueValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import EmailValidator
+from .models import Project, LearningModel
 
 class RequestSerializer(serializers.ModelSerializer):
     """
@@ -31,6 +20,13 @@ class RequestSerializer(serializers.ModelSerializer):
         model (AuthenticationUser): The model to be serialized.
         fields (list): The fields to include in the serialization.
     """
+    username = serializers.CharField(
+        validators=[UniqueValidator(queryset=AuthenticationUser.objects.all())]
+    )
+    email = serializers.CharField(
+        validators=[EmailValidator(), UniqueValidator(queryset=AuthenticationUser.objects.all())]
+    )
+
     class Meta(object):
         model = AuthenticationUser
         fields = ['id', 'username', 'password', 'email']

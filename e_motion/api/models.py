@@ -41,7 +41,7 @@ class Project(models.Model):
 
     title = models.CharField(null=False, max_length=100)
     description = models.CharField(null=True, max_length=250)
-    dataset_url = models.CharField(null=True, max_length=150)
+    label_studio_project = models.CharField(null=True, max_length=150)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:

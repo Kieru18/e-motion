@@ -30,7 +30,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @component
  * @example
  * // Example usage:
- * <EditProjectDialog row={{ id: 1, title: 'Project 1', description: 'Description 1', dataset_url: 'http://example.com' }} onClose={() => console.log('Dialog closed')} />
+ * <EditProjectDialog row={{ id: 1, title: 'Project 1', description: 'Description 1', label_studio_project: '1' }} onClose={() => console.log('Dialog closed')} />
  *
  * @param {Object} props - The properties of the component.
  * @param {Object} props.row - The project details to be edited.
@@ -44,7 +44,7 @@ export default function EditProjectDialog(props) {
   const [id, setId] = React.useState(null);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [dataset_url, setUrl] = React.useState("");
+  const [labelStudioProject, setLabelStudioProject] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
@@ -52,7 +52,7 @@ export default function EditProjectDialog(props) {
       setId(props.row.id);
       setTitle(props.row.title);
       setDescription(props.row.description);
-      setUrl(props.row.dataset_url);
+      setLabelStudioProject(props.row.labelStudioProject);
     }
   }, [open, props.row]);
 
@@ -75,18 +75,21 @@ export default function EditProjectDialog(props) {
           id,
           title,
           description,
-          dataset_url,
+          labelStudioProject,
         }),
       });
 
       if (!response.ok) {
         const error = await response.json();
         setError(error.detail);
+        enqueueSnackbar(error.detail || 'Project edit failed', { variant: 'error' });
         return;
       }
+      enqueueSnackbar('Project saved successfuly', { variant: 'success' });
       handleClose();
     } catch (error) {
       console.error('Error', error);
+      enqueueSnackbar('Error', { variant: 'error' });
     }
     handleClose();
   };
@@ -154,10 +157,10 @@ export default function EditProjectDialog(props) {
             <TextField
               required
               fullWidth
-              label="Dataset URL"
+              label="Label Studio Project ID"
               id="fullWidth"
-              defaultValue={dataset_url}
-              onChange={(event) => setUrl(event.target.value)}
+              defaultValue={labelStudioProject}
+              onChange={(event) => setLabelStudioProject(event.target.value)}
             />
           </ListItem>
           {error && (

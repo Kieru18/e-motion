@@ -11,9 +11,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-
 import ModelsTable from './ModelsTable';
-
+import { useSnackbar } from 'notistack';
 
 function Copyright(props) {
   return (
@@ -27,23 +26,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100%px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
 
 const defaultTheme = createTheme();
 
@@ -67,6 +49,7 @@ export default function ModelsOverviewPage() {
   const [project_name, setProjectName] = React.useState(location.state.project_name);
   const [models, setModels] = React.useState([]);
   const [selected_id, setSelected_Id] = React.useState(0);
+  const { enqueueSnackbar } = useSnackbar();
 
   const fetchModels = () => {
     fetch(`/api/list_models/${project_id}/`, {
@@ -106,6 +89,7 @@ export default function ModelsOverviewPage() {
     };
     fetch("/api/logout", requestOptions).then(() => {
       navigate("/");
+      enqueueSnackbar('You have been logged out', { variant: 'info' });
       localStorage.removeItem('token');  // LOCALSTORAGE
     });
   };
@@ -122,6 +106,7 @@ export default function ModelsOverviewPage() {
           return response.blob();
       } else {
           console.error('File download failed.');
+          enqueueSnackbar('File download failed.', { variant: 'error' });
       }
     })
     .then(blob => {
@@ -133,9 +118,12 @@ export default function ModelsOverviewPage() {
         link.click();
         // Cleanup
         window.URL.revokeObjectURL(url);
+        enqueueSnackbar('Prediciton successful', { variant: 'success' });
     })
     .catch(error => {
         console.error('Error:', error);
+        enqueueSnackbar(error, { variant: 'error' });
+        
     });
   };
 
@@ -143,10 +131,10 @@ export default function ModelsOverviewPage() {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <MuiAppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: '24px',
             }}
           >
             <Typography
@@ -166,7 +154,7 @@ export default function ModelsOverviewPage() {
               Logout
             </Button>
           </Toolbar>
-        </AppBar>
+        </MuiAppBar>
         <Box
           component="main"
           sx={{

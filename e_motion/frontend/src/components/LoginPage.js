@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -15,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 // import Image from '../images/loadingScreen.png'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 
 const handleRedirectToRegister = () => {
   navigate('/signup');
@@ -40,6 +39,7 @@ export default function SignInSide() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,6 +60,7 @@ export default function SignInSide() {
         // Handle error cases
         const error = await response.json();
         setError(error.detail || 'Login failed');
+        enqueueSnackbar('Login failed', { variant: 'error' });
         return;
       }
 
@@ -67,9 +68,11 @@ export default function SignInSide() {
       // Handle successful login, e.g., save token to local storage, redirect, etc.
       console.log('Login successful', data);
       localStorage.setItem('token', data.token);  // LOCALSTORAGE
+      enqueueSnackbar('Login successful', { variant: 'success' });
       navigate('/dashboard');
     } catch (error) {
       console.error('Error during login', error);
+      enqueueSnackbar('Error during login', { variant: 'error' });
     }
   };
 
@@ -133,10 +136,6 @@ export default function SignInSide() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="submit"

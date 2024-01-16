@@ -9,7 +9,7 @@ class DataParsingTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         user = User.objects.create(username='test', password='test')
-        project = Project.objects.create(title='title', description='desc', dataset_url='url', user=user)
+        project = Project.objects.create(title='title', description='desc', label_studio_project='1', user=user)
 
         LearningModel.objects.create(
             name = "name",

@@ -4,25 +4,22 @@ Django Views for API Endpoints.
 This module contains Django views that handle various API endpoints for user authentication,
 project and learning model management, file uploads, making predictions, and training models.
 """
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, JsonResponse, FileResponse
-from rest_framework import generics, status, viewsets, views
-from .serializers import UserSerializer, RequestSerializer, ProjectSerializer, \
+from .serializers import RequestSerializer, ProjectSerializer, \
                          CreateModelSerializer, ListModelSerializer, ListScoresSerializer
 from .models import User, Project, LearningModel
-
+from ml.model_endpoint import train, predict
+from rest_framework import generics, status, viewsets, views
 from rest_framework.authtoken.models import Token
-from django.shortcuts import get_object_or_404
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.contrib.auth.models import User as AuthenticationUser
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.core.files.storage import default_storage
-from ml.model_endpoint import train, predict
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.core.exceptions import ValidationError
+from django.core.files.storage import default_storage
+from django.contrib.auth.models import User as AuthenticationUser
 import imghdr
-
 import json
 
 
@@ -64,7 +61,7 @@ class SignUpView(generics.ListCreateAPIView):
             user.save()
             token = Token.objects.create(user=user)
             return Response({'token': token.key, 'user': serializer.data})
-        return Response(serializer.errors, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(generics.ListCreateAPIView):
@@ -95,17 +92,17 @@ class LoginView(generics.ListCreateAPIView):
                       upon successful login or error details if login fails.
         """
         username = request.data['username']
-
-        user = get_object_or_404(AuthenticationUser, username=username)
+        try:
+            user = AuthenticationUser.objects.get(username=username)
+        except User.DoesNotExist:
+            user = None
         if not user:
             return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
         if not user.check_password(request.data['password']):
             return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
-
         token, created = Token.objects.get_or_create(user=user)
         serializer = RequestSerializer(user)
         return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_202_ACCEPTED)
-
 
 
 class LogoutView(generics.ListCreateAPIView):
@@ -331,14 +328,15 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
             if file_upload is None:
                 return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
-
             try:
+                json.load(file_upload)
                 storage_path = f'annotations/{model_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
-                return Response({'success': True}, {'save_path': saved_path}, status=status.HTTP_201_CREATED)
+                return Response({'success': True}, status=status.HTTP_201_CREATED)
+            except json.JSONDecodeError:
+                    return Response({'error': 'Invalid JSON file'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
         return Response({'error': 'Authentication error'}, status=status.HTTP_401_UNAUTHORIZED)
 
 

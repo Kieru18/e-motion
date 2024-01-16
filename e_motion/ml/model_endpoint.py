@@ -153,8 +153,8 @@ def predict(project_id: int, model_id: int) -> dict:
     predictions = module.predict(transformed_images)
 
     classes = project_classes(model_id)
-    dataset_url = load_project_url(project_id)
-    return serialize_predictions(shapes, predictions, image_paths, model_id, classes, dataset_url)
+    label_studio_project = load_label_studio_project(project_id)
+    return serialize_predictions(shapes, predictions, image_paths, model_id, classes, label_studio_project)
 
 
 def evaluate_detector(model_id: int, model: CocoDetectorModule, dataset: DetectorDataset) -> 'list[float]':
@@ -380,15 +380,15 @@ def load_model_params(model_id: int):
     return LearningModel.objects.get(pk=model_id)
 
 
-def load_project_url(project_id: int):
+def load_label_studio_project(project_id: int):
     """
-    Load project url from the database.
+    Load label studio project id from the database.
 
     Args:
         project_id (int): ID of the project.
 
     Returns:
-        Int: Dataset url.
+        Int: Label studio project id.
     """
     print("Loading model params... (load_model_params())")
-    return int(Project.objects.get(pk=project_id).dataset_url)
+    return int(Project.objects.get(pk=project_id).label_studio_project)

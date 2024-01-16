@@ -30,7 +30,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @component
  * @example
  * // Example usage:
- * <EditProjectDialog row={{ id: 1, title: 'Project 1', description: 'Description 1', dataset_url: 'http://example.com' }} onClose={() => console.log('Dialog closed')} />
+ * <EditProjectDialog row={{ id: 1, title: 'Project 1', description: 'Description 1', label_studio_project: '1' }} onClose={() => console.log('Dialog closed')} />
  *
  * @param {Object} props - The properties of the component.
  * @param {Object} props.row - The project details to be edited.

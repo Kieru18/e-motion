@@ -1,6 +1,6 @@
 Architecture
 ============
-This description presents a website architecture that is designed to automatically annotate data using Artificial Intelligence. 
+This description presents a website architecture that is designed to automatically annotate data using Artificial Intelligence.
 
 The architecture focuses on efficient data management, data storage, and uses machine learning capabilities to automatically annotate data.
 
@@ -61,18 +61,18 @@ User functional perspective:
 
 Communication with Label Studio Front-end:
 
-Label Studio is an open-source tool for manual data annotation. 
+Label Studio is an open-source tool for manual data annotation.
 
-It includes Label Studio Front-end, which allows us to integrate this tool into our project. 
+It includes Label Studio Front-end, which allows us to integrate this tool into our project.
 
-Label Studio uses JSON files to represent the state of data annotation. 
+Label Studio uses JSON files to represent the state of data annotation.
 
-The structure of this tool means that in order to exchange information between ML models (training and generating annotations) and already finished annotations, there will be a need to serialize and deserialize JSON files. 
+The structure of this tool means that in order to exchange information between ML models (training and generating annotations) and already finished annotations, there will be a need to serialize and deserialize JSON files.
 
-In our solution, the annotations will be generated in the JSON convention used by Label Studio, after which the user will be able to manually load them into Label Studio Front-end to correct errors. 
+In our solution, the annotations will be generated in the JSON convention used by Label Studio, after which the user will be able to manually load them into Label Studio Front-end to correct errors.
 
 The final for annotated data is saved in the same JSON convention and can be used to train another model, or saved.
-    
+
 
 
 Authorization:
@@ -96,7 +96,17 @@ Component: WebApp
 .. image:: images/Component_WepApp.png
     :width: 600
 
+Component: Frontend components interaction
+------------------------------------------
+.. image:: images/frontend_uml_activity.png
+    :width: 600
+
 Code: Segmentaion Facade
 ------------------------------------------
 .. image:: images/SegmentationFacade.png
+    :width: 600
+
+Code: React components
+------------------------------------------
+.. image:: images/frontend_uml_class.png
     :width: 600

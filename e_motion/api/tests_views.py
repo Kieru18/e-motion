@@ -10,34 +10,6 @@ from django.contrib.auth.models import User
 import json
 
 
-class BasicTest(TestCase):
-    def test_hello_world(self):
-        """Basic test description"""
-        x = 1
-        self.assertEqual(x, 1)
-
-    def test_not_equal(self):
-        """Basic test description"""
-        x = 1
-        self.assertNotEqual(x, 0)
-
-
-# WZOREK
-# ==========================================
-class YourTestClass(TestCase):
-    def setUp(self):
-        # Setup run before every test method.
-        pass
-
-    def tearDown(self):
-        # Clean up run after every test method.
-        pass
-
-    def test_something_that_will_pass(self):
-        self.assertFalse(False)
-# ==========================================
-
-
 class ProjectCreateViewTests(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')

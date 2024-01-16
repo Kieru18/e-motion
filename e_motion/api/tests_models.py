@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.db.utils import IntegrityError
 from .models import Project, LearningModel
 from django.contrib.auth.models import User
 
@@ -13,6 +14,36 @@ class UserModelTest(TestCase):
         field_label = user._meta.get_field('username').verbose_name
         self.assertEqual(field_label, 'username')
         self.assertEqual(user.username, 'test')
+
+    def test_email_field(self):
+        user = User.objects.get(id=1)
+        email_field = user._meta.get_field('email')
+        self.assertFalse(email_field.null)
+        self.assertTrue(email_field.blank)
+
+    def test_superuser(self):
+        superuser = User.objects.create_superuser('admin', 'admin@admin.com', 'adminpass')
+        self.assertTrue(superuser.is_staff)
+        self.assertTrue(superuser.is_superuser)
+
+    def test_user_string_representation(self):
+        user = User.objects.get(id=1)
+        self.assertEqual(str(user), 'test')
+
+    def test_user_verbose_name_plural(self):
+        self.assertEqual(User._meta.verbose_name_plural, 'users')
+
+    def test_user_first_name(self):
+        user = User.objects.get(id=1)
+        user.first_name = 'John'
+        user.save()
+        self.assertEqual(user.first_name, 'John')
+
+    def test_user_last_name(self):
+        user = User.objects.get(id=1)
+        user.last_name = 'Doe'
+        user.save()
+        self.assertEqual(user.last_name, 'Doe')
 
 
 class ProjectModelTest(TestCase):
@@ -54,6 +85,10 @@ class ProjectModelTest(TestCase):
         nullable = project._meta.get_field('label_studio_project').null
         self.assertEqual(max_length, 150)
         self.assertTrue(nullable)
+
+    def test_description_default_value(self):
+        project = Project.objects.create(title='title2', label_studio_project='3', user=User.objects.get(id=1))
+        self.assertIsNone(project.description)
 
 
 class LearningModelTest(TestCase):
@@ -137,3 +172,10 @@ class LearningModelTest(TestCase):
         model = LearningModel.objects.get(id=1)
         nullable = model._meta.get_field('checkpoint').null
         self.assertTrue(nullable)
+
+    def test_default_values_for_scores_and_checkpoint(self):
+        model = LearningModel.objects.create(name='model2', architecture='Faster RCNN', project=Project.objects.get(id=1))
+        self.assertIsNone(model.miou_score)
+        self.assertIsNone(model.top1_score)
+        self.assertIsNone(model.top5_score)
+        self.assertIsNone(model.checkpoint)

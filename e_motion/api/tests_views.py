@@ -94,6 +94,92 @@ class SignUpViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(User.objects.count(), 1)
 
+    def test_signup_invalid_no_username(self):
+        data = {
+            'username': '',
+            'password': 'ilovenaruto',
+            'email': 'fortnite@gmail.com'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+
+    def test_signup_invalid_no_password(self):
+        data = {
+            'username': 'Sasuke',
+            'password': '',
+            'email': 'theguyfromfortnite@gmail.com'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+
+    def test_signup_invalid_no_username_and_password(self):
+        data = {
+            'username': '',
+            'password': '',
+            'email': 'bombocla@gmail.com'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 1)
+
+
+class LoginViewTests(APITestCase):
+    def setUp(self):
+        self.url = "/api/login"
+        self.existing_user = User.objects.create_user(username='Naruto', 
+                                                      password='123', 
+                                                      email='konoha@gmail.com')
+        
+    def test_login_valid(self):
+        data = {
+            'username': 'Naruto',
+            'password': '123'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_login_invalid_wrong_password(self):
+        data = {
+            'username': 'Naruto',
+            'password': '~123'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_login_invalid_non_existant_username(self):
+        data = {
+            'username': 'Peter Griffin',
+            'password': 'i hate . . .'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_login_invalid_no_username(self):
+        data = {
+            'username': '',
+            'password': '123'
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    
+    def test_login_invalid_no_password(self):
+        data = {
+            'username': 'Naruto',
+            'password': ''
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    
+    def test_login_invalid_no_username_and_password(self):
+        data = {
+            'username': '',
+            'password': ''
+        }
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        
 
 class ProjectCreateViewTests(APITestCase):
     def setUp(self):

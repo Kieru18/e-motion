@@ -1,3 +1,9 @@
+"""
+Django Views for API Endpoints.
+
+This module contains Django views that handle various API endpoints for user authentication,
+project and learning model management, file uploads, making predictions, and training models.
+"""
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse, FileResponse
 from rest_framework import generics, status, viewsets, views
@@ -20,15 +26,34 @@ import imghdr
 import json
 
 
-class UserView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
 class SignUpView(generics.ListCreateAPIView):
+    """
+    Handles user registration and creates an authentication token upon successful signup.
+
+    Attributes:
+        serializer_class (Serializer): Serializer for user registration data (RequestSerializer).
+
+    Methods:
+        post(request, format=None): Handles HTTP POST for user registration.
+
+    """
     serializer_class = RequestSerializer
 
     def post(self, request, format=None):
+        """
+        Handle HTTP POST for user registration.
+
+        Creates a new user, sets the user's password, generates an authentication token,
+        and returns the token and user data upon successful registration.
+
+        Args:
+            request (Request): HTTP request object.
+            format (str, optional): Requested format. Defaults to None.
+
+        Returns:
+            Response: HTTP response containing the authentication token and user data
+                      upon successful registration or error details if registration fails.
+        """
         serializer = RequestSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -43,17 +68,44 @@ class SignUpView(generics.ListCreateAPIView):
 
 
 class LoginView(generics.ListCreateAPIView):
+    """
+    Handles user login and generates an authentication token upon successful login.
+
+    Attributes:
+        serializer_class (Serializer): Serializer for user login data (RequestSerializer).
+
+    Methods:
+        post(request, format=None): Handles HTTP POST for user login.
+    """
     serializer_class = RequestSerializer
 
     def post(self, request, format=None):
+        """
+        Handle HTTP POST for user login.
+
+        Validates user credentials, generates an authentication token,
+        and returns the token and user data upon successful login.
+
+        Args:
+            request (Request): HTTP request object.
+            format (str, optional): Requested format. Defaults to None.
+
+        Returns:
+            Response: HTTP response containing the authentication token and user data
+                      upon successful login or error details if login fails.
+        """
         username = request.data['username']
 
         user = get_object_or_404(AuthenticationUser, username=username)
+        if not user:
+            return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
         if not user.check_password(request.data['password']):
-            return Response("missing user", status=status.HTTP_404_NOT_FOUND)
+            return Response("Please, input right credentials", status=status.HTTP_401_UNAUTHORIZED)
+
         token, created = Token.objects.get_or_create(user=user)
         serializer = RequestSerializer(user)
-        return Response({'token': token.key, 'user': serializer.data})
+        return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_202_ACCEPTED)
+
 
 
 class LogoutView(generics.ListCreateAPIView):
@@ -90,10 +142,30 @@ class LogoutView(generics.ListCreateAPIView):
 
 
 class TestTokenView(generics.ListCreateAPIView):
+    """
+    Handles testing the validity of the authentication token.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (SessionAuthentication, TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        get(request, format=None): Handles HTTP GET for testing the validity of the authentication token.
+    """
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
+        """
+        Handle HTTP GET for testing the validity of the authentication token.
+
+        Args:
+            request (Request): HTTP request object.
+            format (str, optional): Requested format. Defaults to None.
+
+        Returns:
+            Response: HTTP response indicating the success of the authentication token test.
+        """
         return Response("passed!")
 
 
@@ -210,14 +282,49 @@ class ProjectCreateView(generics.ListCreateAPIView):
 
 
 class UploadAnnotationView(generics.ListCreateAPIView):
+    """
+    Handles uploading annotations file for a machine learning model.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+        parser_classes (list): List of parser classes (MultiPartParser, FormParser).
+
+    Methods:
+        dispatch(*args, **kwargs): Overrides the default dispatch method to ensure proper handling.
+
+        post(request, *args, **kwargs): Handles HTTP POST for uploading annotations file for a machine learning model.
+    """
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
     def dispatch(self, *args, **kwargs):
+        """
+        Overrides the default dispatch method to ensure proper handling.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Response: HTTP response.
+        """
         return super().dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles HTTP POST for uploading annotations file for a machine learning model.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments (model_id used here).
+
+        Returns:
+            Response: HTTP response indicating success or failure of annotations file upload.
+        """
         if request.user.is_authenticated:
             model_id = self.kwargs.get('model_id')
             file_upload = request.FILES.get('file')
@@ -228,7 +335,7 @@ class UploadAnnotationView(generics.ListCreateAPIView):
             try:
                 storage_path = f'annotations/{model_id}/{file_upload.name}'
                 saved_path = default_storage.save(storage_path, file_upload)
-                return Response({'success': True}, status=status.HTTP_201_CREATED)
+                return Response({'success': True}, {'save_path': saved_path}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -236,10 +343,31 @@ class UploadAnnotationView(generics.ListCreateAPIView):
 
 
 class ModelCreateView(generics.ListCreateAPIView):
+    """
+    Handles creating a new learning model for authenticated users.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        post(request, *args, **kwargs): Handles HTTP POST for creating a new learning model.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle HTTP POST for creating a new learning model.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            Response: HTTP response indicating success or failure of model creation.
+        """
         if request.user.is_authenticated:
             data = request.data
 
@@ -371,10 +499,31 @@ class ListScoresView(generics.ListCreateAPIView):
 
 
 class UploadFilesView(generics.ListCreateAPIView):
+    """
+    Handles uploading dataset files for a project.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        post(request, *args, **kwargs): Handles HTTP POST for uploading files for a project.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle HTTP POST for uploading dataset files for a project.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments (project_id used here).
+
+        Returns:
+            Response: HTTP response indicating success or failure of file upload.
+        """
         if request.user.is_authenticated:
             project_id = self.kwargs.get('project_id')
 
@@ -386,14 +535,16 @@ class UploadFilesView(generics.ListCreateAPIView):
 
             uploaded_paths = []
             files_uploaded = 0
+
+            for file_upload in files:
+                file_type = imghdr.what(file_upload)
+                if file_type not in ['jpeg', 'jpg', 'png']:
+                    return Response({'error': 'Invalid file format. Only .jpg and .png files are allowed.'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
             try:
                 for file_upload in files:
                     storage_path = f'datasets/{project_id}/{file_upload.name}'
-                    file_type = imghdr.what(file_upload)
-                    if file_type not in ['jpeg', 'jpg', 'png']:
-                        return Response({'error': 'Invalid file format. Only .jpg and .png files are allowed.'},
-                                        status=status.HTTP_400_BAD_REQUEST)
-
                     saved_path = default_storage.save(storage_path, file_upload)
                     files_uploaded += 1
                     uploaded_paths.append(saved_path)
@@ -472,10 +623,31 @@ class MakePredictionsView(views.APIView):
 
 
 class TrainView(views.APIView):
+    """
+    Handles triggering the training process for a machine learning model.
+
+    Attributes:
+        authentication_classes (list): List of authentication classes (TokenAuthentication).
+        permission_classes (list): List of permission classes (IsAuthenticated).
+
+    Methods:
+        post(request, *args, **kwargs): Handles HTTP POST for triggering the training process for a machine learning model.
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle HTTP POST for triggering the training process for a machine learning model.
+
+        Args:
+            request (Request): HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments (model_id used here).
+
+        Returns:
+            Response: HTTP response indicating success or failure of the training process.
+        """
         if request.user.is_authenticated:
             model_id = self.kwargs.get('model_id')
             project_id = LearningModel.objects.get(id=model_id).project.id

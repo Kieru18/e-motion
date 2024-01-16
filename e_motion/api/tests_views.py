@@ -1,3 +1,10 @@
+"""
+Unit tests for the views in the 'api' application.
+
+This module contains tests for the views defined in the 'api' application's views.py file.
+Test cases cover the handling of HTTP requests, responses, and the overall behavior of the views.
+"""
+
 from django.test import TestCase
 from rest_framework.test import APITestCase
 

@@ -637,14 +637,14 @@ class ListProjectsViewTests(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
-        Project.objects.create(title='title2', description='desc2', dataset_url='url2', user=self.test_user)
+        Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
+        Project.objects.create(title='title2', description='desc2', label_studio_project='2', user=self.test_user)
         self.url = "/api/list_projects"
 
     def test_valid_request(self):
         data = [
-            {"id": 1, "title": "title1", "description": "desc1", "dataset_url": "url1", "user": 1},
-            {"id": 2, "title": "title2", "description": "desc2", "dataset_url": "url2", "user": 1},
+            {"id": 1, "title": "title1", "description": "desc1", "label_studio_project": "1", "user": 1},
+            {"id": 2, "title": "title2", "description": "desc2", "label_studio_project": "2", "user": 1},
         ]
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -663,7 +663,7 @@ class ListModelsViewTest(APITestCase):
     def setUp(self):
         self.test_user = User.objects.create_user(username='test', password='test')
         self.client.force_authenticate(user=self.test_user)
-        self.project = Project.objects.create(title='title1', description='desc1', dataset_url='url1', user=self.test_user)
+        self.project = Project.objects.create(title='title1', description='desc1', label_studio_project='1', user=self.test_user)
         LearningModel.objects.create(name="model1", architecture="Faster RCNN", project=self.project)
         LearningModel.objects.create(name="model2", architecture="Faster RCNN", project=self.project)
         self.url = f"/api/list_models/{self.project.id}/"

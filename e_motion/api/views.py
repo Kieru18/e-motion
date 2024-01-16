@@ -16,7 +16,6 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse, FileResponse
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.core.files.storage import default_storage
 from django.contrib.auth.models import User as AuthenticationUser
@@ -490,7 +489,7 @@ class ListScoresView(generics.ListCreateAPIView):
         """
         if request.user.is_authenticated:
             model_id = self.kwargs.get('model_id')
-            content = LearningModel.objects.get(id=model_id)
+            content = get_object_or_404(LearningModel, id=model_id)
             serializer = ListScoresSerializer(content)
             return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 

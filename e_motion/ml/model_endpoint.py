@@ -157,7 +157,7 @@ def predict(project_id: int, model_id: int) -> dict:
     return serialize_predictions(shapes, predictions, image_paths, model_id, classes, dataset_url)
 
 
-def evaluate_detector(model_id: int, model: CocoDetectorModule, dataset: DetectorDataset) -> list[float]:
+def evaluate_detector(model_id: int, model: CocoDetectorModule, dataset: DetectorDataset) -> 'list[float]':
     """
     Evaluate the object detection model using COCO evaluation.
 

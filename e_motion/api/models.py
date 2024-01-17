@@ -19,7 +19,7 @@ class Project(models.Model):
     Attributes:
         title (CharField): The title of the project.
         description (CharField): The description of the project.
-        dataset_url (CharField): The URL of the project's dataset.
+        label_studio_project (CharField): The ID of the associated label studio project.
         user (ForeignKey): The user associated with the project.
 
     Methods:

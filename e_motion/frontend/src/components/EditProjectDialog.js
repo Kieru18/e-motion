@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -18,6 +17,12 @@ import { useNavigate } from "react-router-dom";
 import UploadDatasetDialog from './UploadDatasetDialog';
 import { useSnackbar } from "notistack";
 
+/**
+ * Transition component for the dialog slide effect.
+ * @param {Object} props - Component properties.
+ * @param {Object} ref - Forwarded ref.
+ * @returns {JSX.Element} Slide component.
+ */
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });

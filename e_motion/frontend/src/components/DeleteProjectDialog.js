@@ -1,28 +1,23 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import TextField from '@mui/material/TextField';
-import CreateModelDialog from './CreateModelDialog';
-import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 
+/**
+ * Transition component for the dialog slide effect.
+ * @param {Object} props - Component properties.
+ * @param {Object} ref - Forwarded ref.
+ * @returns {JSX.Element} Slide component.
+ */
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
 
 /**
  * DeleteProjectDialog Component
@@ -40,10 +35,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @returns {JSX.Element} Rendered DeleteProjectDialog component.
  */
 export default function DeleteProjectDialog(props) {
-    const navigate = useNavigate();
-    const [open, setOpen] = React.useState(true);
     const [dialogOpen, setDialogOpen] = React.useState(false);
-    const [error, setError] = React.useState(false);
     const { enqueueSnackbar } = useSnackbar();
 
     const projectId = props.projectId;

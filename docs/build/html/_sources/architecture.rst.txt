@@ -101,12 +101,17 @@ Component: Frontend components interaction
 .. image:: images/frontend_uml_activity.png
     :width: 600
 
-Code: Segmentaion Facade
-------------------------------------------
-.. image:: images/SegmentationFacade.png
-    :width: 600
-
 Code: React components
 ------------------------------------------
 .. image:: images/frontend_uml_class.png
+    :width: 600
+
+Code: ML Component
+------------------------------------------
+.. image:: images/ml_component.png
+    :width: 600
+
+Code: ML Code
+------------------------------------------
+.. image:: images/ml_uml.png
     :width: 600

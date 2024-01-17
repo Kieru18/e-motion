@@ -14,6 +14,12 @@ import Link from '@mui/material/Link';
 import ModelsTable from './ModelsTable';
 import { useSnackbar } from 'notistack';
 
+/**
+ * Copyright component for displaying copyright information.
+ *
+ * @param {Object} props - The properties of the component.
+ * @returns {JSX.Element} Rendered Copyright component.
+ */
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>

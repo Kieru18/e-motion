@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { useNavigate } from "react-router-dom";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Container from '@mui/material/Container';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import AppBar from '@mui/material/AppBar';
@@ -17,14 +15,35 @@ import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import { useSnackbar } from 'notistack';
 
+
+/**
+ * Transition component for the dialog slide effect.
+ * @param {Object} props - Component properties.
+ * @param {Object} ref - Forwarded ref.
+ * @returns {JSX.Element} Slide component.
+ */
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const defaultTheme = createTheme();
 
+/**
+ * UploadDatasetDialog Component
+ *
+ * A dialog component for uploading datasets to a project.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <UploadDatasetDialog projectId={1} projectTitle="Sample Project" />
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {number} props.projectId - The ID of the project to which the dataset will be uploaded.
+ * @param {string} props.projectTitle - The title of the project for display purposes.
+ *
+ * @returns {JSX.Element} Rendered UploadDatasetDialog component.
+ */
 export default function UploadDatasetDialog(props) {
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const projectId = props.projectId;

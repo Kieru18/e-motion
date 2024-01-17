@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -14,10 +12,14 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
-// import Image from '../images/loadingScreen.png';
 
-const defaultTheme = createTheme();
 
+/**
+ * Copyright component for displaying copyright information.
+ *
+ * @param {Object} props - The properties of the component.
+ * @returns {JSX.Element} Rendered Copyright component.
+ */
 function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,10 +33,25 @@ function Copyright(props) {
     );
   }
 
+const defaultTheme = createTheme();
+
 const handleRedirectToLogin = () => {
     navigate('/login');
   }
 
+  /**
+ * Sign Up Page Component
+ *
+ * The component responsible for rendering the sign-up page. Allows users to register
+ * by providing a username, email, and password.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <SignUpSide />
+ *
+ * @returns {JSX.Element} Rendered Sign Up Page component.
+ */
 export default function SignUpSide() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -76,7 +93,7 @@ export default function SignUpSide() {
       }
 
       const data = await response.json();
-      // Handle successful registration, e.g., redirect, show success message, etc.
+      // Handle successful registration
       localStorage.setItem('token', data.token);  // LOCALSTORAGE
       console.log('Registration successful', data);
       enqueueSnackbar('Registration successful', { variant: 'success' });
@@ -97,7 +114,6 @@ export default function SignUpSide() {
           sm={4}
           md={7}
           sx={{
-            // backgroundImage: `url(${Image})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

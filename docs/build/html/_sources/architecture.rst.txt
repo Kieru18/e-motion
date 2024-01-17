@@ -106,7 +106,7 @@ Code: React components
 .. image:: images/frontend_uml_class.png
     :width: 600
 
-Code: ML Component
+Component: ML Component
 ------------------------------------------
 .. image:: images/ml_component.png
     :width: 600

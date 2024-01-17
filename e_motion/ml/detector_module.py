@@ -225,6 +225,12 @@ class CocoDetectorModule(L.LightningModule):
         return self.model.predict(x)
 
     def configure_optimizers(self):
+        """
+        Configure the optimizer for the Lightning Module.
+
+        Returns:
+            torch.optim.Optimizer: The optimizer for the model training.
+        """
         optimizer = optim.SGD(
             self.model.parameters(), lr=0.0001, momentum=0.9, weight_decay=0.0005
         )

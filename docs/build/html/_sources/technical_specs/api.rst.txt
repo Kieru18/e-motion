@@ -1,0 +1,20 @@
+api Package
+============
+
+:mod:`models` Module
+---------------------
+
+.. automodule:: e_motion.api.models
+    :members:
+
+:mod:`views` Module
+--------------------
+
+.. automodule:: e_motion.api.views
+    :members:
+
+:mod:`serializers` Module
+-------------------------
+
+.. automodule:: e_motion.api.serializers
+    :members:

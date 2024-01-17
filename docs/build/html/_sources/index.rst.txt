@@ -16,6 +16,7 @@ Welcome to E-motion's documentation!
    architecture
    data_model
    specification
+   technical_specs/index
    ux_design
    ui_standard
    tests
@@ -24,6 +25,7 @@ Welcome to E-motion's documentation!
    user_manual
    admin_manual
    conclusions
+   
 
 
 

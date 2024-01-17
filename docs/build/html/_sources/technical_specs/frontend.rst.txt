@@ -1,0 +1,20 @@
+frontend Package
+=================
+
+:file:`App.js` Module
+----------------------
+
+.. literalinclude:: ../../frontend/src/App.js
+    :language: javascript
+
+:file:`index.js` Module
+------------------------
+
+.. literalinclude:: ../../frontend/src/index.js
+    :language: javascript
+
+:mod:`components` Module
+------------------------
+
+.. automodule:: e_motion.frontend.components
+    :members:

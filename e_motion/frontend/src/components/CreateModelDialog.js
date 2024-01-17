@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -15,14 +14,36 @@ import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useSnackbar } from 'notistack';
 
+/**
+ * Transition component for the dialog slide effect.
+ * @param {Object} props - Component properties.
+ * @param {Object} ref - Forwarded ref.
+ * @returns {JSX.Element} Slide component.
+ */
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+/**
+ * CreateModelDialog Component
+ *
+ * The component for creating a new machine learning model.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <CreateModelDialog projectId={projectId} projectTitle={projectTitle} onClose={handleClose} />
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.projectId - The ID of the project.
+ * @param {string} props.projectTitle - The title of the project.
+ * @param {Function} props.onClose - The function to close the dialog.
+ *
+ * @returns {JSX.Element} Rendered CreateModelDialog component.
+ */
 export default function CreateModelDialog(props) {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
@@ -130,7 +151,6 @@ export default function CreateModelDialog(props) {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,  // LOCALSTORAGE
-                    // 'Content-Type': 'multipart/form-data',
                 },
                 body: formData,
             });
@@ -177,8 +197,6 @@ export default function CreateModelDialog(props) {
             enqueueSnackbar('Training completed successfully', { variant: 'success' });
             setLoading(false)
             navigate("/results", { state: { project_id: projectId, model_id: modelId }});
-            // setOpen(false);
-            // props.onClose(true);
           } catch (error) {
             console.error('Error', error);
           }
@@ -238,8 +256,6 @@ export default function CreateModelDialog(props) {
                                 <em>architecture</em>
                             </MenuItem>
                             <MenuItem value={"Faster RCNN"}>Faster RCNN</MenuItem>
-                            {/* <MenuItem value={20}>model 2</MenuItem> */}
-                            {/* <MenuItem value={30}>model 3</MenuItem> */}
                         </Select>
                     </ListItem>
                     <Divider />
@@ -247,7 +263,6 @@ export default function CreateModelDialog(props) {
                         <TextField
                             required
                             fullWidth
-                            // type="number"
                             label="learning rate"
                             id="fullWidth"
                             onChange={(event) => setLearningRate(event.target.value)}
@@ -258,7 +273,6 @@ export default function CreateModelDialog(props) {
                         <TextField
                             required
                             fullWidth
-                            // type="number"
                             label="weight decay"
                             id="fullWidth"
                             onChange={(event) => setWeightDecay(event.target.value)}
@@ -269,7 +283,6 @@ export default function CreateModelDialog(props) {
                         <TextField
                             required
                             fullWidth
-                            // type="number"
                             label="number of epochs"
                             id="fullWidth"
                             onChange={(event) => setEpochs(event.target.value)}

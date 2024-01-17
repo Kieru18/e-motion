@@ -10,7 +10,6 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import Image from '../images/loadingScreen.png'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from 'notistack';
@@ -19,6 +18,12 @@ const handleRedirectToRegister = () => {
   navigate('/signup');
 }
 
+/**
+ * Copyright component for displaying copyright information.
+ *
+ * @param {Object} props - The properties of the component.
+ * @returns {JSX.Element} Rendered Copyright component.
+ */
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,6 +39,19 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+/**
+ * Sign In Page Component
+ *
+ * The component responsible for rendering the sign-in page. Allows users to enter
+ * their username and password for authentication.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <SignInSide />
+ *
+ * @returns {JSX.Element} Rendered Sign In Page component.
+ */
 export default function SignInSide() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');

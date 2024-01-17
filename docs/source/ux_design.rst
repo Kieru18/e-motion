@@ -13,6 +13,7 @@ Employee of a Data Labeling Company
  - The user can create a new annotation project.
  - The user can easily switch between existing annotation projects.
  - Each project allows the definition of unique data categories and attributes.
+
 |
 | **User Story 2**
 | As an employee of a data labeling company, I need the ability to easily switch between manual annotation and the ML model prediction correction mode, ensuring flexibility in our labeling workflows.
@@ -21,6 +22,7 @@ Employee of a Data Labeling Company
  - The user can seamlessly switch between manual annotation and ML model prediction correction modes.
  - Changes made in one mode are reflected in the other to ensure consistency.
  - The transition between modes is intuitive and requires minimal effort.
+
 |
 | **User Story 3**
 | As an employee of a data labeling company, I want to be able to download annotated data in a standardized format, allowing seamless integration with our clients' machine learning pipelines.
@@ -41,6 +43,7 @@ Academic Researcher Creating Specialized Dataset
  - The user can define custom data categories and attributes for their dataset.
  - The system validates the uniqueness and appropriateness of the defined categories.
  - Custom categories are accurately reflected in the annotation interface.
+
 |
 | **User Story 2**
 | As an academic researcher, I need the ability to version my datasets, enabling me to track changes and improvements over time as my research progresses.
@@ -70,6 +73,7 @@ ML Engineer Preparing Data for Modeling
  - The user can select from a variety of pre-trained model architectures.
  - Each model architecture provides relevant details, such as input requirements and supported tasks.
  - The selected model architecture can be seamlessly integrated into the annotation and training workflow.
+
 |
 | **User Story 2**
 | As an ML engineer, I need a clear and intuitive interface to review and analyze the predictions made by the model, enabling me to identify areas for manual correction and improvement.
@@ -404,30 +408,37 @@ Screens / Views
 ---------------
 
 1. Login 
+
 2. Dashboard, contains:
  - Header Navigation Bar 
  - Overview of all projects. (Project List View)
  - Quick access to create a new project or continue existing ones.
  - Basic indicators for each listed project.
+
 3. Create New Project Pop-up:
  - Form to define project details (name, description, etc.).
  - Field to input link to dataset
  - Project creation and cancel buttons
+
 4. Project Overview Pop-up:
  - Change name/description
  - Go to Model List View
  - Go to Label Studio 
+
 5. Annotation Interface (Label Studio)
+
 6.  ML Models List 
  - Display Current Project Name 
  - List of available pre-trained model architectures.
  - Select From Models List
+
 7. ML Model Overview Pop-up
  - Model details
  - Field for configuration code 
  - Configure hyperparameters button
  - Upload training dataset
  - “Train Model” button
+
 8. Training Results Pop-up:
  - Quality measurements 
  - “Save model” button

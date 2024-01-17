@@ -83,17 +83,22 @@ Diagram C4:
 
 Context
 ------------------------------------------
-.. image:: images/Context.png
+.. image:: images/context.png
     :width: 600
 
 Container
 ------------------------------------------
-.. image:: images/Container.png
+.. image:: images/container.png
     :width: 600
 
 Component: WebApp
 -------------------------------------
-.. image:: images/Component_WepApp.png
+.. image:: images/Component_WebApp.png
+    :width: 600
+
+Code: WebApp
+-------------------------------------
+.. image:: images/Api_uml_class.png
     :width: 600
 
 Component: Frontend components interaction

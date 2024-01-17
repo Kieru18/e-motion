@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { render } from "react-dom";
 import SignInSide from "./LoginPage";
 import Dashboard from "./Dashboard";
@@ -12,7 +12,6 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    Link,
 } from "react-router-dom";
 
 function SlideTransition(props) {
@@ -20,6 +19,18 @@ function SlideTransition(props) {
 }
 
 
+/**
+ * App Component
+ *
+ * The main component that defines the routes for the application.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <App />
+ *
+ * @returns {JSX.Element} Rendered App component.
+ */
 export default function App(props) {
     return (
         <SnackbarProvider maxSnack={3} 

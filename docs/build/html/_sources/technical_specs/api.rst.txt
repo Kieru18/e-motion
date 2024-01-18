@@ -4,17 +4,17 @@ api Package
 :mod:`models` Module
 ---------------------
 
-.. automodule:: e_motion.api.models
+.. automodule:: api.models
     :members:
 
 :mod:`views` Module
 --------------------
 
-.. automodule:: e_motion.api.views
+.. automodule:: api.views
     :members:
 
 :mod:`serializers` Module
 -------------------------
 
-.. automodule:: e_motion.api.serializers
+.. automodule:: api.serializers
     :members:

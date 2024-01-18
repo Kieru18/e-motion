@@ -1,0 +1,113 @@
+.. js:module:: Dashboard
+
+Dashboard Component
+===================
+
+The main dashboard component that displays projects and provides navigation.
+
+Example usage:
+--------------
+
+.. code-block:: jsx
+
+   <Dashboard />
+
+Returns
+-------
+
+:literal:`JSX.Element` - Rendered Dashboard component.
+
+Props
+-----
+
+- ``props``: Additional properties that can be passed to the Dashboard component.
+
+  *Note: The component currently does not utilize any props.*
+
+Functions
+---------
+
+- ``handleRowClick(row)``: Handles the click event on a row in the ProjectsTable.
+
+- ``handleCloseEditDialog()``: Handles the close event of the EditProjectDialog.
+
+- ``handleLogout()``: Handles the logout functionality, making a GET request to the "/api/logout" endpoint.
+
+  *Note: Requires proper authorization in the headers.*
+
+Effects
+-------
+
+- ``fetchProjects()``: Function to fetch projects making a GET request to the "/api/list_projects" endpoint.
+
+  *Note: Requires proper authorization in the headers.*
+
+  *Note: Invoked when the Dashboard component is mounted.*
+
+- ``useEffect`` hook: Invokes ``fetchProjects()`` when the Dashboard component is mounted.
+
+- ``useEffect`` hook: Invokes ``fetchProjects()`` when ``shouldListProjects`` is set to true.
+
+Components
+----------
+
+- ``ProjectsTable``: A component that displays projects in a table format.
+
+- ``CreateProjectDialog``: A component for creating a new project.
+
+- ``EditProjectDialog``: A component for editing an existing project.
+
+Hooks
+-----
+
+- ``useNavigate``: A hook from "react-router-dom" for programmatic navigation.
+
+- ``useSnackbar``: A hook from "notistack" for displaying snackbars.
+
+Materials-UI Components
+-----------------------
+
+- ``createTheme``: A function from "@mui/material/styles" for creating a theme.
+
+- ``ThemeProvider``: A component from "@mui/material/styles" for providing the theme to the component tree.
+
+- ``CssBaseline``: A component from "@mui/material" for applying global styles to the document.
+
+- ``Box``: A component from "@mui/material" for creating a box layout.
+
+- ``Button``: A component from "@mui/material" for creating a button.
+
+- ``AppBar``: A component from "@mui/material" for creating an app bar.
+
+- ``Toolbar``: A component from "@mui/material" for creating a toolbar.
+
+- ``Typography``: A component from "@mui/material" for creating typography.
+
+- ``Container``: A component from "@mui/material" for creating a container.
+
+- ``Grid``: A component from "@mui/material" for creating a grid layout.
+
+- ``Paper``: A component from "@mui/material" for creating a paper container.
+
+- ``Link``: A component from "@mui/material" for creating a link.
+
+- ``ThemeProvider``: A component from "@mui/material/styles" for providing the theme to the component tree.
+
+- ``Slide``: A component from "@mui/material" for creating a slide transition.
+
+  *Note: Some components may be imported from "@mui/system" or other specific paths.*
+
+Components and Hooks
+--------------------
+
+- ``ProjectsTable``: A component that displays projects in a table format.
+
+- ``CreateProjectDialog``: A component for creating a new project.
+
+- ``EditProjectDialog``: A component for editing an existing project.
+
+- ``Copyright``: A component for displaying copyright information.
+
+- ``useNavigate``: A hook from "react-router-dom" for programmatic navigation.
+
+- ``useSnackbar``: A hook from "notistack" for displaying snackbars.

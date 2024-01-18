@@ -1,26 +1,26 @@
 ml Package
-============
+===============================
 
-:mod:`models` Module
----------------------
+:mod:`data_utils` Module
+----------------------------------
 
-.. automodule:: e_motion.ml.models
+.. automodule:: ml.data_utils
     :members:
 
-:mod:`views` Module
---------------------
+:mod:`detector_dataset` Module
+----------------------------------
 
-.. automodule:: e_motion.ml.views
+.. automodule:: ml.detector_dataset
+    :members:
+
+:mod:`detector_module` Module
+----------------------------------
+
+.. automodule:: ml.detector_module
     :members:
 
 :mod:`model_endpoint` Module
----------------------------
+---------------------------------
 
-.. automodule:: e_motion.ml.model_endpoint
-    :members:
-
-:mod:`data_utils` Module
------------------------
-
-.. automodule:: e_motion.ml.data_utils
+.. automodule:: ml.model_endpoint
     :members:

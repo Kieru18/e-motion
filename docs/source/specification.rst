@@ -17,6 +17,14 @@ Implementation methods
 Statistics
 ----------
 | **Number of**
-| files:
-| lines of code:
-| unit tests:
+| files: 
+| lines of code: 
+| unit tests: 90
+|
+| Unit test line coverage summary
+
+.. code-block:: bash
+
+          Stmts   Miss  Cover
+  ----------------------------
+  TOTAL   1379    302    78%

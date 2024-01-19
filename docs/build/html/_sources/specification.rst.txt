@@ -17,11 +17,10 @@ Implementation methods
 Statistics
 ----------
 | **Number of**
-| files: 
-| lines of code: 
+| files: 44541 (including configuration files)
 | unit tests: 90
 |
-| Unit test line coverage summary
+| Unit test line coverage summary:
 
 .. code-block:: bash
 

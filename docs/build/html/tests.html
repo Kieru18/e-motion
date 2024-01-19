@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tests specification &mdash; E-motion 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e031e9a9"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Virtualization/Contenerization" href="virtualization.html" />
+    <link rel="prev" title="User Interface Standard Project" href="ui_standard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            E-motion
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_model.html">Data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="specification.html">Analytical and design specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical_specs/index.html">Technical Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ux_design.html">User Experience Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui_standard.html">User Interface Standard Project</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tests specification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#standards-for-handling-errors-and-exceptional-situations">Standards for Handling Errors and Exceptional Situations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#types-of-tests">Types of Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specification-and-description-of-test-types">Specification and Description of Test Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-scenarios">Test Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-quality-measures">Test Quality Measures</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="virtualization.html">Virtualization/Contenerization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_manual.html">User manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin_manual.html">Admin manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusions.html">Conclusions and future deployment</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">E-motion</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tests specification</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tests.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-specification">
+<h1>Tests specification<a class="headerlink" href="#tests-specification" title="Permalink to this heading"></a></h1>
+<section id="standards-for-handling-errors-and-exceptional-situations">
+<h2>Standards for Handling Errors and Exceptional Situations<a class="headerlink" href="#standards-for-handling-errors-and-exceptional-situations" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>HTTP Status Codes: The tests check the expected HTTP status codes for different scenarios, such as HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, and HTTP_404_NOT_FOUND. This follows the standard conventions for RESTful APIs.</p></li>
+<li><p>Assertions: The unittest library is used for assertions, ensuring that the expected conditions are met during the tests.</p></li>
+<li><p>Error Messages: Some tests check for specific error messages or details in the response content, providing useful information for debugging.</p></li>
+</ol>
+</section>
+<section id="types-of-tests">
+<h2>Types of Tests<a class="headerlink" href="#types-of-tests" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Unit Tests: The tests cover individual components, such as the signup, login, logout, and project-related functionalities. Each test case focuses on a specific aspect of the application.</p></li>
+<li><p>Integration Tests: Some tests involve multiple components interacting with each other, such as authentication and authorization checks during login and logout.</p></li>
+<li><p>Functional Tests: The tests simulate the behavior of the application by interacting with its API endpoints, checking responses, and ensuring the correct execution of various functionalities.</p></li>
+</ol>
+</section>
+<section id="specification-and-description-of-test-types">
+<h2>Specification and Description of Test Types<a class="headerlink" href="#specification-and-description-of-test-types" title="Permalink to this heading"></a></h2>
+<p>SignUpViewTests: Tests the signup functionality with various scenarios, including valid data, invalid existing username, invalid existing email, no email, bad email, no username, no password, and no username and password.</p>
+<p>LoginViewTests: Tests the login functionality with valid and invalid scenarios, including wrong password, non-existent username, no username, no password, and no username and password.</p>
+<p>LogoutViewTests: Tests the logout functionality for authenticated and unauthenticated users, including cases with and without a token.</p>
+<p>TestTokenViewTests: Tests the token test functionality for an authenticated user.</p>
+<p>ListProjectsViewTests: Tests the listing of projects, including valid and empty scenarios.</p>
+<p>ListModelsViewTest: Tests the listing of models for a specific project, including valid and empty scenarios.</p>
+<p>ProjectCreateViewTests: Tests the creation of a project with valid and invalid scenarios, including unauthorized and missing data.</p>
+<p>ModelCreateViewTests: Tests the creation of a model with valid and invalid scenarios, including empty project, bad architecture, no data, and unauthorized access.</p>
+<p>UploadAnnotationViewTests: Tests the upload of annotations with valid and invalid scenarios, including unauthenticated access, invalid file types, and missing files.</p>
+<p>ProjectDeleteViewTests: Tests the deletion of a project with valid and invalid scenarios, including non-existent projects.</p>
+<p>ProjectEditViewTests: Tests the editing of a project with valid and invalid scenarios, including missing ID and incorrect fields.</p>
+<p>ListScoresViewTest: Tests the listing of scores for a model.</p>
+<p>MakePredictionsViewTest: Tests making predictions for a model with various scenarios.</p>
+<p>TrainViewTests: Tests the training endpoint with unauthenticated access.</p>
+</section>
+<section id="test-scenarios">
+<h2>Test Scenarios<a class="headerlink" href="#test-scenarios" title="Permalink to this heading"></a></h2>
+<p>Each test case explores different scenarios, covering a wide range of inputs and conditions to ensure robustness and reliability of the application.</p>
+</section>
+<section id="test-quality-measures">
+<h2>Test Quality Measures<a class="headerlink" href="#test-quality-measures" title="Permalink to this heading"></a></h2>
+<p>Readability: The tests are well-organized, with clear setup, test execution, and assertion phases. Descriptive method and variable names enhance readability.</p>
+<p>Coverage: The tests cover various aspects of user authentication, project, and model management, ensuring comprehensive test coverage.</p>
+<p>Consistency: The naming conventions and structure of the tests are consistent, promoting maintainability.</p>
+<p>Documentation: Inline comments provide additional context for specific test scenarios.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ui_standard.html" class="btn btn-neutral float-left" title="User Interface Standard Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="virtualization.html" class="btn btn-neutral float-right" title="Virtualization/Contenerization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, WL, JK, JF, KZ.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

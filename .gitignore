@@ -6,3 +6,4 @@ emotionenv
 .coverage
 htmlcov
 latex
+docs/build/

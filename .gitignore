@@ -5,3 +5,4 @@ e_motion/*/__pycache__
 emotionenv
 .coverage
 htmlcov
+latex

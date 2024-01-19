@@ -43,7 +43,7 @@ export default function CreateProjectDialog(props) {
   const [error, setError] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [labelStudioProject, setLabelStudioProject] = React.useState("");
+  const [label_studio_project, setLabelStudioProject] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
@@ -57,7 +57,7 @@ export default function CreateProjectDialog(props) {
   const handleSave = async (event) => {
     event.preventDefault();
 
-    if (!title || !description || !labelStudioProject) {
+    if (!title || !description || !label_studio_project) {
       enqueueSnackbar('Please fill out all fields', { variant: 'error' });
       return;
     }
@@ -72,7 +72,7 @@ export default function CreateProjectDialog(props) {
         body: JSON.stringify({
           title,
           description,
-          labelStudioProject,
+          label_studio_project,
         }),
       });
 

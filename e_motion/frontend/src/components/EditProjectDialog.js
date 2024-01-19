@@ -49,7 +49,7 @@ export default function EditProjectDialog(props) {
   const [id, setId] = React.useState(null);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [labelStudioProject, setLabelStudioProject] = React.useState("");
+  const [label_studio_project, setLabelStudioProject] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
@@ -80,7 +80,7 @@ export default function EditProjectDialog(props) {
           id,
           title,
           description,
-          labelStudioProject,
+          label_studio_project,
         }),
       });
 
@@ -164,7 +164,7 @@ export default function EditProjectDialog(props) {
               fullWidth
               label="Label Studio Project ID"
               id="fullWidth"
-              defaultValue={labelStudioProject}
+              defaultValue={label_studio_project}
               onChange={(event) => setLabelStudioProject(event.target.value)}
             />
           </ListItem>

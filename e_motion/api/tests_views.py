@@ -699,38 +699,3 @@ class TrainViewTests(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-
-# class UploadFilesViewTests(APITestCase):
-#     def setUp(self):
-#         self.user = User.objects.create_user(username='testuser', password='testpassword')
-#         self.token = Token.objects.create(user=self.user)
-#         self.project_id = 1
-#         self.url = f'/api/upload/{self.project_id}/'
-
-#         gradient = np.arange(0, 255, 25).reshape((1, -1)).astype(np.uint8)
-#         pixel_data = np.tile(gradient, (10, 1))
-
-#         image = Image.fromarray(pixel_data, mode='L')
-#         image_io = BytesIO()
-#         image.save(image_io, format='JPEG')
-
-#         self.valid_image_file = SimpleUploadedFile('image1.jpeg', image_io.getvalue(),
-#                                                     content_type='image/jpeg')
-
-
-#     def test_upload_files_authenticated(self):
-#         self.client.login(username='testuser', password='testpassword')
-
-#         data = {
-#             'file': self.valid_image_file,
-#         }
-#         response = self.client.post(
-#             self.url,
-#             data,
-#             HTTP_AUTHORIZATION=f'Token {self.token.key}'
-#         )
-
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#         self.assertTrue(response.data['success'])
-# @TODO always returns 400

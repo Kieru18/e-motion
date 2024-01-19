@@ -48,7 +48,7 @@ export default function ProjectsTable(props) {
             <TableRow key={row.id} onClick={() => handleClick(row)} hover>
               <TableCell>{row.title}</TableCell>
               <TableCell>{row.description}</TableCell>
-              <TableCell>{row.labelStudioProject}</TableCell>
+              <TableCell>{row.label_studio_project}</TableCell>
             </TableRow>
           ))}
         </TableBody>

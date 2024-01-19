@@ -15,9 +15,11 @@ module.exports = {
         use: {
           loader: "babel-loader",
         },
+        
       },
     ],
   },
+ 
   optimization: {
     minimize: true,
   },
@@ -30,3 +32,4 @@ module.exports = {
   //   }),
   // ],
 };
+

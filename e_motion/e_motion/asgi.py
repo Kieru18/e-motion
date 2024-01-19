@@ -1,5 +1,5 @@
 """
-ASGI config for e_motion project.
+ASGI config for the e_motion project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
